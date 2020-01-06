@@ -16,7 +16,7 @@ class TECHNETIUM(commands.Bot):
         for cog in os.listdir("./technetium_cogs"):
             if cog.endswith('.py'):
                 try:
-                    self.load_extension(f'cogs.{cog[:-3]}')
+                    self.load_extension(f'technetium_cogs.{cog[:-3]}')
                 except Exception:
                     traceback.print_exc()
 
@@ -35,7 +35,7 @@ class AIRLINIA(commands.Bot):
         for cog in os.listdir("./airlinia_cogs"):
             if cog.endswith('.py'):
                 try:
-                    self.load_extension(f'cogs.{cog[:-3]}')
+                    self.load_extension(f'airlinia_cogs.{cog[:-3]}')
                 except Exception:
                     traceback.print_exc()
 
