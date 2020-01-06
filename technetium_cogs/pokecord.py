@@ -2,7 +2,7 @@
 import discord
 from discord.ext import commands
 import os # .env読み込みスターズ。
-
+import json
 import requests
 import imagehash
 
