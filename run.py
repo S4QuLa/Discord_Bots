@@ -7,12 +7,12 @@ import threading
 import sys
 import traceback
 
-class TECHNETIUM(commands.Bot):
+class TECHNETIUM(commands.Bot, threading.Thread):
     # MyBotのコンストラクタ。
     def __init__(self, command_prefix):
         self.command_prefix = command_prefix
         # スーパークラスのコンストラクタに値を渡して実行。
-        super().__init__(command_prefix)
+        super(myThread, self).__init__(command_prefix)
         # cogフォルダにある.pyファイルを読み込む。
         for cog in os.listdir("./technetium_cogs"):
             if cog.endswith('.py'):
@@ -25,12 +25,12 @@ class TECHNETIUM(commands.Bot):
         print(f'ログインしました。\n------\nBotのアカウントの概要\nユーザー名:{technetium.user.name}\nユーザーID:{technetium.user.id}\n------\nDiscord.pyのバージョン\n{discord.__version__}\n------\nPythonのバージョン\n{sys.version}\n――――――――――――――――――――――――――――――')
         await technetium.change_presence(activity=discord.Game(name=f'{self.command_prefix}￤{technetium.user.name} - by.amazakura0804'))
 
-class AIRLINIA(commands.Bot):
+class AIRLINIA(commands.Bot, threading.Thread):
     # MyBotのコンストラクタ。
     def __init__(self, command_prefix):
         self.command_prefix = command_prefix
         # スーパークラスのコンストラクタに値を渡して実行。
-        super().__init__(command_prefix)
+        super(myThread, self).__init__(command_prefix)
         # cogフォルダにある.pyファイルを読み込む。
         for cog in os.listdir("./airlinia_cogs"):
             if cog.endswith('.py'):
@@ -48,7 +48,5 @@ if __name__ == '__main__':
     airlinia = AIRLINIA(command_prefix='al!')
     # technetium.run(os.environ['TECHNETIUM_DISCORD_TOKEN'])
     # airlinia.run(os.environ['AIRLINIA_DISCORD_TOKEN'])
-
-    loop = asyncio.get_event_loop()
-    tasks = asyncio.wait([technetium.run(os.environ['TECHNETIUM_DISCORD_TOKEN']), airlinia.run(os.environ['AIRLINIA_DISCORD_TOKEN'])])
-    loop.run_until_complete(tasks)
+    technetium.start()
+    airlinia.start()
