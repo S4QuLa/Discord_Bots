@@ -13,14 +13,17 @@ class Discord_Game_Bot(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, message):
-        if message.author.bot == 365975655608745985:  # ボットのメッセージをハネる
-            e = message.embed
-            if e.title == 'A wild pokémon has аppeаred!':
-                print('pokecordのメッセージを検知')
-                r = requests.get(e.image.url)
-                if r.status_code == 200:
-                    hash = imagehash.dhash(Image.open(BytesIO(r.content)))
-                    await message.channel.send(f'このポケモン...もしかして「{self.data[hash]}」かなぁ。') # 返信メッセージを送信
+        if message.author.id != 365975655608745985 or not message.embeds:
+            return
+        e = message.embeds[0]
+        if e.title == '\u200c\u200cA wild pokémon has аppeаred!':
+            print('pokecordのメッセージを検知')
+            r = requests.get(e.image.url)
+            if r.status_code == 200:
+                hash = imagehash.dhash(Image.open(BytesIO(r.content)))
+                await message.channel.send(f'このポケモン...もしかして「{self.data[hash]}」かなぁ。') # 返信メッセージを送信
+        else:
+            print("pokecordのメッセージ（非判定）")
 
 def setup(technetium):
     technetium.add_cog(Discord_Game_Bot(technetium))
