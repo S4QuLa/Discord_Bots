@@ -48,4 +48,4 @@ if __name__ == '__main__':
     asyncio.run(technetium.run(os.environ['TECHNETIUM_DISCORD_TOKEN']))
 
     airlinia = AIRLINIA(command_prefix='al!')
-    airlinia.run(os.environ['AIRLINIA_DISCORD_TOKEN'])
+    asyncio.run(airlinia.run(os.environ['AIRLINIA_DISCORD_TOKEN']))
