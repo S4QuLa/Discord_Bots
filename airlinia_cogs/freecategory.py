@@ -6,9 +6,9 @@ import os # .env読み込みスターズ。
 
 import datetime
 
-def reaction(message, author, airlinia):
+def reaction(message, author, bot):
     def check(reaction, user):
-        if reaction.message.id != message.id or user == airlinia.user or author != user:
+        if reaction.message.id != message.id or user == bot.user or author != user:
             return False
         if reaction.emoji == '✅' or reaction.emoji == '❎':
             return True
