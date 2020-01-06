@@ -1,0 +1,5 @@
+flask
+discord.py
+line-bot-sdk
+schedule
+ImageHash
