@@ -22,7 +22,7 @@ class TECHNETIUM(commands.Bot):
 
     async def on_ready(self): # 準備完了時に呼び出す。
         print(f'ログインしました。\n------\nBotのアカウントの概要\nユーザー名:{bot.user.name}\nユーザーID:{bot.user.id}\n------\nDiscord.pyのバージョン\n{discord.__version__}\n------\nPythonのバージョン\n{sys.version}\n――――――――――――――――――――――――――――――')
-        await bot.change_presence(activity=discord.Game(name=f'{command_prefix}￤{bot.user.name} - by.amazakura0804'))
+        await bot.change_presence(activity=discord.Game(name=f'{self.command_prefix}￤{bot.user.name} - by.amazakura0804'))
 
 class AIRLINIA(commands.Bot):
     # MyBotのコンストラクタ。
@@ -40,7 +40,7 @@ class AIRLINIA(commands.Bot):
 
     async def on_ready(self): # 準備完了時に呼び出す。
         print(f'ログインしました。\n------\nBotのアカウントの概要\nユーザー名:{bot.user.name}\nユーザーID:{bot.user.id}\n------\nDiscord.pyのバージョン\n{discord.__version__}\n------\nPythonのバージョン\n{sys.version}\n――――――――――――――――――――――――――――――')
-        await bot.change_presence(activity=discord.Game(name=f'{command_prefix}￤{bot.user.name} - by.amazakura0804'))
+        await bot.change_presence(activity=discord.Game(name=f'{self.command_prefix}￤{bot.user.name} - by.amazakura0804'))
 
 if __name__ == '__main__':
     bot = TECHNETIUM(command_prefix='te!')
