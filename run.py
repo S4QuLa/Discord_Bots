@@ -44,9 +44,10 @@ class AIRLINIA(commands.Bot):
 
 if __name__ == '__main__':
     technetium = TECHNETIUM(command_prefix='te!')
-    job = threading.Thread(target=technetium.run, args=(os.environ['TECHNETIUM_DISCORD_TOKEN']))
-    job.start()
-
     airlinia = AIRLINIA(command_prefix='al!')
-    job = threading.Thread(target=airlinia.run, args=(os.environ['AIRLINIA_DISCORD_TOKEN']))
-    job.start()
+    # technetium.run(os.environ['TECHNETIUM_DISCORD_TOKEN'])
+    # airlinia.run(os.environ['AIRLINIA_DISCORD_TOKEN'])
+
+    loop = asyncio.get_event_loop()
+    tasks = asyncio.wait([technetium.run(os.environ['TECHNETIUM_DISCORD_TOKEN']), airlinia.run(os.environ['AIRLINIA_DISCORD_TOKEN'])])
+    loop.run_until_complete(tasks)
