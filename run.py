@@ -1,5 +1,6 @@
 # discord.py is Sweeeeeeeeeeeeeeet!!!!!
 import discord
+from discord.ext import commands
 import os # 環境変数読み込むマン。
 # versionとerrorを質問したら返してくれるやさしいおじさん。
 import sys
