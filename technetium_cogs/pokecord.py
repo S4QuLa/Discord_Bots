@@ -7,10 +7,9 @@ import requests
 import imagehash
 
 class Discord_Game_Bot(commands.Cog):
-    data = json.load(open('./json/pokemon.json'))
-
     def __init__(self, technetium):
         self.bot = technetium #botを受け取る。
+        self.data = json.load(open('./json/pokemon.json'))
 
     @commands.Cog.listener()
     async def on_message(self, message):
