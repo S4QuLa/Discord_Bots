@@ -16,5 +16,5 @@ class Discord_Game_Bot(commands.Cog):
                     msg = json.load(open('./json/pokemon.json'))
                     await message.channel.send(msg) # 返信メッセージを送信
 
-def setup(bot):
-    bot.add_cog(Discord_Game_Bot(bot))
+def setup(technetium):
+    technetium.add_cog(Discord_Game_Bot(technetium))

@@ -19,5 +19,5 @@ class Talk_Bot(commands.Cog):
             content = client.talk(message.content)['results'][0]['reply']
             await message.channel.send(content) # 返信メッセージを送信
 
-def setup(bot):
-    bot.add_cog(Talk_Bot(bot))
+def setup(technetium):
+    technetium.add_cog(Talk_Bot(technetium))

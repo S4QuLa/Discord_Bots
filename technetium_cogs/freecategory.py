@@ -91,5 +91,5 @@ class Free_Category(commands.Cog):
             channel = await category.create_text_channel(name, overwrites=overwrites)
             return channel
 
-def setup(bot):
-    bot.add_cog(Free_Category(bot))
+def setup(technetium):
+    technetium.add_cog(Free_Category(technetium))

@@ -9,5 +9,5 @@ class Server_Stats(commands.Cog):
     def __init__(self, airlinia):
         self.bot = airlinia #botを受け取る。
 
-def setup(bot):
-    bot.add_cog(Server_Stats(bot))
+def setup(airlinia):
+    airlinia.add_cog(Server_Stats(airlinia))
