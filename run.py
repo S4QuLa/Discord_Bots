@@ -45,7 +45,7 @@ class AIRLINIA(commands.Bot):
 
 if __name__ == '__main__':
     technetium = TECHNETIUM(command_prefix='te!')
-    await asyncio.wait([technetium.run(os.environ['TECHNETIUM_DISCORD_TOKEN'])])
+    asyncio.wait([technetium.run(os.environ['TECHNETIUM_DISCORD_TOKEN'])])
 
     airlinia = AIRLINIA(command_prefix='al!')
-    await asyncio.wait([airlinia.run(os.environ['AIRLINIA_DISCORD_TOKEN'])])
+    asyncio.wait([airlinia.run(os.environ['AIRLINIA_DISCORD_TOKEN'])])
