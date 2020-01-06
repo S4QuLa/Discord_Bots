@@ -1,10 +1,8 @@
 # discord.py is Sweeeeeeeeeeeeeeet!!!!!
 import discord
 from discord.ext import commands
-import asyncio
-import os # 環境変数読み込むマン。
-from threading # たくさん起動したい？おまかせあれ！！
-# versionとerrorを質問したら返してくれるやさしいおじさん。
+import os
+from threading
 import sys
 import traceback
 
