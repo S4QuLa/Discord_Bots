@@ -1,6 +1,7 @@
 # discord.py is Sweeeeeeeeeeeeeeet!!!!!
 import discord
 from discord.ext import commands
+import asyncio
 import os # 環境変数読み込むマン。
 # versionとerrorを質問したら返してくれるやさしいおじさん。
 import sys
@@ -43,8 +44,8 @@ class AIRLINIA(commands.Bot):
         await airlinia.change_presence(activity=discord.Game(name=f'{self.command_prefix}￤{airlinia.user.name} - by.amazakura0804'))
 
 if __name__ == '__main__':
-    technetium = TECHNETIUM(command_prefix='te!')
-    technetium.run(os.environ['TECHNETIUM_DISCORD_TOKEN'])
+    asyncio.run(technetium = TECHNETIUM(command_prefix='te!'))
+    asyncio.run(technetium.run(os.environ['TECHNETIUM_DISCORD_TOKEN']))
 
     airlinia = AIRLINIA(command_prefix='al!')
     airlinia.run(os.environ['AIRLINIA_DISCORD_TOKEN'])
