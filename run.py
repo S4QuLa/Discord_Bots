@@ -21,13 +21,14 @@ class TECHNETIUM(commands.Bot):
                     traceback.print_exc()
 
     async def on_ready(self): # 準備完了時に呼び出す。
-        print(f'ログインしました。\n------\nBotのアカウントの概要\nユーザー名:{bot.user.name}\nユーザーID:{bot.user.id}\n------\nDiscord.pyのバージョン\n{discord.__version__}\n------\nPythonのバージョン\n{sys.version}\n――――――――――――――――――――――――――――――')
-        await bot.change_presence(activity=discord.Game(name=f'{self.command_prefix}￤{bot.user.name} - by.amazakura0804'))
+        print(f'ログインしました。\n------\nBotのアカウントの概要\nユーザー名:{technetium.user.name}\nユーザーID:{technetium.user.id}\n------\nDiscord.pyのバージョン\n{discord.__version__}\n------\nPythonのバージョン\n{sys.version}\n――――――――――――――――――――――――――――――')
+        await bot.change_presence(activity=discord.Game(name=f'{self.command_prefix}￤{technetium.user.name} - by.amazakura0804'))
 
 class AIRLINIA(commands.Bot):
     # MyBotのコンストラクタ。
     def __init__(self, command_prefix):
         self.command_prefix = command_prefix
+
         # スーパークラスのコンストラクタに値を渡して実行。
         super().__init__(command_prefix)
         # cogフォルダにある.pyファイルを読み込む。
@@ -39,8 +40,8 @@ class AIRLINIA(commands.Bot):
                     traceback.print_exc()
 
     async def on_ready(self): # 準備完了時に呼び出す。
-        print(f'ログインしました。\n------\nBotのアカウントの概要\nユーザー名:{bot.user.name}\nユーザーID:{bot.user.id}\n------\nDiscord.pyのバージョン\n{discord.__version__}\n------\nPythonのバージョン\n{sys.version}\n――――――――――――――――――――――――――――――')
-        await bot.change_presence(activity=discord.Game(name=f'{self.command_prefix}￤{bot.user.name} - by.amazakura0804'))
+        print(f'ログインしました。\n------\nBotのアカウントの概要\nユーザー名:{airlinia.user.name}\nユーザーID:{airlinia.user.id}\n------\nDiscord.pyのバージョン\n{discord.__version__}\n------\nPythonのバージョン\n{sys.version}\n――――――――――――――――――――――――――――――')
+        await bot.change_presence(activity=discord.Game(name=f'{self.command_prefix}￤{airlinia.user.name} - by.amazakura0804'))
 
 if __name__ == '__main__':
     technetium = TECHNETIUM(command_prefix='te!')
