@@ -6,10 +6,10 @@ import os # 環境変数読み込むマン。
 import sys
 import traceback
 
-
 class TECHNETIUM(commands.Bot):
     # MyBotのコンストラクタ。
     def __init__(self, command_prefix):
+        self.command_prefix = command_prefix
         # スーパークラスのコンストラクタに値を渡して実行。
         super().__init__(command_prefix)
         # cogフォルダにある.pyファイルを読み込む。
@@ -27,6 +27,7 @@ class TECHNETIUM(commands.Bot):
 class AIRLINIA(commands.Bot):
     # MyBotのコンストラクタ。
     def __init__(self, command_prefix):
+        self.command_prefix = command_prefix
         # スーパークラスのコンストラクタに値を渡して実行。
         super().__init__(command_prefix)
         # cogフォルダにある.pyファイルを読み込む。
