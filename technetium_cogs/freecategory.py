@@ -53,13 +53,13 @@ class Free_Category(commands.Cog):
                         color=0x00ff00)
                         embed_ok.set_author(name=f'{name} - 作成しました。',icon_url='https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSkiyk4R_ppUp-6qcfobj3OI9eEEdwxFTQocIy6aZ0jQ27zhMhq',url="https://airlinia.ml")
                         await msg.edit(embed=embed_ok)
-                        await msg.clear_mentions()
+                        await msg.clear_reactions()
                 elif react[0].emoji == '❎':
                     await msg.edit(embed=embed_no)
-                    await msg.clear_mentions()
+                    await msg.clear_reactions()
             except asyncio.TimeoutError:
                 await msg.edit(embed=embed_no)
-                await msg.clear_mentions()
+                await msg.clear_reactions()
 
     async def _free_channel_create(self, message, name, VC=False):
         category = self.category
