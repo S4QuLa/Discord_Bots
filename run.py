@@ -3,7 +3,7 @@ import discord
 from discord.ext import commands
 import asyncio
 import os # 環境変数読み込むマン。
-from threading import Thread # たくさん起動したい？おまかせあれ！！
+from threading # たくさん起動したい？おまかせあれ！！
 # versionとerrorを質問したら返してくれるやさしいおじさん。
 import sys
 import traceback
@@ -46,9 +46,9 @@ class AIRLINIA(commands.Bot):
 
 if __name__ == '__main__':
     technetium = TECHNETIUM(command_prefix='te!')
-    job = Thread(target=technetium.run, args=(os.environ['TECHNETIUM_DISCORD_TOKEN'],))
+    job = threading.Thread(target=technetium.run, args=(os.environ['TECHNETIUM_DISCORD_TOKEN'],))
     job.start()
 
     airlinia = AIRLINIA(command_prefix='al!')
-    job = Thread(target=airlinia.run, args=(os.environ['AIRLINIA_DISCORD_TOKEN'],))
+    job = threading.Thread(target=airlinia.run, args=(os.environ['AIRLINIA_DISCORD_TOKEN'],))
     job.start()
