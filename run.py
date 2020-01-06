@@ -43,8 +43,8 @@ class AIRLINIA(commands.Bot):
         await bot.change_presence(activity=discord.Game(name=f'{self.command_prefix}￤{bot.user.name} - by.amazakura0804'))
 
 if __name__ == '__main__':
-    bot = TECHNETIUM(command_prefix='te!')
-    bot.run(os.environ['TECHNETIUM_DISCORD_TOKEN'])
+    technetium = TECHNETIUM(command_prefix='te!')
+    technetium.run(os.environ['TECHNETIUM_DISCORD_TOKEN'])
 
-    bot = AIRLINIA(command_prefix='al!')
-    bot.run(os.environ['AIRLINIA_DISCORD_TOKEN'])
+    airlinia = AIRLINIA(command_prefix='al!')
+    airlinia.run(os.environ['AIRLINIA_DISCORD_TOKEN'])

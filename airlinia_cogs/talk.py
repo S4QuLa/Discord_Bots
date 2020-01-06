@@ -7,9 +7,9 @@ import os # .env読み込みスターズ。
 import pya3rt
 
 class Talk_Bot(commands.Cog):
-    def __init__(self, bot):
-        self.bot = bot #botを受け取る。
-        
+    def __init__(self, airlinia):
+        self.bot = airlinia #botを受け取る。
+
     @commands.Cog.listener()
     async def on_message(self, message):
         if message.author.bot:  # ボットのメッセージをハネる

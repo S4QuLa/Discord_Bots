@@ -2,9 +2,8 @@ import requests
 import ImageHash
 
 class Discord_Game_Bot(commands.Cog):
-    def __init__(self):
-        self.bot= bot
-        self.hashes = load_json
+    def __init__(self, technetium):
+        self.bot = technetium #botを受け取る。
 
     @commands.Cog.listener()
     async def on_message(self, message):
