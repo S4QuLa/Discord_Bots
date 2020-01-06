@@ -4,7 +4,7 @@ from discord.ext import commands
 import os # .env読み込みスターズ。
 
 import requests
-import ImageHash
+import imagehash
 
 class Discord_Game_Bot(commands.Cog):
     def __init__(self, technetium):
