@@ -12,7 +12,7 @@ class TECHNETIUM(commands.Bot, threading.Thread):
     def __init__(self, command_prefix):
         self.command_prefix = command_prefix
         # スーパークラスのコンストラクタに値を渡して実行。
-        super(myThread, self).__init__(command_prefix)
+        super(TECHNETIUM, self).__init__(command_prefix)
         # cogフォルダにある.pyファイルを読み込む。
         for cog in os.listdir("./technetium_cogs"):
             if cog.endswith('.py'):
@@ -30,7 +30,7 @@ class AIRLINIA(commands.Bot, threading.Thread):
     def __init__(self, command_prefix):
         self.command_prefix = command_prefix
         # スーパークラスのコンストラクタに値を渡して実行。
-        super(myThread, self).__init__(command_prefix)
+        super(AIRLINIA, self).__init__(command_prefix)
         # cogフォルダにある.pyファイルを読み込む。
         for cog in os.listdir("./airlinia_cogs"):
             if cog.endswith('.py'):
@@ -48,5 +48,5 @@ if __name__ == '__main__':
     airlinia = AIRLINIA(command_prefix='al!')
     # technetium.run(os.environ['TECHNETIUM_DISCORD_TOKEN'])
     # airlinia.run(os.environ['AIRLINIA_DISCORD_TOKEN'])
-    technetium.start()
-    airlinia.start()
+    technetium.run(os.environ['TECHNETIUM_DISCORD_TOKEN']).start()
+    airlinia.run(os.environ['AIRLINIA_DISCORD_TOKEN']).start()
