@@ -27,9 +27,9 @@ class Server_Stats(commands.Cog):
     async def on_member_join(self, member):
         datas = self.datas
         server = member.guild
-        datas["all"] = len([server.members)
-        datas["member"] = len([[member for member in server.members if not member.bot])
-        datas["bot"] = len([[member for member in server.members if member.bot])
+        datas["all"] = len(server.members)
+        datas["member"] = len([member for member in server.members if not member.bot])
+        datas["bot"] = len([member for member in server.members if member.bot])
         with open("./data/pokemon.json", "w") as file:
             json.dump(file, datas, indent=4)
         await channel_name_edit()
@@ -49,10 +49,10 @@ class Server_Stats(commands.Cog):
     async def on_member_updata(self, before, after):
         datas = self.datas
         server = after.guild
-        datas["online"] = len([[member for member in server.members if member.status.online])
-        datas["idle"] = len([[member for member in server.members if member.status.idle])
-        datas["dnd"] = len([[member for member in server.members if member.status.dnd])
-        datas["offline"] = len([[member for member in server.members if member.status.offline])
+        datas["online"] = len([member for member in server.members if member.status.online])
+        datas["idle"] = len([member for member in server.members if member.status.idle])
+        datas["dnd"] = len([member for member in server.members if member.status.dnd])
+        datas["offline"] = len([member for member in server.members if member.status.offline])
         with open("./data/pokemon.json", "w") as file:
             json.dump(file, datas, indent=4)
         await channel_name_edit()
