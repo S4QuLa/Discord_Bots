@@ -7,12 +7,20 @@ import threading
 import sys
 import traceback
 
-class TECHNETIUM(commands.Bot, threading.Thread):
+loop = asyncio.new_event_loop()
+
+technetium_token = os.environ['TECHNETIUM_DISCORD_TOKEN']
+technetium = TECHNETIUM(command_prefix='te!', loop=loop)
+
+airlinia_token = os.environ['AIRLINIA_DISCORD_TOKEN']
+airlinia = AIRLINIA(command_prefix='al!', loop=loop)
+
+class TECHNETIUM(commands.Bot):
     # MyBotのコンストラクタ。
     def __init__(self, command_prefix):
         self.command_prefix = command_prefix
         # スーパークラスのコンストラクタに値を渡して実行。
-        super(TECHNETIUM, self).__init__(command_prefix)
+        super().__init__(command_prefix)
         # cogフォルダにある.pyファイルを読み込む。
         for cog in os.listdir("./technetium_cogs"):
             if cog.endswith('.py'):
@@ -25,12 +33,12 @@ class TECHNETIUM(commands.Bot, threading.Thread):
         print(f'ログインしました。\n------\nBotのアカウントの概要\nユーザー名:{technetium.user.name}\nユーザーID:{technetium.user.id}\n------\nDiscord.pyのバージョン\n{discord.__version__}\n------\nPythonのバージョン\n{sys.version}\n――――――――――――――――――――――――――――――')
         await technetium.change_presence(activity=discord.Game(name=f'{self.command_prefix}￤{technetium.user.name} - by.amazakura0804'))
 
-class AIRLINIA(commands.Bot, threading.Thread):
+class AIRLINIA(commands.Bot):
     # MyBotのコンストラクタ。
     def __init__(self, command_prefix):
         self.command_prefix = command_prefix
         # スーパークラスのコンストラクタに値を渡して実行。
-        super(AIRLINIA, self).__init__(command_prefix)
+        super().__init__(command_prefix)
         # cogフォルダにある.pyファイルを読み込む。
         for cog in os.listdir("./airlinia_cogs"):
             if cog.endswith('.py'):
@@ -44,11 +52,7 @@ class AIRLINIA(commands.Bot, threading.Thread):
         await airlinia.change_presence(activity=discord.Game(name=f'{self.command_prefix}￤{airlinia.user.name} - by.amazakura0804'))
 
 if __name__ == '__main__':
-    technetium = TECHNETIUM(command_prefix='te!')
-    airlinia = AIRLINIA(command_prefix='al!')
-    # technetium.run(os.environ['TECHNETIUM_DISCORD_TOKEN'])
-    # airlinia.run(os.environ['AIRLINIA_DISCORD_TOKEN'])
-    t1 = technetium.run(os.environ['TECHNETIUM_DISCORD_TOKEN']).start()
-    t1.join()
-    t2 = airlinia.run(os.environ['AIRLINIA_DISCORD_TOKEN']).start()
-    t2.join()
+    # bot.run(os.environ['DISCORD_TOKEN'])
+    airlinia_task = loop.create_task(AIRLINIA.airlinia.start(airlinia_token))
+    loop.run_until_complete(airlinia_task)
+    loop.close()
