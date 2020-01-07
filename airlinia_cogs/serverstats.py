@@ -24,6 +24,7 @@ class Server_Stats(commands.Cog):
         self.data = load_json("./data/stats.json")
 
     async def channel_name_edit(server):
+        data = self.data
         self.all_channel : discord.VoiceChannel = self.bot.get_channel(self.all_channel_id)
         self.member_channel : discord.VoicetChannel = self.bot.get_channel(self.member_channel_id)
         self.bot_channel : discord.VoiceChannel = self.bot.get_channel(self.bot_channel_id)
@@ -34,15 +35,15 @@ class Server_Stats(commands.Cog):
         self.message_channel : discord.VoiceChannel = self.bot.get_channel(self.message_channel_id)
         self.time_channel : discord.VoiceChannel = self.bot.get_channel(self.time_channel_id)
 
-        await self.all_channel.edit(name=f'all : {self.data[server]['all']}')
-        await self.member_channel.edit(name=f'member : {self.data[server]['member']}')
-        await self.bot_channel.edit(name=f'bot : {self.data[server]['bot']}')
-        await self.online_channel.edit(name=f'online : {self.data[server]['online']}')
-        await self.idle_channel.edit(name=f'idle : {self.data[server]['idle']}')
-        await self.dnd_channel.edit(name=f'dnd : {self.data[server]['dmd']}')
-        await self.offline_channel.edit(name=f'offline : {self.data[server]['offline']}')
-        await self.message_channel.edit(name=f'message : {self.data[server]['message']}')
-        await self.time.all_channel.edit(name=f'time : {self.data[server]['time']}')
+        await self.all_channel.edit(name=f'all : {data[server]['all']}')
+        await self.member_channel.edit(name=f'member : {data[server]['member']}')
+        await self.bot_channel.edit(name=f'bot : {data[server]['bot']}')
+        await self.online_channel.edit(name=f'online : {data[server]['online']}')
+        await self.idle_channel.edit(name=f'idle : {data[server]['idle']}')
+        await self.dnd_channel.edit(name=f'dnd : {data[server]['dmd']}')
+        await self.offline_channel.edit(name=f'offline : {data[server]['offline']}')
+        await self.message_channel.edit(name=f'message : {data[server]['message']}')
+        await self.time.all_channel.edit(name=f'time : {data[server]['time']}')
 
     @commands.Cog.listener()
     async def on_member_join(self, member: discord.Member, server: discord.Member.Guild):
