@@ -20,8 +20,9 @@ class Server_Stats(commands.Cog):
         self.dates = json.load(open('./data/pokemon.json', 'r'))
 
     @commands.Cog.listener()
-    async def on_member_join(self, member: discord.Member, server: discord.Member.guild):
+    async def on_member_join(self, member):
         dates = self.dates
+        server = member.guild
         dates[str(server.id)]['all'] = len(server.members)
         dates[str(server.id)]['member'] = len([member for member in server.members if not member.bot])
         dates[str(server.id)]['bot'] = len([member for member in server.members if member.bot])
