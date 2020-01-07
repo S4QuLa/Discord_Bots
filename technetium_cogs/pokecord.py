@@ -22,7 +22,7 @@ class Discord_Game_Bot(commands.Cog):
             data = json.load(open('./data/pokemon.json'))
 
             pokemon = data.get(hash, '...ごめん、わからん')
-            await message.channel.send(f'このポケモン...もしかして「{pokemon}」かなぁ。') # 返信メッセージを送信
+            await ctx.message.channel.send(f'このポケモン...もしかして「{pokemon}」かなぁ。') # 返信メッセージを送信
 
     @commands.Cog.listener()
     async def on_message(self, message):
