@@ -61,7 +61,7 @@ class Server_Stats(commands.Cog):
         with open("./data/pokemon.json", "w") as file:
             json.dump(file, datas, indent=4)
         await channel_name_edit()
-　　
+
     async def channel_name_edit():
         all = self.datas["all"]
         member = self.datas["member"]
