@@ -14,10 +14,10 @@ technetium_token = os.environ['TECHNETIUM_DISCORD_TOKEN']
 
 class TECHNETIUM(commands.Bot):
     # MyBotのコンストラクタ。
-    def __init__(self, command_prefix):
+    def __init__(self, command_prefi, **optionsx):
         self.command_prefix = command_prefix
         # スーパークラスのコンストラクタに値を渡して実行。
-        super().__init__(command_prefix)
+        super().__init__(command_prefix, **options)
         # cogフォルダにある.pyファイルを読み込む。
         for cog in os.listdir("./technetium_cogs"):
             if cog.endswith('.py'):
@@ -32,10 +32,10 @@ class TECHNETIUM(commands.Bot):
 
 class AIRLINIA(commands.Bot):
     # MyBotのコンストラクタ。
-    def __init__(self, command_prefix):
+    def __init__(self, command_prefix, **options):
         self.command_prefix = command_prefix
         # スーパークラスのコンストラクタに値を渡して実行。
-        super().__init__(command_prefix)
+        super().__init__(command_prefix, **options)
         # cogフォルダにある.pyファイルを読み込む。
         for cog in os.listdir("./airlinia_cogs"):
             if cog.endswith('.py'):
@@ -52,7 +52,7 @@ if __name__ == '__main__':
     airlinia = AIRLINIA(command_prefix='al!', loop=loop)
     airlinia_task = loop.create_task(airlinia.start(airlinia_token))
 
-    technetium = TECHNETIUM(command_prefix='al!', loop=loop)
+    technetium = TECHNETIUM(command_prefix='te!', loop=loop)
     technetium_task = loop.create_task(technetium.start(technetium_token))
 
     loop.run_until_complete(technetium_task)
