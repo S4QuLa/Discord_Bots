@@ -42,6 +42,7 @@ class Discord_Game_Bot(commands.Cog):
 
             pokemon = data.get(hash, '...ごめん、わからん')
             print(hash)
+            print(data)
             await message.channel.send(f'このポケモン...もしかして「{pokemon}」かなぁ。') # 返信メッセージを送信
 
 def setup(technetium):
