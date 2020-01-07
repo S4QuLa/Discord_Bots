@@ -8,6 +8,7 @@ import json
 class Server_Stats(commands.Cog):
     def __init__(self, airlinia):
         self.bot = airlinia #botを受け取る。
+        self.datas = json.load(open("./data/pokemon.json", "r"))
         self.all_channel_id = 663297143909515274
         self.member_channel_id = 663297196531253249
         self.bot_channel_id = 663297233453842452
@@ -17,15 +18,23 @@ class Server_Stats(commands.Cog):
         self.offline_channel_id = 663297305847398421
         self.message_channel_id = 663297421417119754
         self.time_channel_id = 663297453621116988
-        self.datas = json.load(open("./data/pokemon.json", "r"))
+        self.all = datas["all"]
+        self.member = datas["member"]
+        self.bot = datas["bot"]
+        self.online = datas["online"]
+        self.idle = datas["idle"]
+        self.dnd = datas["dnd"]
+        self.offline = datas["offline"]
+        self.message = datas["message"]
+        self.time = datas["time"]
 
     @commands.Cog.listener()
     async def on_member_join(self, member):
         datas = self.datas
         server = member.guild
-        datas["all"] = len(server.members)
-        datas["member"] = len([member for member in server.members if not member.bot])
-        datas["bot"] = len([member for member in server.members if member.bot])
+        self.all = len(server.members)
+        self.member = len([member for member in server.members if not member.bot])
+        self.bot = len([member for member in server.members if member.bot])
         with open("./data/pokemon.json", "w") as file:
             json.dump(file, datas, indent=4)
         await channel_name_edit()
@@ -36,7 +45,7 @@ class Server_Stats(commands.Cog):
         server = message.guild
         if message.author.bot:  # ボットのメッセージをハネる
             return
-        datas["message"] += 1
+        self.message += 1
         with open("./data/pokemon.json", "w") as file:
             json.dump(file, datas, indent=4)
         await channel_name_edit()
@@ -45,10 +54,10 @@ class Server_Stats(commands.Cog):
     async def on_member_updata(self, before, after):
         datas = self.datas
         server = after.guild
-        datas["online"] = len([member for member in server.members if member.status.online])
-        datas["idle"] = len([member for member in server.members if member.status.idle])
-        datas["dnd"] = len([member for member in server.members if member.status.dnd])
-        datas["offline"] = len([member for member in server.members if member.status.offline])
+        self.online = len([member for member in server.members if member.status.online])
+        self.idle = len([member for member in server.members if member.status.idle])
+        self.dnd = len([member for member in server.members if member.status.dnd])
+        self.offline = len([member for member in server.members if member.status.offline])
         with open("./data/pokemon.json", "w") as file:
             json.dump(file, datas, indent=4)
         await channel_name_edit()
