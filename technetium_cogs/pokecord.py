@@ -2,9 +2,13 @@
 import discord
 from discord.ext import commands
 import os # .env読み込みスターズ。
+
 import json
-import requests
+from io import BytesIO
+from PIL import Image
 import imagehash
+
+import requests
 
 class Discord_Game_Bot(commands.Cog):
     def __init__(self, technetium):
@@ -33,7 +37,7 @@ class Discord_Game_Bot(commands.Cog):
         msg = message.content
         r = requests.get(msg)
         if r.status_code == 200:
-            hash = imagehash.dhash(r.open(BytesIO(r.content)))
+            hash = imagehash.dhash(Image.open(BytesIO(r.content)))
             f = open('./data/pokemon.json')
             data = json.load(f)
             await message.channel.send(f'このポケモン...もしかして「{data[hash]}」かなぁ。') # 返信メッセージを送信
