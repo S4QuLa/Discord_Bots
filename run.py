@@ -9,11 +9,8 @@ import traceback
 
 loop = asyncio.new_event_loop()
 
-technetium_token = os.environ['TECHNETIUM_DISCORD_TOKEN']
-technetium = TECHNETIUM(command_prefix='te!', loop=loop)
-
 airlinia_token = os.environ['AIRLINIA_DISCORD_TOKEN']
-airlinia = AIRLINIA(command_prefix='al!', loop=loop)
+technetium_token = os.environ['TECHNETIUM_DISCORD_TOKEN']
 
 class TECHNETIUM(commands.Bot):
     # MyBotのコンストラクタ。
@@ -53,6 +50,7 @@ class AIRLINIA(commands.Bot):
 
 if __name__ == '__main__':
     # bot.run(os.environ['DISCORD_TOKEN'])
+    airlinia = AIRLINIA(command_prefix='al!', loop=loop)
     airlinia_task = loop.create_task(AIRLINIA.airlinia.start(airlinia_token))
     loop.run_until_complete(airlinia_task)
     loop.close()
