@@ -61,18 +61,17 @@ class Server_Stats(commands.Cog):
         with open("./data/pokemon.json", "w") as file:
             json.dump(file, datas, indent=4)
         await channel_name_edit()
-
+　　
     async def channel_name_edit():
-        datas = self.datas
-        all = datas["all"]
-        member = datas["member"]
-        bot = datas["bot"]
-        online = datas["online"]
-        idle = datas["idle"]
-        dnd = datas["dnd"]
-        offline = datas["offline"]
-        message = datas["message"]
-        time = datas["time"]
+        all = self.datas["all"]
+        member = self.datas["member"]
+        bot = self.datas["bot"]
+        online = self.datas["online"]
+        idle = self.datas["idle"]
+        dnd = self.datas["dnd"]
+        offline = self.datas["offline"]
+        message = self.datas["message"]
+        time = self.datas["time"]
         self.all_channel : discord.VoiceChannel = self.bot.get_channel(self.all_channel_id)
         self.member_channel : discord.VoicetChannel = self.bot.get_channel(self.member_channel_id)
         self.bot_channel : discord.VoiceChannel = self.bot.get_channel(self.bot_channel_id)
