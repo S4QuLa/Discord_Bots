@@ -30,6 +30,7 @@ class Discord_Game_Bot(commands.Cog):
         async def on_message(self, message):
             if message.channel.id != 663148351197413396:
                 return
+            print(message.attachments.url)
             r = requests.get(message.attachments.url)
             if r.status_code == 200:
                 hash = imagehash.dhash(Image.open(BytesIO(r.content)))
