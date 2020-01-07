@@ -6,7 +6,7 @@ import os # .env読み込みスターズ。
 import json
 
 def load_json(path):
-    with open(path, "r") as file:
+    with open(path, "w") as file:
         return json.load(file)
 
 class Server_Stats(commands.Cog):
@@ -64,7 +64,7 @@ class Server_Stats(commands.Cog):
             json.dump(file, datas, indent=4)
         await channel_name_edit(server.id)
 
-    @tasks.loop(seconds=1, loop=loop)
+    @tasks.loop(seconds=5, loop=loop)
     async def member_online(self, member: discord.Member, server: discord.Member.Guild):
         datas[str(server.id)]['online'] = len([member for member in server.members if member.status.online])
         datas[str(server.id)]['idle'] = len([member for member in server.members if member.status.idle])
