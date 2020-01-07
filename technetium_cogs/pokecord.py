@@ -28,7 +28,7 @@ class Discord_Game_Bot(commands.Cog):
     async def pokemon_hash(self, ctx, *, arg):
         r = requests.get(arg)
         if r.status_code == 200:
-            hash = imagehash.dhash(Image.open(BytesIO(r.content)))
+            hash = str(imagehash.dhash(Image.open(BytesIO(r.content))))
             await ctx.message.channel.send(f'この画像のhashは「{hash}」だよ～ん。') # 返信メッセージを送信
 
     @commands.Cog.listener()
@@ -40,7 +40,7 @@ class Discord_Game_Bot(commands.Cog):
             print('pokecordのメッセージを検知')
             r = requests.get(e.image.url)
             if r.status_code == 200:
-                hash = imagehash.dhash(Image.open(BytesIO(r.content)))
+                hash = str(imagehash.dhash(Image.open(BytesIO(r.content))))
                 data = json.load(open('./data/pokemon.json'))
 
                 pokemon = data.get(hash, '...ごめん、わからん')
