@@ -32,10 +32,10 @@ class Server_Stats(commands.Cog):
     @commands.Cog.listener()
     async def on_message(self, message):
         datas = self.datas
+        server = message.guild
         if message.author.bot:  # ボットのメッセージをハネる
             return
         datas[str(server.id)]['message'] += 1
-        server = message.guild
         with open('./data/pokemon.json', "w") as file:
             json.dump(file, datas, indent=4)
         await channel_name_edit(server.id)
