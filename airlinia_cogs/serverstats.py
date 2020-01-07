@@ -64,16 +64,24 @@ class Server_Stats(commands.Cog):
         self.message_channel : discord.VoiceChannel = self.bot.get_channel(self.message_channel_id)
         self.time_channel : discord.VoiceChannel = self.bot.get_channel(self.time_channel_id)
 
-        datas = self.datas
-        await self.all_channel.edit(name=f"all : {datas["all"]}")
-        await self.member_channel.edit(name=f"member : {datas["member"]}")
-        await self.bot_channel.edit(name=f"bot : {datas["bot"]}")
-        await self.online_channel.edit(name=f"online : {datas["online"]}")
-        await self.idle_channel.edit(name=f"idle : {datas["idle"]}")
-        await self.dnd_channel.edit(name=f"dnd : {datas["dnd"]}")
-        await self.offline_channel.edit(name=f"offline : {datas["offline"]}")
-        await self.message_channel.edit(name=f"message : {datas["message"]}")
-        await self.time.all_channel.edit(name=f"time : {datas["time"]}")
+        all = datas["all"]
+        member = datas["member"]
+        bot = datas["bot"]
+        online = datas["online"]
+        idle = datas["idle"]
+        dnd = datas["dnd"]
+        offline = datas["offline"]
+        message = datas["message"]
+        time = datas["time"]
+        await self.all_channel.edit(name=f"all : {all}")
+        await self.member_channel.edit(name=f"member : {member}")
+        await self.bot_channel.edit(name=f"bot : {bot}")
+        await self.online_channel.edit(name=f"online : {online}")
+        await self.idle_channel.edit(name=f"idle : {idle}")
+        await self.dnd_channel.edit(name=f"dnd : {dnd}")
+        await self.offline_channel.edit(name=f"offline : {offline}")
+        await self.message_channel.edit(name=f"message : {message}")
+        await self.time.all_channel.edit(name=f"time : {time}")
 
 def setup(airlinia):
     airlinia.add_cog(Server_Stats(airlinia))
