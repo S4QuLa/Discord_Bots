@@ -45,7 +45,7 @@ class Server_Stats(commands.Cog):
     async def on_member_update(self, before, after):
         dates = self.dates
         server = after.guild
-        dates[str(server.id)]['online'] = len([member for member in server.members if member.status.online])
+        dates[str(server.id)]['online'] = len([member for member in server.members if member.status == discord.Status.online])
         dates[str(server.id)]['idle'] = len([member for member in server.members if member.status.idle])
         dates[str(server.id)]['dnd'] = len([member for member in server.members if member.status.dnd])
         dates[str(server.id)]['offline'] = len([member for member in server.members if member.status.offline])
