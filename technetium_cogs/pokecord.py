@@ -26,5 +26,16 @@ class Discord_Game_Bot(commands.Cog):
         else:
             print("pokecordのメッセージ（非判定）")
 
+        @commands.Cog.listener()
+        async def on_message(self, message):
+            if message.channel.id != 663148351197413396:
+                return
+            r = requests.get(message.attachments.url)
+            if r.status_code == 200:
+                hash = imagehash.dhash(Image.open(BytesIO(r.content)))
+                f = open('./data/pokemon.json')
+                data = json.load(f)
+                await message.channel.send(f'このポケモン...もしかして「{data[hash]}」かなぁ。') # 返信メッセージを送信
+
 def setup(technetium):
     technetium.add_cog(Discord_Game_Bot(technetium))
