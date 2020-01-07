@@ -41,7 +41,7 @@ class Server_Stats(commands.Cog):
             json.dump(file, datas, indent=4)
         await channel_name_edit(server.id)
 
-    @tasks.loop(seconds=5, loop=loop)
+    @tasks.loop(seconds=5)
     async def member_online(self, member: discord.Member, server: discord.Member.guild):
         datas[str(server.id)]['online'] = len([member for member in server.members if member.status.online])
         datas[str(server.id)]['idle'] = len([member for member in server.members if member.status.idle])
