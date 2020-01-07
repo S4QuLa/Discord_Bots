@@ -10,13 +10,13 @@ class Bot_Owner_Command(commands.Cog):
     def __init__(self, airlinia):
         self.bot = airlinia #botを受け取る。
 
-    @commands.command
+    @commands.command()
     @commands.is_owner()
     async def stop(self, ctx):
         await ctx.send('停止しやーす！！')
         await self.bot.close()
 
-    @commands.command
+    @commands.command()
     async def say(self, ctx, *, arg):
         await ctx.send(arg)
 
