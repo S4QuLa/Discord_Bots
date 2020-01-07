@@ -25,7 +25,7 @@ class Discord_Game_Bot(commands.Cog):
             await ctx.message.channel.send(f'このポケモン...もしかして「{pokemon}」かなぁ。') # 返信メッセージを送信
 
     @commands.command(name='hash')
-    async def pokemon_image(self, ctx, *, arg):
+    async def pokemon_hash(self, ctx, *, arg):
         r = requests.get(arg)
         if r.status_code == 200:
             hash = imagehash.dhash(Image.open(BytesIO(r.content)))
