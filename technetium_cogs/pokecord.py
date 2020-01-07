@@ -24,6 +24,13 @@ class Discord_Game_Bot(commands.Cog):
             pokemon = data.get(hash, '...ごめん、わからん')
             await ctx.message.channel.send(f'このポケモン...もしかして「{pokemon}」かなぁ。') # 返信メッセージを送信
 
+    @commands.command(name='hash')
+    async def pokemon_image(self, ctx, *, arg):
+        r = requests.get(arg)
+        if r.status_code == 200:
+            hash = imagehash.dhash(Image.open(BytesIO(r.content)))
+            await ctx.message.channel.send(f'この画像のhashは「{hash}」だよ～ん。') # 返信メッセージを送信
+
     @commands.Cog.listener()
     async def on_message(self, message):
         if message.author.id != 365975655608745985 or not message.embeds:
