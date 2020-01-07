@@ -17,43 +17,43 @@ class Server_Stats(commands.Cog):
         self.offline_channel_id = 663297305847398421
         self.message_channel_id = 663297421417119754
         self.time_channel_id = 663297453621116988
-        self.dates = json.load(open('./data/pokemon.json', 'r'))
+        self.datas = json.load(open('./data/pokemon.json', 'r'))
 
     @commands.Cog.listener()
     async def on_member_join(self, member):
-        dates = self.dates
+        datas = self.datas
         server = member.guild
-        dates[str(server.id)]['all'] = len(server.members)
-        dates[str(server.id)]['member'] = len([member for member in server.members if not member.bot])
-        dates[str(server.id)]['bot'] = len([member for member in server.members if member.bot])
+        datas['all'] = len(server.members)
+        datas['member'] = len([member for member in server.members if not member.bot])
+        datas['bot'] = len([member for member in server.members if member.bot])
         with open('./data/pokemon.json', "w") as file:
-            json.dump(file, dates, indent=4)
-        await channel_name_edit(server.id)
+            json.dump(file, datas, indent=4)
+        await channel_name_edit()
 
     @commands.Cog.listener()
     async def on_message(self, message):
-        dates = self.dates
+        datas = self.datas
         server = message.guild
         if message.author.bot:  # ボットのメッセージをハネる
             return
-        dates[str(server.id)]['message'] += 1
+        datas['message'] += 1
         with open('./data/pokemon.json', "w") as file:
-            json.dump(file, dates, indent=4)
-        await channel_name_edit(server.id)
+            json.dump(file, datas, indent=4)
+        await channel_name_edit()
 
     @commands.Cog.listener()
-    async def on_member_update(self, before, after):
-        dates = self.dates
+    async def on_member_updata(self, before, after):
+        datas = self.datas
         server = after.guild
-        dates[str(server.id)]['online'] = len([member for member in server.members if member.status == discord.Status.online])
-        dates[str(server.id)]['idle'] = len([member for member in server.members if member.status.idle])
-        dates[str(server.id)]['dnd'] = len([member for member in server.members if member.status.dnd])
-        dates[str(server.id)]['offline'] = len([member for member in server.members if member.status.offline])
+        datas['online'] = len([member for member in server.members if member.status == discord.Status.online])
+        datas['idle'] = len([member for member in server.members if member.status.idle])
+        datas['dnd'] = len([member for member in server.members if member.status.dnd])
+        datas['offline'] = len([member for member in server.members if member.status.offline])
         with open('./data/pokemon.json', "w") as file:
-            json.dump(file, dates, indent=4)
-        await channel_name_edit(server.id)
+            json.dump(file, datas, indent=4)
+        await channel_name_edit()
 
-    async def channel_name_edit(server_id):
+    async def channel_name_edit():
         data = self.data
         self.all_channel : discord.VoiceChannel = self.bot.get_channel(self.all_channel_id)
         self.member_channel : discord.VoicetChannel = self.bot.get_channel(self.member_channel_id)
@@ -65,15 +65,15 @@ class Server_Stats(commands.Cog):
         self.message_channel : discord.VoiceChannel = self.bot.get_channel(self.message_channel_id)
         self.time_channel : discord.VoiceChannel = self.bot.get_channel(self.time_channel_id)
 
-        await self.all_channel.edit(name=f'all : {data[server_id]["all"]}')
-        await self.member_channel.edit(name=f'member : {data[server_id]["member"]}')
-        await self.bot_channel.edit(name=f'bot : {data[server_id]["bot"]}')
-        await self.online_channel.edit(name=f'online : {data[server_id]["online"]}')
-        await self.idle_channel.edit(name=f'idle : {data[server_id]["idle"]}')
-        await self.dnd_channel.edit(name=f'dnd : {data[server_id]["dmd"]}')
-        await self.offline_channel.edit(name=f'offline : {data[server_id]["offline"]}')
-        await self.message_channel.edit(name=f'message : {data[server_id]["message"]}')
-        await self.time.all_channel.edit(name=f'time : {data[server_id]["time"]}')
+        await self.all_channel.edit(name=f'all : {data["all"]}')
+        await self.member_channel.edit(name=f'member : {data["member"]}')
+        await self.bot_channel.edit(name=f'bot : {data["bot"]}')
+        await self.online_channel.edit(name=f'online : {data["online"]}')
+        await self.idle_channel.edit(name=f'idle : {data["idle"]}')
+        await self.dnd_channel.edit(name=f'dnd : {data["dmd"]}')
+        await self.offline_channel.edit(name=f'offline : {data["offline"]}')
+        await self.message_channel.edit(name=f'message : {data["message"]}')
+        await self.time.all_channel.edit(name=f'time : {data["time"]}')
 
 def setup(airlinia):
     airlinia.add_cog(Server_Stats(airlinia))
