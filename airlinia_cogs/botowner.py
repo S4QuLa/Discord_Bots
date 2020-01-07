@@ -17,6 +17,7 @@ class Bot_Owner_Command(commands.Cog):
         await self.bot.close()
 
     @commands.command()
+    @commands.is_owner()
     async def say(self, ctx, *, arg):
         await ctx.send(arg)
 
