@@ -54,7 +54,6 @@ class Server_Stats(commands.Cog):
         await channel_name_edit()
 
     async def channel_name_edit():
-        datas = self.datas
         self.all_channel : discord.VoiceChannel = self.bot.get_channel(self.all_channel_id)
         self.member_channel : discord.VoicetChannel = self.bot.get_channel(self.member_channel_id)
         self.bot_channel : discord.VoiceChannel = self.bot.get_channel(self.bot_channel_id)
@@ -65,15 +64,15 @@ class Server_Stats(commands.Cog):
         self.message_channel : discord.VoiceChannel = self.bot.get_channel(self.message_channel_id)
         self.time_channel : discord.VoiceChannel = self.bot.get_channel(self.time_channel_id)
 
-        await self.all_channel.edit(name=f"all : {datas["all"]}")
-        await self.member_channel.edit(name=f"member : {datas["member"]}")
-        await self.bot_channel.edit(name=f"bot : {datas["bot"]}")
-        await self.online_channel.edit(name=f"online : {datas["online"]}")
-        await self.idle_channel.edit(name=f"idle : {datas["idle"]}")
-        await self.dnd_channel.edit(name=f"dnd : {datas["dmd"]}")
-        await self.offline_channel.edit(name=f"offline : {datas["offline"]}")
-        await self.message_channel.edit(name=f"message : {datas["message"]}")
-        await self.time.all_channel.edit(name=f"time : {datas["time"]}")
+        await self.all_channel.edit(name=f"all : {self.datas["all"]}")
+        await self.member_channel.edit(name=f"member : {self.datas["member"]}")
+        await self.bot_channel.edit(name=f"bot : {self.datas["bot"]}")
+        await self.online_channel.edit(name=f"online : {self.datas["online"]}")
+        await self.idle_channel.edit(name=f"idle : {self.datas["idle"]}")
+        await self.dnd_channel.edit(name=f"dnd : {self.datas["dnd"]}")
+        await self.offline_channel.edit(name=f"offline : {self.datas["offline"]}")
+        await self.message_channel.edit(name=f"message : {self.datas["message"]}")
+        await self.time.all_channel.edit(name=f"time : {self.datas["time"]}")
 
 def setup(airlinia):
     airlinia.add_cog(Server_Stats(airlinia))
