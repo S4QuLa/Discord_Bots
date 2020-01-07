@@ -63,16 +63,7 @@ class Server_Stats(commands.Cog):
         await channel_name_edit()
 
     async def channel_name_edit():
-        self.all_channel : discord.VoiceChannel = self.bot.get_channel(self.all_channel_id)
-        self.member_channel : discord.VoicetChannel = self.bot.get_channel(self.member_channel_id)
-        self.bot_channel : discord.VoiceChannel = self.bot.get_channel(self.bot_channel_id)
-        self.online_channel : discord.VoiceChannel = self.bot.get_channel(self.online_channel_id)
-        self.idle_channel : discord.VoiceChannel = self.bot.get_channel(self.idle_channel_id)
-        self.dnd_channel : discord.VoiceChannel = self.bot.get_channel(self.dnd_channel_id)
-        self.offline_channel : discord.VoiceChannel = self.bot.get_channel(self.offline_channel_id)
-        self.message_channel : discord.VoiceChannel = self.bot.get_channel(self.message_channel_id)
-        self.time_channel : discord.VoiceChannel = self.bot.get_channel(self.time_channel_id)
-
+        datas = self.datas
         all = datas["all"]
         member = datas["member"]
         bot = datas["bot"]
@@ -82,6 +73,15 @@ class Server_Stats(commands.Cog):
         offline = datas["offline"]
         message = datas["message"]
         time = datas["time"]
+        self.all_channel : discord.VoiceChannel = self.bot.get_channel(self.all_channel_id)
+        self.member_channel : discord.VoicetChannel = self.bot.get_channel(self.member_channel_id)
+        self.bot_channel : discord.VoiceChannel = self.bot.get_channel(self.bot_channel_id)
+        self.online_channel : discord.VoiceChannel = self.bot.get_channel(self.online_channel_id)
+        self.idle_channel : discord.VoiceChannel = self.bot.get_channel(self.idle_channel_id)
+        self.dnd_channel : discord.VoiceChannel = self.bot.get_channel(self.dnd_channel_id)
+        self.offline_channel : discord.VoiceChannel = self.bot.get_channel(self.offline_channel_id)
+        self.message_channel : discord.VoiceChannel = self.bot.get_channel(self.message_channel_id)
+        self.time_channel : discord.VoiceChannel = self.bot.get_channel(self.time_channel_id)
         await self.all_channel.edit(name=f"all : {all}")
         await self.member_channel.edit(name=f"member : {member}")
         await self.bot_channel.edit(name=f"bot : {bot}")
