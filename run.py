@@ -14,7 +14,7 @@ technetium_token = os.environ['TECHNETIUM_DISCORD_TOKEN']
 
 class TECHNETIUM(commands.Bot):
     # MyBotのコンストラクタ。
-    def __init__(self, command_prefi, **optionsx):
+    def __init__(self, command_prefix, **optionsx):
         self.command_prefix = command_prefix
         # スーパークラスのコンストラクタに値を渡して実行。
         super().__init__(command_prefix, **options)
