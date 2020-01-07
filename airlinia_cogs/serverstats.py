@@ -6,8 +6,8 @@ import os # .env読み込みスターズ。
 import json
 
 def json_load(path):
-    with open(path, "r") as f
-    return json.load(f)
+    with open(path, "r") as f:
+        return json.load(f)
 
 class Server_Stats(commands.Cog):
     def __init__(self, airlinia):
