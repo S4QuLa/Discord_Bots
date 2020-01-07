@@ -1,11 +1,11 @@
 {
-    "all": "0",
-    "member": "0",
-    "bot": "0",
-    "online": "0",
-    "idle": "0",
-    "dnd": "0",
-    "offline": "0",
-    "message": "0",
-    "time": "0"
+    "all": 0,
+    "member": 0,
+    "bot": 0,
+    "online": 0,
+    "idle": 0,
+    "dnd": 0,
+    "offline": 0,
+    "message": 0,
+    "time": 0
 }
