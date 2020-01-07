@@ -39,6 +39,7 @@ class Discord_Game_Bot(commands.Cog):
         if r.status_code == 200:
             hash = imagehash.dhash(Image.open(BytesIO(r.content)))
             data = json.load(open('./data/pokemon.json'))
+            print(hash)
             pokemon = data[hash]
             await message.channel.send(f'このポケモン...もしかして「{pokemon}」かなぁ。') # 返信メッセージを送信
 
