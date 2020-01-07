@@ -17,10 +17,11 @@ class Server_Stats(commands.Cog):
         self.offline_channel_id = 663297305847398421
         self.message_channel_id = 663297421417119754
         self.time_channel_id = 663297453621116988
-        self.data = json.load(open('./data/pokemon.json', 'r'))
+        self.datas = json.load(open('./data/pokemon.json', 'r'))
 
     @commands.Cog.listener()
     async def on_member_join(self, member: discord.Member, server: discord.Member.guild):
+        datas = self.datas
         datas[str(server.id)]['all'] = len(server.members)
         datas[str(server.id)]['member'] = len([member for member in server.members if not member.bot])
         datas[str(server.id)]['bot'] = len([member for member in server.members if member.bot])
@@ -30,6 +31,7 @@ class Server_Stats(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, message):
+        datas = self.datas
         if message.author.bot:  # ボットのメッセージをハネる
             return
         datas[str(server.id)]['message'] += 1
@@ -40,6 +42,7 @@ class Server_Stats(commands.Cog):
 
     @tasks.loop(seconds=5)
     async def member_online(self, member: discord.Member, server: discord.Member.guild):
+        datas = self.datas
         datas[str(server.id)]['online'] = len([member for member in server.members if member.status.online])
         datas[str(server.id)]['idle'] = len([member for member in server.members if member.status.idle])
         datas[str(server.id)]['dnd'] = len([member for member in server.members if member.status.dnd])
