@@ -16,14 +16,14 @@ class Server_Stats(commands.Cog):
         self.offline_channel_id = 663297305847398421
         self.message_channel_id = 663297421417119754
         self.time_channel_id = 663297453621116988
-        self.data =  json.load(open('./data/pokemon.json', 'r'))
+        self.data = json.load(open('./data/pokemon.json', 'r'))
 
     @commands.Cog.listener()
     async def on_member_join(self, member: discord.Member, server: discord.Member.guild):
         datas[str(server.id)]['all'] = len(server.members)
         datas[str(server.id)]['member'] = len([member for member in server.members if not member.bot])
         datas[str(server.id)]['bot'] = len([member for member in server.members if member.bot])
-        with open(path, "w") as file:
+        with open('./data/pokemon.json', "w") as file:
             json.dump(file, datas, indent=4)
         await channel_name_edit(server.id)
 
@@ -33,7 +33,7 @@ class Server_Stats(commands.Cog):
             return
         datas[str(server.id)]['message'] += 1
         server = message.guild
-        with open(path, "w") as file:
+        with open('./data/pokemon.json', "w") as file:
             json.dump(file, datas, indent=4)
         await channel_name_edit(server.id)
 
@@ -43,7 +43,7 @@ class Server_Stats(commands.Cog):
         datas[str(server.id)]['idle'] = len([member for member in server.members if member.status.idle])
         datas[str(server.id)]['dnd'] = len([member for member in server.members if member.status.dnd])
         datas[str(server.id)]['offline'] = len([member for member in server.members if member.status.offline])
-        with open(path, "w") as file:
+        with open('./data/pokemon.json', "w") as file:
             json.dump(file, datas, indent=4)
         await channel_name_edit(server.id)
 
