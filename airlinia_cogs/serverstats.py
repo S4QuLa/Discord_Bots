@@ -3,6 +3,7 @@ import discord
 from discord.ext import tasks, commands
 import asyncio
 import os # .env読み込みスターズ。
+import json
 
 class Server_Stats(commands.Cog):
     def __init__(self, airlinia):
