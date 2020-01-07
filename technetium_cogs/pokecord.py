@@ -14,6 +14,16 @@ class Discord_Game_Bot(commands.Cog):
     def __init__(self, technetium):
         self.bot = technetium #botを受け取る。
 
+    @commands.command(name='pokemon')
+    async def pokemon_image(self, ctx, *, arg):
+        r = requests.get(arg)
+        if r.status_code == 200:
+            hash = imagehash.dhash(Image.open(BytesIO(r.content)))
+            data = json.load(open('./data/pokemon.json'))
+
+            pokemon = data.get(hash, '...ごめん、わからん')
+            await message.channel.send(f'このポケモン...もしかして「{pokemon}」かなぁ。') # 返信メッセージを送信
+
     @commands.Cog.listener()
     async def on_message(self, message):
         if message.author.id != 365975655608745985 or not message.embeds:
@@ -25,7 +35,7 @@ class Discord_Game_Bot(commands.Cog):
             if r.status_code == 200:
                 hash = imagehash.dhash(Image.open(BytesIO(r.content)))
                 data = json.load(open('./data/pokemon.json'))
-                
+
                 pokemon = data.get(hash, '...ごめん、わからん')
                 await message.channel.send(f'このポケモン...もしかして「{pokemon}」かなぁ。') # 返信メッセージを送信
         else:
