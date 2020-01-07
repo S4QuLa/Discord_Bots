@@ -18,7 +18,7 @@ class Server_Stats(commands.Cog):
         self.time_channel_id = 663297453621116988
         self.data = load_json("./data/stats.json")
 
-    def load_json(path):
+    async def load_json(path):
         with open(path, "w") as file:
             return json.load(file)
 
