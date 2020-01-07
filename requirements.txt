@@ -4,4 +4,4 @@ line-bot-sdk
 schedule
 ImageHash
 pya3rt
-piilow
+pillow
