@@ -30,7 +30,8 @@ class Discord_Game_Bot(commands.Cog):
     async def on_message(self, message):
         if message.channel.id != 663148351197413396:
             return
-        r = requests.get(message.contect)
+        msg = message.content
+        r = requests.get(msg)
         if r.status_code == 200:
             hash = imagehash.dhash(Image.open(BytesIO(r.content)))
             f = open('./data/pokemon.json')
