@@ -8,6 +8,7 @@ from io import BytesIO
 from PIL import Image
 import imagehash
 
+import schedule
 import requests
 
 class Discord_Game_Bot(commands.Cog):
@@ -22,7 +23,7 @@ class Discord_Game_Bot(commands.Cog):
             data = json.load(open('./data/pokemon.json', 'r'))
 
             pokemon = data.get(hash, '...ごめん、わからん')
-            await ctx.message.channel.send(f'このポケモン...もしかして「{pokemon}」かなぁ。') # 返信メッセージを送信
+            await message.channel.send(f'このポケモン...もしかして「{pokemon}」かなぁ。\r ```command : p!catch {pokemon}```')
 
     @commands.command(name='hash')
     async def pokemon_hash(self, ctx, *, arg):
@@ -44,7 +45,7 @@ class Discord_Game_Bot(commands.Cog):
                 data = json.load(open('./data/pokemon.json', 'r'))
 
                 pokemon = data.get(hash, '...ごめん、わからん')
-                await message.channel.send(f'このポケモン...もしかして「{pokemon}」かなぁ。') # 返信メッセージを送信
+                await message.channel.send(f'このポケモン...もしかして「{pokemon}」かなぁ。\r ```command : p!catch {pokemon}```')
         else:
             print("pokecordのメッセージ（非判定）")
 
