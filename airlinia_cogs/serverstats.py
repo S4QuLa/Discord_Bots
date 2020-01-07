@@ -1,6 +1,6 @@
 # Discord.py is smoooooooooooooosh!!!!!
 import discord
-from discord.ext import commands
+from discord.ext import tasks, commands
 import asyncio
 import os # .env読み込みスターズ。
 
@@ -63,15 +63,15 @@ class Server_Stats(commands.Cog):
         self.message_channel : discord.VoiceChannel = self.bot.get_channel(self.message_channel_id)
         self.time_channel : discord.VoiceChannel = self.bot.get_channel(self.time_channel_id)
 
-        # await self.all_channel.edit(name=f'all : {data[server_id]["all"]}')
-        # await self.member_channel.edit(name=f'member : {data[server_id]["member"]}')
-        # await self.bot_channel.edit(name=f'bot : {data[server_id]["bot"]}')
-        # await self.online_channel.edit(name=f'online : {data[server_id]["online"]}')
-        # await self.idle_channel.edit(name=f'idle : {data[server_id]["idle"]}')
-        # await self.dnd_channel.edit(name=f'dnd : {data[server_id]["dmd"]}')
-        # await self.offline_channel.edit(name=f'offline : {data[server_id]["offline"]}')
-        # await self.message_channel.edit(name=f'message : {data[server_id]["message"]}')
-        # await self.time.all_channel.edit(name=f'time : {data[server_id]["time"]}')
+        await self.all_channel.edit(name=f'all : {data[server_id]["all"]}')
+        await self.member_channel.edit(name=f'member : {data[server_id]["member"]}')
+        await self.bot_channel.edit(name=f'bot : {data[server_id]["bot"]}')
+        await self.online_channel.edit(name=f'online : {data[server_id]["online"]}')
+        await self.idle_channel.edit(name=f'idle : {data[server_id]["idle"]}')
+        await self.dnd_channel.edit(name=f'dnd : {data[server_id]["dmd"]}')
+        await self.offline_channel.edit(name=f'offline : {data[server_id]["offline"]}')
+        await self.message_channel.edit(name=f'message : {data[server_id]["message"]}')
+        await self.time.all_channel.edit(name=f'time : {data[server_id]["time"]}')
 
 def setup(airlinia):
     airlinia.add_cog(Server_Stats(airlinia))
