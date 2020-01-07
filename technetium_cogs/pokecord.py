@@ -40,9 +40,7 @@ class Discord_Game_Bot(commands.Cog):
             hash = imagehash.dhash(Image.open(BytesIO(r.content)))
             data = json.load(open('./data/pokemon.json'))
             print(hash)
-
-            pokemon = data.get[hash]
-            await message.channel.send(f'このポケモン...もしかして「{pokemon}」かなぁ。') # 返信メッセージを送信
+            await message.channel.send(f'このポケモン...もしかして「{data.get(hash)}」かなぁ。') # 返信メッセージを送信
 
 def setup(technetium):
     technetium.add_cog(Discord_Game_Bot(technetium))
