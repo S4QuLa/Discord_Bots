@@ -43,16 +43,16 @@ class Server_Stats(commands.Cog):
             json.dump(self.datas, f, indent=4)
         await channel_name_edit()
 
-    # async def channel_name_edit():
-        # await self.bot.get_channel(663297143909515274).all_channel.edit(name=f"all : {self.datas["all"]}")
-        # await self.bot.get_channel(663297196531253249).member_channel.edit(name=f"member : {datas["member"]}")
-        # await self.bot.get_channel(663297233453842452).bot_channel.edit(name=f"bot : {datas["bot"]}")
-        # await self.bot.get_channel(663297268455309332).online_channel.edit(name=f"online : {datas["online"]}")
-        # await self.bot.get_channel(664160147886833678).idle_channel.edit(name=f"idle : {datas["idle"]}")
-        # await self.bot.get_channel(664160201125003295).dnd_channel.edit(name=f"dnd : {datas["dnd"]}")
-        # await self.bot.get_channel(663297305847398421).offline_channel.edit(name=f"offline : {datas["offline"]}")
-        # await self.bot.get_channel(663297421417119754).message_channel.edit(name=f"message : {datas["message"]}")
-        # await self.bot.get_channel(663297453621116988).time.all_channel.edit(name=f"time : {datas["time"]}")
+    async def channel_name_edit():
+        await self.bot.get_channel(663297143909515274).all_channel.edit(name=f"all : {self.datas["all"]}")
+        await self.bot.get_channel(663297196531253249).member_channel.edit(name=f"member : {self.datas["member"]}")
+        await self.bot.get_channel(663297233453842452).bot_channel.edit(name=f"bot : {self.datas["bot"]}")
+        await self.bot.get_channel(663297268455309332).online_channel.edit(name=f"online : {self.datas["online"]}")
+        await self.bot.get_channel(664160147886833678).idle_channel.edit(name=f"idle : {self.datas["idle"]}")
+        await self.bot.get_channel(664160201125003295).dnd_channel.edit(name=f"dnd : {self.datas["dnd"]}")
+        await self.bot.get_channel(663297305847398421).offline_channel.edit(name=f"offline : {self.datas["offline"]}")
+        await self.bot.get_channel(663297421417119754).message_channel.edit(name=f"message : {self.datas["message"]}")
+        await self.bot.get_channel(663297453621116988).time.all_channel.edit(name=f"time : {self.datas["time"]}")
 
 def setup(airlinia):
     airlinia.add_cog(Server_Stats(airlinia))
