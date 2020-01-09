@@ -5,15 +5,10 @@ import asyncio
 import os # .env読み込みスターズ。
 import json
 
-def json_load(path):
-    with open(path, "r") as f:
-        f = str(f).replace("'", '"').replace('True', 'true').replace('False', 'false')
-        return json.loads(f)
-
 class Server_Stats(commands.Cog):
     def __init__(self, airlinia):
         self.bot = airlinia #botを受け取る。
-        self.datas = json_load("./data/pokemon.json")
+        self.datas = json.load(open("./data/pokemon.json", "r"))
 
     @commands.Cog.listener()
     async def on_member_join(self, member):
@@ -50,7 +45,6 @@ class Server_Stats(commands.Cog):
         await channel_name_edit()
 
     async def channel_name_edit():
-        datas = self.datas
         self.all_channel : discord.VoiceChannel = self.bot.get_channel(663297143909515274)
         self.member_channel : discord.VoiceChannel = self.bot.get_channel(663297196531253249)
         self.bot_channel : discord.VoiceChannel = self.bot.get_channel(663297233453842452)
@@ -60,13 +54,13 @@ class Server_Stats(commands.Cog):
         self.offline_channel : discord.VoiceChannel = self.bot.get_channel(663297305847398421)
         self.message_channel : discord.VoiceChannel = self.bot.get_channel(663297421417119754)
         self.time_channel : discord.VoiceChannel = self.bot.get_channel(663297453621116988)
-        # await self.all_channel.edit(name=f"all : {datas["all"]}")
+        await self.all_channel.edit(name=f"all : {self.datas[0]["all"]}")
         # await self.member_channel.edit(name=f"member : {datas["member"]}")
         # await self.bot_channel.edit(name=f"bot : {datas["bot"]}")
-        await self.online_channel.edit(name=f"online : {datas["online"]}")
-        await self.idle_channel.edit(name=f"idle : {datas["idle"]}")
-        await self.dnd_channel.edit(name=f"dnd : {datas["dnd"]}")
-        await self.offline_channel.edit(name=f"offline : {datas["offline"]}")
+        # await self.online_channel.edit(name=f"online : {datas["online"]}")
+        # await self.idle_channel.edit(name=f"idle : {datas["idle"]}")
+        # await self.dnd_channel.edit(name=f"dnd : {datas["dnd"]}")
+        # await self.offline_channel.edit(name=f"offline : {datas["offline"]}")
         # await self.message_channel.edit(name=f"message : {datas["message"]}")
         # await self.time.all_channel.edit(name=f"time : {datas["time"]}")
 
