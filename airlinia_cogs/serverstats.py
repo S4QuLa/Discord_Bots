@@ -54,7 +54,7 @@ class Server_Stats(commands.Cog):
         self.offline_channel : discord.VoiceChannel = self.bot.get_channel(663297305847398421)
         self.message_channel : discord.VoiceChannel = self.bot.get_channel(663297421417119754)
         self.time_channel : discord.VoiceChannel = self.bot.get_channel(663297453621116988)
-        await self.all_channel.edit(name=f"all : {self.datas[0]["all"]}")
+        await self.all_channel.edit(name=f"all : {self.datas["all"]}")
         # await self.member_channel.edit(name=f"member : {datas["member"]}")
         # await self.bot_channel.edit(name=f"bot : {datas["bot"]}")
         # await self.online_channel.edit(name=f"online : {datas["online"]}")
