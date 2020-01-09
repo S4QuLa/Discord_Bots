@@ -8,7 +8,7 @@ import json
 class Server_Stats(commands.Cog):
     def __init__(self, airlinia):
         self.bot = airlinia #botを受け取る。
-        with open('./data/stats.json', 'r', 'utf-8') as f:
+        with open('./data/stats.json', 'r') as f:
             self.datas = json.load(f)
             print(self.datas)
 
