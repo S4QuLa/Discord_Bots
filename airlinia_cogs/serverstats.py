@@ -29,7 +29,7 @@ class Server_Stats(commands.Cog):
         self.datas["message"] += 1
         with open("./data/pokemon.json", "w") as f:
             json.dump(self.datas, f, indent=4)
-        await channel_name_edit()
+        await self.channel_name_edit()
 
     @commands.Cog.listener()
     async def on_member_updata(self, before, after):
@@ -42,7 +42,7 @@ class Server_Stats(commands.Cog):
             json.dump(self.datas, f, indent=4)
         await channel_name_edit()
 
-    async def channel_name_edit():
+    async def channel_name_edit(self):
         await self.bot.get_channel(663297143909515274).edit(name=f"all : {self.datas['all']}")
         await self.bot.get_channel(663297196531253249).edit(name=f"member : {self.datas['member']}")
         await self.bot.get_channel(663297233453842452).edit(name=f"bot : {self.datas['bot']}")
