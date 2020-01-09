@@ -49,8 +49,8 @@ class Server_Stats(commands.Cog):
     async def channel_name_edit():
         with open('./data/stats.json', 'r') as f:
             datas = json.load(f)
-        await self.get_channel(663297143909515274).edit(name=f"all : {datas["all"]}")
-        await self.bot.get_channel(663297196531253249).edit(name=f"member : {datas["member"]}")
+        await get_channel(663297143909515274).edit(name=f"all : {datas["all"]}")
+        await self.get_channel(663297196531253249).edit(name=f"member : {datas["member"]}")
         await self.bot.get_channel(663297233453842452).edit(name=f"bot : {datas["bot"]}")
         await self.bot.get_channel(663297268455309332).edit(name=f"online : {datas["online"]}")
         await self.bot.get_channel(664160147886833678).edit(name=f"idle : {datas["idle"]}")
