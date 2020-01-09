@@ -14,7 +14,8 @@ def json_load(path):
 class Server_Stats(commands.Cog):
     def __init__(self, airlinia):
         self.bot = airlinia #botを受け取る。
-        self.datas = json.load(open("./data/stats.json", "r"))
+        with open(path, 'r', 'utf-8') as f:
+            self.datas = json_load(f)
 
     @commands.Cog.listener()
     async def on_member_join(self, member):
@@ -51,24 +52,15 @@ class Server_Stats(commands.Cog):
         await channel_name_edit()
 
     async def channel_name_edit():
-        self.all_channel : discord.VoiceChannel = self.bot.get_channel(663297143909515274)
-        self.member_channel : discord.VoiceChannel = self.bot.get_channel(663297196531253249)
-        self.bot_channel : discord.VoiceChannel = self.bot.get_channel(663297233453842452)
-        self.online_channel : discord.VoiceChannel = self.bot.get_channel(663297268455309332)
-        self.idle_channel : discord.VoiceChannel = self.bot.get_channel(664160147886833678)
-        self.dnd_channel : discord.VoiceChannel = self.bot.get_channel(664160201125003295)
-        self.offline_channel : discord.VoiceChannel = self.bot.get_channel(663297305847398421)
-        self.message_channel : discord.VoiceChannel = self.bot.get_channel(663297421417119754)
-        self.time_channel : discord.VoiceChannel = self.bot.get_channel(663297453621116988)
-        await self.all_channel.edit(name=f"all : {self.datas["all"]}")
-        # await self.member_channel.edit(name=f"member : {datas["member"]}")
-        # await self.bot_channel.edit(name=f"bot : {datas["bot"]}")
-        # await self.online_channel.edit(name=f"online : {datas["online"]}")
-        # await self.idle_channel.edit(name=f"idle : {datas["idle"]}")
-        # await self.dnd_channel.edit(name=f"dnd : {datas["dnd"]}")
-        # await self.offline_channel.edit(name=f"offline : {datas["offline"]}")
-        # await self.message_channel.edit(name=f"message : {datas["message"]}")
-        # await self.time.all_channel.edit(name=f"time : {datas["time"]}")
+        await self.bot.get_channel(663297143909515274).all_channel.edit(name=f"all : {self.datas["all"]}")
+        # await self.bot.get_channel(663297196531253249).member_channel.edit(name=f"member : {datas["member"]}")
+        # await self.bot.get_channel(663297233453842452).bot_channel.edit(name=f"bot : {datas["bot"]}")
+        # await self.bot.get_channel(663297268455309332).online_channel.edit(name=f"online : {datas["online"]}")
+        # await self.bot.get_channel(664160147886833678).idle_channel.edit(name=f"idle : {datas["idle"]}")
+        # await self.bot.get_channel(664160201125003295).dnd_channel.edit(name=f"dnd : {datas["dnd"]}")
+        # await self.bot.get_channel(663297305847398421).offline_channel.edit(name=f"offline : {datas["offline"]}")
+        # await self.bot.get_channel(663297421417119754).message_channel.edit(name=f"message : {datas["message"]}")
+        # await self.bot.get_channel(663297453621116988).time.all_channel.edit(name=f"time : {datas["time"]}")
 
 def setup(airlinia):
     airlinia.add_cog(Server_Stats(airlinia))
