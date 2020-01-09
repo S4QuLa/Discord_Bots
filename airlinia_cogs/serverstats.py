@@ -24,8 +24,8 @@ class Server_Stats(commands.Cog):
         datas["all"] = len(server.members)
         datas["member"] = len([member for member in server.members if not member.bot])
         datas["bot"] = len([member for member in server.members if member.bot])
-        with open("./data/pokemon.json", "w") as file:
-            json.dump(file, datas, indent=4)
+        with open("./data/pokemon.json", "w") as f:
+            json.dump(f, datas, indent=4)
         await channel_name_edit()
 
     @commands.Cog.listener()
@@ -35,8 +35,8 @@ class Server_Stats(commands.Cog):
         if message.author.bot:  # ボットのメッセージをハネる
             return
         datas["message"] += 1
-        with open("./data/pokemon.json", "w") as file:
-            json.dump(file, datas, indent=4)
+        with open("./data/pokemon.json", "w") as f:
+            json.dump(f, datas, indent=4)
         await channel_name_edit()
 
     @commands.Cog.listener()
@@ -47,8 +47,8 @@ class Server_Stats(commands.Cog):
         datas["idle"] = len([member for member in server.members if member.status.idle])
         datas["dnd"] = len([member for member in server.members if member.status.dnd])
         datas["offline"] = len([member for member in server.members if member.status.offline])
-        with open("./data/pokemon.json", "w") as file:
-            json.dump(file, datas, indent=4)
+        with open("./data/pokemon.json", "w") as f:
+            json.dump(f, datas, indent=4)
         await channel_name_edit()
 
     async def channel_name_edit():
