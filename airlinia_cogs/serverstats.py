@@ -29,7 +29,7 @@ class Server_Stats(commands.Cog):
             return
         self.datas["message"] += 1
         with open("./data/pokemon.json", "w") as f:
-            json.dump(f, datas, indent=4)
+            json.dump(self.datas, f, indent=4)
         await channel_name_edit()
 
     @commands.Cog.listener()
@@ -40,7 +40,7 @@ class Server_Stats(commands.Cog):
         self.datas["dnd"] = len([member for member in server.members if member.status.dnd])
         self.datas["offline"] = len([member for member in server.members if member.status.offline])
         with open("./data/pokemon.json", "w") as f:
-            json.dump(f, datas, indent=4)
+            json.dump(self.datas, f, indent=4)
         await channel_name_edit()
 
     # async def channel_name_edit():
