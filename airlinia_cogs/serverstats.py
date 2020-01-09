@@ -14,34 +14,31 @@ class Server_Stats(commands.Cog):
 
     @commands.Cog.listener()
     async def on_member_join(self, member):
-        datas = self.datas
         server = member.guild
-        datas["all"] = len(server.members)
-        datas["member"] = len([member for member in server.members if not member.bot])
-        datas["bot"] = len([member for member in server.members if member.bot])
+        self.datas["all"] = len(server.members)
+        self.datas["member"] = len([member for member in server.members if not member.bot])
+        self.datas["bot"] = len([member for member in server.members if member.bot])
         with open("./data/pokemon.json", "w") as f:
-            json.dump(f, datas, indent=4)
+            json.dump(self.datas, f, indent=4)
         await channel_name_edit()
 
     @commands.Cog.listener()
     async def on_message(self, message):
-        datas = self.datas
         server = message.guild
         if message.author.bot:  # ボットのメッセージをハネる
             return
-        datas["message"] += 1
+        self.datas["message"] += 1
         with open("./data/pokemon.json", "w") as f:
             json.dump(f, datas, indent=4)
         await channel_name_edit()
 
     @commands.Cog.listener()
     async def on_member_updata(self, before, after):
-        datas = self.datas
         server = after.guild
-        datas["online"] = len([member for member in server.members if member.status.online])
-        datas["idle"] = len([member for member in server.members if member.status.idle])
-        datas["dnd"] = len([member for member in server.members if member.status.dnd])
-        datas["offline"] = len([member for member in server.members if member.status.offline])
+        self.datas["online"] = len([member for member in server.members if member.status.online])
+        self.datas["idle"] = len([member for member in server.members if member.status.idle])
+        self.datas["dnd"] = len([member for member in server.members if member.status.dnd])
+        self.datas["offline"] = len([member for member in server.members if member.status.offline])
         with open("./data/pokemon.json", "w") as f:
             json.dump(f, datas, indent=4)
         await channel_name_edit()
