@@ -8,12 +8,12 @@ import json
 class Server_Stats(commands.Cog):
     def __init__(self, airlinia):
         self.bot = airlinia #botを受け取る。
-        with open('./data/stats.json', 'r') as f:
-            self.datas = json.load(f)
 
     @commands.Cog.listener()
     async def on_member_join(self, member):
         server = member.guild
+        with open('./data/stats.json', 'r') as f:
+            self.datas = json.load(f)
         self.datas["all"] = len(server.members)
         self.datas["member"] = len([member for member in server.members if not member.bot])
         self.datas["bot"] = len([member for member in server.members if member.bot])
@@ -24,6 +24,8 @@ class Server_Stats(commands.Cog):
     @commands.Cog.listener()
     async def on_message(self, message):
         server = message.guild
+        with open('./data/stats.json', 'r') as f:
+            self.datas = json.load(f)
         if message.author.bot:  # ボットのメッセージをハネる
             return
         self.datas["message"] += 1
@@ -34,6 +36,8 @@ class Server_Stats(commands.Cog):
     @commands.Cog.listener()
     async def on_member_updata(self, before, after):
         server = after.guild
+        with open('./data/stats.json', 'r') as f:
+            self.datas = json.load(f)
         self.datas["online"] = len([member for member in server.members if member.status.online])
         self.datas["idle"] = len([member for member in server.members if member.status.idle])
         self.datas["dnd"] = len([member for member in server.members if member.status.dnd])
@@ -43,6 +47,8 @@ class Server_Stats(commands.Cog):
         await self.channel_name_edit()
 
     async def channel_name_edit(self):
+        with open('./data/stats.json', 'r') as f:
+            self.datas = json.load(f)
         await self.bot.get_channel(663297143909515274).edit(name=f"all : {self.datas['all']}")
         await self.bot.get_channel(663297196531253249).edit(name=f"member : {self.datas['member']}")
         await self.bot.get_channel(663297233453842452).edit(name=f"bot : {self.datas['bot']}")
