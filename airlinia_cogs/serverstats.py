@@ -5,6 +5,12 @@ import asyncio
 import os # .env読み込みスターズ。
 import json
 
+def json_load(path):
+    with open(path, 'r', 'utf-8') as f:
+        json_txt = f.read()
+        json_txt = str(json_txt).replace("'", '"').replace('True', 'true').replace('False', 'false')
+        return json_loads(json_txt)
+
 class Server_Stats(commands.Cog):
     def __init__(self, airlinia):
         self.bot = airlinia #botを受け取る。
