@@ -19,7 +19,7 @@ class Server_Stats(commands.Cog):
         datas["bot"] = len([member for member in server.members if member.bot])
         with open("./data/pokemon.json", "w") as f:
             json.dump(datas, f, indent=4)
-        await channel_nameedit()
+        await channel_name_edit()
 
     @commands.Cog.listener()
     async def on_message(self, message):
@@ -31,7 +31,7 @@ class Server_Stats(commands.Cog):
         datas["message"] += 1
         with open("./data/pokemon.json", "w") as f:
             json.dump(datas, f, indent=4)
-        await channel_nameedit()
+        await channel_name_edit()
 
     @commands.Cog.listener()
     async def on_member_updata(self, before, after):
@@ -44,14 +44,14 @@ class Server_Stats(commands.Cog):
         datas["offline"] = len([member for member in server.members if member.status.offline])
         with open("./data/pokemon.json", "w") as f:
             json.dump(datas, f, indent=4)
-        await channel_nameedit()
+        await channel_name_edit()
 
-    async def channel_nameedit():
+    async def channel_name_edit():
         with open('./data/stats.json', 'r') as f:
             datas = json.load(f)
-        await self.bot.get_channel(663297143909515274).edit(name=f"all : {datas[all]}")
-        await self.bot.get_channel(663297196531253249).edit(name=f"member : {datas[member]}")
-        await self.bot.get_channel(663297233453842452).edit(name=f"bot : {datas[bot]}")
+        await self.bot.get_channel(663297143909515274).edit(name=f"all : {datas['all']}")
+        await self.bot.get_channel(663297196531253249).edit(name=f"member : {datas['member']}")
+        await self.bot.get_channel(663297233453842452).edit(name=f"bot : {datas['bot']}")
         await self.bot.get_channel(663297268455309332).edit(name=f"online : {datas[online]}")
         await self.bot.get_channel(664160147886833678).edit(name=f"idle : {datas[idle]}")
         await self.bot.get_channel(664160201125003295).edit(name=f"dnd : {datas[dnd]}")
