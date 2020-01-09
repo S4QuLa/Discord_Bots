@@ -8,7 +8,7 @@ import json
 class Server_Stats(commands.Cog):
     def __init__(self, airlinia):
         self.bot = airlinia #botを受け取る。
-        self.datas = json.load(open("./data/pokemon.json", "r"))
+        self.datas = json.load(open("./data/stats.json", "r"))
 
     @commands.Cog.listener()
     async def on_member_join(self, member):
