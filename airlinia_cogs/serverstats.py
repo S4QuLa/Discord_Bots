@@ -8,8 +8,6 @@ import json
 class Server_Stats(commands.Cog):
     def __init__(self, airlinia):
         self.bot = airlinia #botを受け取る。
-        with open('./data/stats.json', 'r') as f:
-            datas = json.load(f)
 
     @commands.Cog.listener()
     async def on_member_join(self, member):
@@ -51,7 +49,7 @@ class Server_Stats(commands.Cog):
     async def channel_name_edit():
         with open('./data/stats.json', 'r') as f:
             datas = json.load(f)
-        await self.bot.get_channel(663297143909515274).edit(name=f"all : {datas["all"]}")
+        await self.get_channel(663297143909515274).edit(name=f"all : {datas["all"]}")
         await self.bot.get_channel(663297196531253249).edit(name=f"member : {datas["member"]}")
         await self.bot.get_channel(663297233453842452).edit(name=f"bot : {datas["bot"]}")
         await self.bot.get_channel(663297268455309332).edit(name=f"online : {datas["online"]}")
