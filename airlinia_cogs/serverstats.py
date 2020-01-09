@@ -46,7 +46,7 @@ class Server_Stats(commands.Cog):
             json.dump(datas, f, indent=4)
         await channel_name_edit()
 
-    async def channel_name_edit():
+    async def channel_name_edit(self):
         with open('./data/stats.json', 'r') as f:
             datas = json.load(f)
         print(datas)
