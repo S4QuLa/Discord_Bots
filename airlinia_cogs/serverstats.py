@@ -31,7 +31,7 @@ class Server_Stats(commands.Cog):
         datas["message"] += 1
         with open("./data/pokemon.json", "w") as f:
             json.dump(datas, f, indent=4)
-        await channel_name_edit()
+        channel_name_edit()
 
     @commands.Cog.listener()
     async def on_member_updata(self, before, after):
@@ -44,7 +44,7 @@ class Server_Stats(commands.Cog):
         datas["offline"] = len([member for member in server.members if member.status.offline])
         with open("./data/pokemon.json", "w") as f:
             json.dump(datas, f, indent=4)
-        await channel_name_edit()
+        # await channel_name_edit()
 
     async def channel_name_edit():
         with open('./data/stats.json', 'r') as f:
