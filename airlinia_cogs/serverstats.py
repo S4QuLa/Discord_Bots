@@ -16,16 +16,14 @@ class Server_Stats(commands.Cog):
         server = member.guild
         server_members = server.members
         self.datas["all"] = len(server.members)
-        self.datas["member"] = len([member for member in server_members if not member.bot])
-        self.datas["bot"] = len([member for member in server_members if member.bot])
+        self.datas["member"] = len([member for member in server.members if not member.bot])
+        self.datas["bot"] = len([member for member in server.members if member.bot])
         with open("./data/pokemon.json", "w") as f:
             json.dump(self.datas, f, indent=4)
         await self.channel_name_edit()
 
     @commands.Cog.listener()
     async def on_message(self, message):
-        server = message.guild
-        server_members = server.members
         if message.author.bot:  # ボットのメッセージをハネる
             return
         self.datas["message"] += 1
@@ -35,13 +33,11 @@ class Server_Stats(commands.Cog):
 
     @commands.Cog.listener()
     async def on_member_update(self, before, after):
-        member = after
         server = after.guild
-        server_members = server.members
-        self.datas["online"] = len([member for member in server_members if member.status.online])
-        self.datas["idle"] = len([member for member in server_members if member.status.idle])
-        self.datas["dnd"] = len([member for member in server_members if member.status.dnd])
-        self.datas["offline"] = len([member for member in server_members if member.status.offline])
+        self.datas["online"] = len([member for member in server.members if member.status.online])
+        self.datas["idle"] = len([member for member in server.members if member.status.idle])
+        self.datas["dnd"] = len([member for member in server.members if member.status.dnd])
+        self.datas["offline"] = len([member for member in server.members if member.status.offline])
         with open("./data/pokemon.json", "w") as f:
             json.dump(self.datas, f, indent=4)
         await self.channel_name_edit()
