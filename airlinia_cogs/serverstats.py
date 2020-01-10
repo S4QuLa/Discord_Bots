@@ -6,12 +6,14 @@ import os # .env読み込みスターズ。
 import json
 import schedule
 import datetime
+import locale
 
 class Server_Stats(commands.Cog):
     schedule.every(1).minutes.do(time)
     schedule.every(1).hours.do(hour_time_reset)
 
     def __init__(self, airlinia):
+        locale.setlocale(locale.LC_TIME, 'ja_JP.UTF-8')
         self.bot = airlinia #botを受け取る。
         with open('./date/stats.json', 'r') as f:
             self.dates = json.load(f)
@@ -50,15 +52,15 @@ class Server_Stats(commands.Cog):
             json.dump(self.dates, f, indent=4)
         await self.channel_name_edit()
 
+    @tasks.loop(minutes=1.0)
     async def time(self):
-        yobi = ["月","火","水","木","金","土","日"]
-        tobi_today = yobi[datetime.date.today().weekday()]
-        nowtime = datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=9))).strftime('%Y/%m/%d' + yobi_today + '%H:%M:%S')
-        self.dates["time"] = nowtime
+        time_now = datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=9))).strftime('%Y/%m/%d(%a) %H:%M:%S')
+        self.dates["time"] = time_now
         with open("./date/stats.json", "w") as f:
             json.dump(self.dates, f, indent=4)
         await self.channel_name_edit()
 
+    @tasks.loop(hours=1.0)
     async def hour_time_reset(self):
         self.dates["hour_message"] = 0
         with open("./date/stats.json", "w") as f:
@@ -85,27 +87,26 @@ class Server_Stats(commands.Cog):
 
     @commands.command(name='serverstatus')
     async def pokemon_image(self, ctx):
-        dates = self.dates
-        dates["desktop_status"]["online"] = len([member for member in server.members if member.desktop_status == discord.Status.online])
-        dates["desktop_status"]["idle"] = len([member for member in server.members if member.desktop_status == discord.Status.idle])
-        dates["desktop_status"]["dnd"] = len([member for member in server.members if member.desktop_status == discord.Status.dnd])
-        dates["web_status"]["online"] = len([member for member in server.members if member.web_status == discord.Status.online])
-        dates["web_status"]["idle"] = len([member for member in server.members if member.web_status == discord.Status.idle])
-        dates["web_status"]["dnd"] = len([member for member in server.members if member.web_status == discord.Status.dnd])
-        dates["mobile_status"]["online"] = len([member for member in server.members if member.mobile_status == discord.Status.online])
-        dates["mobile_status"]["idle"] = len([member for member in server.members if member.mobile_status == discord.Status.idle])
-        dates["mobile_status"]["dnd"] = len([member for member in server.members if member.mobile_status == discord.Status.dnd])
+        self.dates["desktop_status"]["online"] = len([member for member in server.members if member.desktop_status == discord.Status.online])
+        self.dates["desktop_status"]["idle"] = len([member for member in server.members if member.desktop_status == discord.Status.idle])
+        self.dates["desktop_status"]["dnd"] = len([member for member in server.members if member.desktop_status == discord.Status.dnd])
+        self.dates["web_status"]["online"] = len([member for member in server.members if member.web_status == discord.Status.online])
+        self.dates["web_status"]["idle"] = len([member for member in server.members if member.web_status == discord.Status.idle])
+        self.dates["web_status"]["dnd"] = len([member for member in server.members if member.web_status == discord.Status.dnd])
+        self.dates["mobile_status"]["online"] = len([member for member in server.members if member.mobile_status == discord.Status.online])
+        self.dates["mobile_status"]["idle"] = len([member for member in server.members if member.mobile_status == discord.Status.idle])
+        self.dates["mobile_status"]["dnd"] = len([member for member in server.members if member.mobile_status == discord.Status.dnd])
         with open("./date/stats.json", "w") as f:
             json.dump(dates, f, indent=4)
         embed=discord.Embed(title="サーバーステータス", description=f"サーバー名：{ctx.guild.neme}\nサーバー地域：{ctx.guild.region}\nサーバー所有者：{ctx.guild.owner.name}")
         embed.set_author(name=f"{ctx.guild.neme} - ステータス")
         embed.set_thumbnail(url=f"{ctx.guild.icon}")
-        embed.add_field(name="メンバー人数", value=f"all : {dates['all']}\nmember : {dates['member']}\nbot : {dates['bot']}", inline=True)
-        embed.add_field(name="メッセージ数", value=f"message : {dates['message']}\nhour message : {dates['hour_message']}", inline=True)
-        embed.add_field(name="メンバーステータス", value=f"online : {dates['all_status']['online']}\nidle : {dates['all_status']['idle']}\ndnd : {dates['all_status']['dnd']}\noffline : {dates['all_status']['offline']}", inline=False)
-        embed.add_field(name="desktop", value=f"online : {dates['desktop_status']['online']}\nidle : {dates['desktop_status']['idle']}\ndnd : {dates['desktop_status']['dnd']}", inline=True)
-        embed.add_field(name="web", value=f"online : {dates['web_status']['online']}\nidle : {dates['web_status']['idle']}\ndnd : {dates['web_status']['dnd']}", inline=True)
-        embed.add_field(name="mobile", value=f"online : {dates['mobile_status']['online']}\nidle : {dates['mobile_status']['idle']}\ndnd : {dates['mobile_status']['dnd']}", inline=True)
+        embed.add_field(name="メンバー人数", value=f"all : {self.dates['all']}\nmember : {self.dates['member']}\nbot : {self.dates['bot']}", inline=True)
+        embed.add_field(name="メッセージ数", value=f"message : {self.dates['message']}\nhour message : {self.dates['hour_message']}", inline=True)
+        embed.add_field(name="メンバーステータス", value=f"online : {self.dates['all_status']['online']}\nidle : {self.dates['all_status']['idle']}\ndnd : {self.dates['all_status']['dnd']}\noffline : {self.dates['all_status']['offline']}", inline=False)
+        embed.add_field(name="desktop", value=f"online : {self.dates['desktop_status']['online']}\nidle : {self.dates['desktop_status']['idle']}\ndnd : {self.dates['desktop_status']['dnd']}", inline=True)
+        embed.add_field(name="web", value=f"online : {self.dates['web_status']['online']}\nidle : {self.dates['web_status']['idle']}\ndnd : {self.dates['web_status']['dnd']}", inline=True)
+        embed.add_field(name="mobile", value=f"online : {self.dates['mobile_status']['online']}\nidle : {self.dates['mobile_status']['idle']}\ndnd : {self.dates['mobile_status']['dnd']}", inline=True)
         await ctx.message.channel.send(embed=embed)
 
 
