@@ -34,10 +34,10 @@ class Server_Stats(commands.Cog):
     @commands.Cog.listener()
     async def on_member_update(self, before, after):
         server = after.guild
-        self.datas["online"] = len([member for member in server.members if member.status == member.status.online])
-        self.datas["idle"] = len([member for member in server.members if member.status ==  member.status.idle])
-        self.datas["dnd"] = len([member for member in server.members if member.status ==  member.status.dnd])
-        self.datas["offline"] = len([member for member in server.members if member.status ==  member.status.offline])
+        self.datas["online"] = len([member for member in server.members if member.status == discord.Status.online])
+        self.datas["idle"] = len([member for member in server.members if member.status == discord.status.idle])
+        self.datas["dnd"] = len([member for member in server.members if member.status == discord.status.dnd])
+        self.datas["offline"] = len([member for member in server.members if member.status == discord.status.offline])
         with open("./data/pokemon.json", "w") as f:
             json.dump(self.datas, f, indent=4)
         await self.channel_name_edit()
