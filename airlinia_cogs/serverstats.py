@@ -12,8 +12,8 @@ class Server_Stats(commands.Cog):
         self.bot = airlinia #botを受け取る。
         with open('./date/stats.json', 'r') as f:
             self.dates = json.load(f)
-        self.time.start()
-        self.hour_time_reset.start()
+        time.start()
+        hour_time_reset.start()
 
     @commands.Cog.listener()
     async def on_member_join(self, member):
