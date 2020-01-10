@@ -8,7 +8,6 @@ from io import BytesIO
 from PIL import Image
 import imagehash
 
-import schedule
 import requests
 
 class Discord_Game_Bot(commands.Cog):
