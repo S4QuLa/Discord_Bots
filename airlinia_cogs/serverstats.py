@@ -9,7 +9,7 @@ import locale
 
 class Server_Stats(commands.Cog):
     def __init__(self, airlinia):
-        locale.setlocale(locale.LC_TIME, 'ja_JP.UTF-8')
+        locale.setlocale(locale.LC_TIME, 'Japanese_Japan.UTF-8')
         self.bot = airlinia #botを受け取る。
         with open('./date/stats.json', 'r') as f:
             self.dates = json.load(f)
