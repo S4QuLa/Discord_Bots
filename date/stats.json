@@ -2,13 +2,30 @@
     "all": 0,
     "member": 0,
     "bot": 0,
-    "online": 0,
-    "idle": 0,
-    "dnd": 0,
-    "offline": 0,
+    "all_status":{
+        "online": 0,
+        "idle": 0,
+        "dnd": 0,
+        "offline": 0
+    },
+    "desktop_status":{
+        "online": 0,
+        "idle": 0,
+        "dnd": 0
+    },
+    "web_status":{
+        "online": 0,
+        "idle": 0,
+        "dnd": 0
+    },
+    "mobile_status":{
+        "online": 0,
+        "idle": 0,
+        "dnd": 0
+    },
     "mobile": 0,
     "desktop": 0,
     "message": 0,
     "hour_message": 0,
-    "time": 0
+    "time": "0"
 }
