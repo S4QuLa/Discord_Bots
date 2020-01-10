@@ -49,8 +49,7 @@ class Server_Stats(commands.Cog):
 
     @tasks.loop(minutes=1.0)
     async def time(self):
-        time_now = datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=9))).strftime('%Y/%m/%d %H:%M:%S')
-        self.dates["time"] = time_now
+        self.dates["time"] = datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=9))).strftime('%Y/%m/%d %H:%M:%S')
         with open("./date/stats.json", "w") as f:
             json.dump(self.dates, f, indent=4)
         await self.channel_name_edit()
