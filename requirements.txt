@@ -1,7 +1,6 @@
 flask
 discord.py
 line-bot-sdk
-schedule
 ImageHash
 pya3rt
 pillow

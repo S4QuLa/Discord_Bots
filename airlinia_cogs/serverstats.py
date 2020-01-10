@@ -4,14 +4,10 @@ from discord.ext import tasks, commands
 import asyncio
 import os # .env読み込みスターズ。
 import json
-import schedule
 import datetime
 import locale
 
 class Server_Stats(commands.Cog):
-    schedule.every(1).minutes.do(time)
-    schedule.every(1).hours.do(hour_time_reset)
-
     def __init__(self, airlinia):
         locale.setlocale(locale.LC_TIME, 'ja_JP.UTF-8')
         self.bot = airlinia #botを受け取る。
