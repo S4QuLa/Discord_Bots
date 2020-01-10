@@ -34,7 +34,7 @@ class Server_Stats(commands.Cog):
         await self.channel_name_edit()
 
     @commands.Cog.listener()
-    async def on_member_updata(self, before, after):
+    async def on_member_update(self, before, after):
         member = after
         server = after.guild
         server_members = server.members
