@@ -8,8 +8,8 @@ import schedule
 import datetime
 
 class Server_Stats(commands.Cog):
-    schedule.every(1).minutes.do(self.time)
-    schedule.every(1).hours.do(self.hour_time_reset)
+    schedule.every(1).minutes.do(time)
+    schedule.every(1).hours.do(hour_time_reset)
 
     def __init__(self, airlinia):
         self.bot = airlinia #botを受け取る。
@@ -99,7 +99,7 @@ class Server_Stats(commands.Cog):
             json.dump(dates, f, indent=4)
         embed=discord.Embed(title="サーバーステータス", description=f"サーバー名：{ctx.guild.neme}\nサーバー地域：{ctx.guild.region}\nサーバー所有者：{ctx.guild.owner.name}")
         embed.set_author(name=f"{ctx.guild.neme} - ステータス")
-        embed.set_thumbnail(url=f"https://servericonはここ")
+        embed.set_thumbnail(url=f"{ctx.guild.icon}")
         embed.add_field(name="メンバー人数", value=f"all : {dates['all']}\nmember : {dates['member']}\nbot : {dates['bot']}", inline=True)
         embed.add_field(name="メッセージ数", value=f"message : {dates['message']}\nhour message : {dates['hour_message']}", inline=True)
         embed.add_field(name="メンバーステータス", value=f"online : {dates['all_status']['online']}\nidle : {dates['all_status']['idle']}\ndnd : {dates['all_status']['dnd']}\noffline : {dates['all_status']['offline']}", inline=False)
