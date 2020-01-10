@@ -12,6 +12,8 @@ class Server_Stats(commands.Cog):
         self.bot = airlinia #botを受け取る。
         with open('./date/stats.json', 'r') as f:
             self.dates = json.load(f)
+        time.start()
+        hour_time_reset.start()
 
     @commands.Cog.listener()
     async def on_member_join(self, member):
@@ -80,16 +82,16 @@ class Server_Stats(commands.Cog):
         await self.bot.get_channel(663297453621116988).edit(name=f"time : {self.dates['time']}")
 
     @commands.command(name='serverstatus')
-    async def pokemon_image(self, ctx):
-        self.dates["desktop_status"]["online"] = len([member for member in server.members if member.desktop_status == discord.Status.online])
-        self.dates["desktop_status"]["idle"] = len([member for member in server.members if member.desktop_status == discord.Status.idle])
-        self.dates["desktop_status"]["dnd"] = len([member for member in server.members if member.desktop_status == discord.Status.dnd])
-        self.dates["web_status"]["online"] = len([member for member in server.members if member.web_status == discord.Status.online])
-        self.dates["web_status"]["idle"] = len([member for member in server.members if member.web_status == discord.Status.idle])
-        self.dates["web_status"]["dnd"] = len([member for member in server.members if member.web_status == discord.Status.dnd])
-        self.dates["mobile_status"]["online"] = len([member for member in server.members if member.mobile_status == discord.Status.online])
-        self.dates["mobile_status"]["idle"] = len([member for member in server.members if member.mobile_status == discord.Status.idle])
-        self.dates["mobile_status"]["dnd"] = len([member for member in server.members if member.mobile_status == discord.Status.dnd])
+    async def status(self, ctx):
+        self.dates["desktop_status"]["online"] = len([member for member in ctx.guild.members if member.desktop_status == discord.Status.online])
+        self.dates["desktop_status"]["idle"] = len([member for member in ctx.guild.members if member.desktop_status == discord.Status.idle])
+        self.dates["desktop_status"]["dnd"] = len([member for member in ctx.guild.members if member.desktop_status == discord.Status.dnd])
+        self.dates["web_status"]["online"] = len([member for member in ctx.guild.members if member.web_status == discord.Status.online])
+        self.dates["web_status"]["idle"] = len([member for member in ctx.guild.members if member.web_status == discord.Status.idle])
+        self.dates["web_status"]["dnd"] = len([member for member in ctx.guild.members if member.web_status == discord.Status.dnd])
+        self.dates["mobile_status"]["online"] = len([member for member in ctx.guild.members if member.mobile_status == discord.Status.online])
+        self.dates["mobile_status"]["idle"] = len([member for member in ctx.guild.members if member.mobile_status == discord.Status.idle])
+        self.dates["mobile_status"]["dnd"] = len([member for member in ctx.guild.members if member.mobile_status == discord.Status.dnd])
         with open("./date/stats.json", "w") as f:
             json.dump(dates, f, indent=4)
         embed=discord.Embed(title="サーバーステータス", description=f"サーバー名：{ctx.guild.neme}\nサーバー地域：{ctx.guild.region}\nサーバー所有者：{ctx.guild.owner.name}")
@@ -106,3 +108,5 @@ class Server_Stats(commands.Cog):
 
 def setup(airlinia):
     airlinia.add_cog(Server_Stats(airlinia))
+    self.time.start()
+    self.hour_time_reset.start()
