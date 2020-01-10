@@ -9,7 +9,6 @@ import locale
 
 class Server_Stats(commands.Cog):
     def __init__(self, airlinia):
-        locale.setlocale(locale.LC_TIME, 'Japanese_Japan.UTF-8')
         self.bot = airlinia #botを受け取る。
         with open('./date/stats.json', 'r') as f:
             self.dates = json.load(f)
@@ -50,7 +49,7 @@ class Server_Stats(commands.Cog):
 
     @tasks.loop(minutes=1.0)
     async def time(self):
-        time_now = datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=9))).strftime('%Y/%m/%d(%a) %H:%M:%S')
+        time_now = datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=9))).strftime('%Y/%m/%d %H:%M:%S')
         self.dates["time"] = time_now
         with open("./date/stats.json", "w") as f:
             json.dump(self.dates, f, indent=4)
