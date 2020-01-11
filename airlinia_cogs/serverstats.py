@@ -12,8 +12,8 @@ class Server_Stats(commands.Cog):
         self.bot = airlinia #botを受け取る。
         with open('./date/stats.json', 'r') as f:
             self.dates = json.load(f)
-        time.start()
-        hour_time_reset.start()
+        self.time.start()
+        self.hour_time_reset.start()
 
     @commands.Cog.listener()
     async def on_member_join(self, member):
@@ -62,6 +62,14 @@ class Server_Stats(commands.Cog):
         with open("./date/stats.json", "w") as f:
             json.dump(self.dates, f, indent=4)
         await self.channel_name_edit()
+
+    @time.before_loop
+    async def time_before(self):
+        await self.bot.wait_until_ready()
+
+    @hour_time_reset.before_loop
+    async def hour_time_reset_before(self):
+        await self.bot.wait_until_ready()
 
     async def channel_name_edit(self):
         await self.bot.get_channel(663297143909515274).edit(name=f"all : {self.dates['all']}")
