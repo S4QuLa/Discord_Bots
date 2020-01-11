@@ -121,5 +121,3 @@ class Server_Stats(commands.Cog):
 
 def setup(airlinia):
     airlinia.add_cog(Server_Stats(airlinia))
-    self.time.start()
-    self.hour_time_reset.start()
