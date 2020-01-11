@@ -17,9 +17,9 @@ class Server_Stats(commands.Cog):
         self.time.start()
         self.hour_reset.start()
 
-    def cog_unload(self):
-        self.time.stop()
-        self.hour_reset.stop()
+#    def cog_unload(self):
+#        self.time.stop()
+#        self.hour_reset.stop()
 
  #######################################################################
 
@@ -28,9 +28,9 @@ class Server_Stats(commands.Cog):
         date_time = arrow.now('Asia/Tokyo').format(fmt='YYYY/MM/DD(ddd)HH:mm:ss', locale='ja')
         await self.bot.get_channel(665355834498351154).edit(name=f"time : {date_time}")
 
-    @time.before_loop
-    async def time_wait(self):
-        await self.bot.wait_until_ready()
+#    @time.before_loop
+#    async def time_wait(self):
+#        await self.bot.wait_until_ready()
 
     @tasks.loop(minutes=1.0) # hours
     async def hour_reset(self):
@@ -39,9 +39,9 @@ class Server_Stats(commands.Cog):
             json.dump(self.dates, f, indent=4)
         await self.channel_name_edit()
 
-    @hour_reset.before_loop
-    async def hour_reset_wait(self):
-        await self.bot.wait_until_ready()
+#    @hour_reset.before_loop
+#    async def hour_reset_wait(self):
+#        await self.bot.wait_until_ready()
 
  #######################################################################
 
