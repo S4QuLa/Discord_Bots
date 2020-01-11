@@ -15,6 +15,10 @@ class Server_Stats(commands.Cog):
         self.time.start()
         self.hour_time_reset.start()
 
+    def cog_unload(self):
+        self.time.cancel()
+        self.hour_time_reset.cancel()
+
     @commands.Cog.listener()
     async def on_member_join(self, member):
         server = member.guild
