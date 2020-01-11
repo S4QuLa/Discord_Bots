@@ -17,9 +17,9 @@ class Server_Stats(commands.Cog):
         self.time.start()
         self.hour_reset.start()
 
-#    def cog_unload(self):
-#        self.time.stop()
-#        self.hour_reset.stop()
+    def cog_unload(self):
+        self.time.stop()
+        self.hour_reset.stop()
 
  #######################################################################
 
