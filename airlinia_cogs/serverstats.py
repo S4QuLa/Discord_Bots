@@ -53,14 +53,14 @@ class Server_Stats(commands.Cog):
             json.dump(self.dates, f, indent=4)
         await self.channel_name_edit()
 
-    @tasks.loop(minutes=1.0)
+    @tasks.loop(seconds=1.0) # minutes
     async def time(self):
         self.dates["time"] = datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=9))).strftime('%Y/%m/%d %H:%M:%S')
         with open("./date/stats.json", "w") as f:
             json.dump(self.dates, f, indent=4)
         await self.channel_name_edit()
 
-    @tasks.loop(hours=1.0)
+    @tasks.loop(minutes=1.0) # hours
     async def hour_time_reset(self):
         self.dates["hour_message"] = 0
         with open("./date/stats.json", "w") as f:
@@ -106,7 +106,7 @@ class Server_Stats(commands.Cog):
         self.dates["mobile_status"]["idle"] = len([member for member in server.members if member.mobile_status == discord.Status.idle])
         self.dates["mobile_status"]["dnd"] = len([member for member in server.members if member.mobile_status == discord.Status.dnd])
         with open("./date/stats.json", "w") as f:
-            json.dump(dates, f, indent=4)
+            json.dump(self.dates, f, indent=4)
         embed=discord.Embed(title="サーバーステータス", description=f"サーバー名：{ctx.guild.neme}\nサーバー地域：{ctx.guild.region}\nサーバー所有者：{ctx.guild.owner.name}")
         embed.set_author(name=f"{ctx.guild.neme} - ステータス")
         embed.set_thumbnail(url=f"{ctx.guild.icon}")
