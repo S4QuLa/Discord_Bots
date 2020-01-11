@@ -3,7 +3,7 @@ import discord
 from discord.ext import tasks, commands
 import asyncio
 
-import datetime
+import arrow
 import os # .env読み込みスターズ。
 import json
 import locale
@@ -25,7 +25,7 @@ class Server_Stats(commands.Cog):
 
     @tasks.loop(seconds=3.0) # minutes
     async def time(self):
-        date_time = datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=9))).strftime('%Y/%m/%d %H:%M:%S')
+        date_time = arrow.now('Asia/Tokyo').format(fmt='YYYY/MM/DD(ddd)HH:mm:ss', locale='ja')
         await self.bot.get_channel(665355834498351154).edit(name=f"time : {date_time}")
 
     @time.before_loop

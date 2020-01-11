@@ -4,3 +4,4 @@ line-bot-sdk
 ImageHash
 pya3rt
 pillow
+arrow
