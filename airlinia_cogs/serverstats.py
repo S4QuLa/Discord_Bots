@@ -12,12 +12,37 @@ class Server_Stats(commands.Cog):
         self.bot = airlinia #botを受け取る。
         with open('./date/airlinia_stats.json', 'r') as f:
             self.dates = json.load(f)
+        # -----------
         self.time.start()
         self.hour_reset.start()
 
     def cog_unload(self):
         self.time.cancel()
         self.hour_reset.cancel()
+
+ #######################################################################
+
+    @tasks.loop(seconds=3.0) # minutes
+    async def time(self):
+        date_time = datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=9))).strftime('%Y/%m/%d %H:%M:%S')
+        await self.bot.get_channel(665355834498351154).edit(name=f"time : {date_time}")
+
+    @time.before_loop
+    async def time_wait(self):
+        await self.bot.wait_until_ready()
+
+    @tasks.loop(minutes=1.0) # hours
+    async def hour_reset(self):
+        self.dates["hour_message"] = 0
+        with open("./date/airlinia_stats.json", "w") as f:
+            json.dump(self.dates, f, indent=4)
+        await self.channel_name_edit()
+
+    @hour_reset.before_loop
+    async def hour_reset_wait(self):
+        await self.bot.wait_until_ready()
+
+ #######################################################################
 
     @commands.Cog.listener()
     async def on_member_join(self, member):
@@ -40,7 +65,7 @@ class Server_Stats(commands.Cog):
         with open("./date/airlinia_stats.json", "w") as f:
             json.dump(self.dates, f, indent=4)
         await self.channel_name_edit()
-
+  # -------------------------
     @commands.Cog.listener()
     async def on_message(self, message):
         if message.author.bot:  # ボットのメッセージをハネる
@@ -64,25 +89,7 @@ class Server_Stats(commands.Cog):
             json.dump(self.dates, f, indent=4)
         await self.channel_name_edit()
 
-    @tasks.loop(seconds=3.0) # minutes
-    async def time(self):
-        date_time = datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=9))).strftime('%Y/%m/%d %H:%M:%S')
-        await self.bot.get_channel(665355834498351154).edit(name=f"time : {date_time}")
-
-    @tasks.loop(minutes=1.0) # hours
-    async def hour_reset(self):
-        self.dates["hour_message"] = 0
-        with open("./date/airlinia_stats.json", "w") as f:
-            json.dump(self.dates, f, indent=4)
-        await self.channel_name_edit()
-
-    @time.before_loop
-    async def time_wait(self):
-        await self.bot.wait_until_ready()
-
-    @hour_reset.before_loop
-    async def hour_reset_wait(self):
-        await self.bot.wait_until_ready()
+ #######################################################################
 
     async def channel_name_edit(self):
         await self.bot.get_channel(665355267231449090).edit(name=f"all : {self.dates['all']}")
@@ -99,6 +106,8 @@ class Server_Stats(commands.Cog):
         # ---------------
         await self.bot.get_channel(665356186983333909).edit(name=f"message : {self.dates['message']}")
         await self.bot.get_channel(665356237038419990).edit(name=f"hour_message : {self.dates['hour_message']}")
+
+ # ----------------------------------------------
 
     @commands.command(name='serverstatus')
     async def status(self, ctx):
