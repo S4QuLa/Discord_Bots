@@ -2,9 +2,10 @@
 import discord
 from discord.ext import tasks, commands
 import asyncio
+
+import datetime
 import os # .env読み込みスターズ。
 import json
-import datetime
 import locale
 
 class Server_Stats(commands.Cog):
@@ -17,8 +18,8 @@ class Server_Stats(commands.Cog):
         self.hour_reset.start()
 
     def cog_unload(self):
-        self.time.cancel()
-        self.hour_reset.cancel()
+        self.time.stop()
+        self.hour_reset.stop()
 
  #######################################################################
 
