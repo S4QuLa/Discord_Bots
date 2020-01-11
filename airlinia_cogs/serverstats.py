@@ -11,11 +11,11 @@ import locale
 class Server_Stats(commands.Cog):
     def __init__(self, airlinia):
         self.bot = airlinia #botを受け取る。
-        with open('./date/airlinia_stats.json', 'r') as f:
-            self.dates = json.load(f)
-        # -----------
         self.time.start()
         self.hour_reset.start()
+        # -----------
+        with open('./date/airlinia_stats.json', 'r') as f:
+            self.dates = json.load(f)
 
     def cog_unload(self):
         self.time.stop()
