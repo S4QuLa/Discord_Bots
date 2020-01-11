@@ -31,6 +31,17 @@ class Server_Stats(commands.Cog):
         await self.channel_name_edit()
 
     @commands.Cog.listener()
+    async def on_member_remove(self, member):
+        server = member.guild
+        server_members = server.members
+        self.dates["all"] = len(server.members)
+        self.dates["member"] = len([member for member in server.members if not member.bot])
+        self.dates["bot"] = len([member for member in server.members if member.bot])
+        with open("./date/airlinia_stats.json", "w") as f:
+            json.dump(self.dates, f, indent=4)
+        await self.channel_name_edit()
+
+    @commands.Cog.listener()
     async def on_message(self, message):
         if message.author.bot:  # ボットのメッセージをハネる
             return
@@ -53,7 +64,7 @@ class Server_Stats(commands.Cog):
             json.dump(self.dates, f, indent=4)
         await self.channel_name_edit()
 
-    @tasks.loop(seconds=1.0) # minutes
+    @tasks.loop(seconds=3.0) # minutes
     async def time(self):
         date_time = datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=9))).strftime('%Y/%m/%d %H:%M:%S')
         await self.bot.get_channel(665355834498351154).edit(name=f"time : {date_time}")
@@ -103,8 +114,8 @@ class Server_Stats(commands.Cog):
         self.dates["mobile_status"]["dnd"] = len([member for member in server.members if member.mobile_status == discord.Status.dnd])
         with open("./date/airlinia_stats.json", "w") as f:
             json.dump(self.dates, f, indent=4)
-        embed=discord.Embed(title="サーバーステータス", description=f"サーバー名：{ctx.guild.neme}\nサーバー地域：{ctx.guild.region}\nサーバー所有者：{ctx.guild.owner.name}")
-        embed.set_author(name=f"{ctx.guild.neme} - ステータス")
+        embed=discord.Embed(title="サーバーステータス", description=f"サーバー名：{ctx.guild.name}\nサーバー地域：{ctx.guild.region}\nサーバー所有者：{ctx.guild.owner.name}")
+        embed.set_author(name=f"{ctx.guild.name} - ステータス")
         embed.set_thumbnail(url=f"{ctx.guild.icon}")
         embed.add_field(name="メンバー人数", value=f"all : {self.dates['all']}\nmember : {self.dates['member']}\nbot : {self.dates['bot']}", inline=True)
         embed.add_field(name="メッセージ数", value=f"message : {self.dates['message']}\nhour message : {self.dates['hour_message']}", inline=True)
