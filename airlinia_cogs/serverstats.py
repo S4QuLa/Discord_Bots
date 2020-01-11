@@ -13,7 +13,7 @@ class Server_Stats(commands.Cog):
         with open('./date/airlinia_stats.json', 'r') as f:
             self.dates = json.load(f)
         self.time.start()
-        self.hour_time_reset.start()
+        self.hour_reset.start()
 
     def cog_unload(self):
         self.time.cancel()
