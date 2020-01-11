@@ -10,7 +10,7 @@ import locale
 class Server_Stats(commands.Cog):
     def __init__(self, airlinia):
         self.bot = airlinia #botを受け取る。
-        with open('./date/stats.json', 'r') as f:
+        with open('./date/airlinia_stats.json', 'r') as f:
             self.dates = json.load(f)
         self.time.start()
         self.hour_time_reset.start()
@@ -26,7 +26,7 @@ class Server_Stats(commands.Cog):
         self.dates["all"] = len(server.members)
         self.dates["member"] = len([member for member in server.members if not member.bot])
         self.dates["bot"] = len([member for member in server.members if member.bot])
-        with open("./date/stats.json", "w") as f:
+        with open("./date/airlinia_stats.json", "w") as f:
             json.dump(self.dates, f, indent=4)
         await self.channel_name_edit()
 
@@ -36,7 +36,7 @@ class Server_Stats(commands.Cog):
             return
         self.dates["message"] += 1
         self.dates["hour_message"] += 1
-        with open("./date/stats.json", "w") as f:
+        with open("./date/airlinia_stats.json", "w") as f:
             json.dump(self.dates, f, indent=4)
         await self.channel_name_edit()
 
@@ -49,21 +49,19 @@ class Server_Stats(commands.Cog):
         self.dates["all_status"]["offline"] = len([member for member in server.members if member.status == discord.Status.offline])
         self.dates["mobile"] = len([member for member in server.members if member.is_on_mobile()])
         self.dates["desktop"] = len([member for member in server.members if not member.is_on_mobile()])
-        with open("./date/stats.json", "w") as f:
+        with open("./date/airlinia_stats.json", "w") as f:
             json.dump(self.dates, f, indent=4)
         await self.channel_name_edit()
 
     @tasks.loop(seconds=1.0) # minutes
     async def time(self):
-        self.dates["time"] = datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=9))).strftime('%Y/%m/%d %H:%M:%S')
-        with open("./date/stats.json", "w") as f:
-            json.dump(self.dates, f, indent=4)
-        await self.channel_name_edit()
+        date_time = datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=9))).strftime('%Y/%m/%d %H:%M:%S')
+        await self.bot.get_channel(665355834498351154).edit(name=f"time : {date_time}")
 
     @tasks.loop(minutes=1.0) # hours
     async def hour_time_reset(self):
         self.dates["hour_message"] = 0
-        with open("./date/stats.json", "w") as f:
+        with open("./date/airlinia_stats.json", "w") as f:
             json.dump(self.dates, f, indent=4)
         await self.channel_name_edit()
 
@@ -76,22 +74,20 @@ class Server_Stats(commands.Cog):
         await self.bot.wait_until_ready()
 
     async def channel_name_edit(self):
-        await self.bot.get_channel(663297143909515274).edit(name=f"all : {self.dates['all']}")
-        await self.bot.get_channel(663297196531253249).edit(name=f"member : {self.dates['member']}")
-        await self.bot.get_channel(663297233453842452).edit(name=f"bot : {self.dates['bot']}")
+        await self.bot.get_channel(665355267231449090).edit(name=f"all : {self.dates['all']}")
+        await self.bot.get_channel(665355410672189471).edit(name=f"member : {self.dates['member']}")
+        await self.bot.get_channel(665355451793276955).edit(name=f"bot : {self.dates['bot']}")
         # ---------------
-        await self.bot.get_channel(663297268455309332).edit(name=f"online : {self.dates['all_status']['online']}")
-        await self.bot.get_channel(664160147886833678).edit(name=f"idle : {self.dates['all_status']['idle']}")
-        await self.bot.get_channel(664160201125003295).edit(name=f"dnd : {self.dates['all_status']['dnd']}")
-        await self.bot.get_channel(663297305847398421).edit(name=f"offline : {self.dates['all_status']['offline']}")
+        await self.bot.get_channel(665355545548554270).edit(name=f"online : {self.dates['all_status']['online']}")
+        await self.bot.get_channel(665355588674387978).edit(name=f"idle : {self.dates['all_status']['idle']}")
+        await self.bot.get_channel(665355615572459520).edit(name=f"dnd : {self.dates['all_status']['dnd']}")
+        await self.bot.get_channel(665355714084208679).edit(name=f"offline : {self.dates['all_status']['offline']}")
         # ---------------
-        await self.bot.get_channel(665106455371972609).edit(name=f"mobile : {self.dates['mobile']}")
-        await self.bot.get_channel(665106507125358603).edit(name=f"desktop : {self.dates['desktop']}")
+        await self.bot.get_channel(665355793742430268).edit(name=f"mobile : {self.dates['mobile']}")
+        await self.bot.get_channel(665356237038419990).edit(name=f"desktop : {self.dates['desktop']}")
         # ---------------
-        await self.bot.get_channel(663297421417119754).edit(name=f"message : {self.dates['message']}")
-        await self.bot.get_channel(665106327319609359).edit(name=f"hour_message : {self.dates['hour_message']}")
-        # ---------------
-        await self.bot.get_channel(663297453621116988).edit(name=f"time : {self.dates['time']}")
+        await self.bot.get_channel(665356186983333909).edit(name=f"message : {self.dates['message']}")
+        await self.bot.get_channel(665356237038419990).edit(name=f"hour_message : {self.dates['hour_message']}")
 
     @commands.command(name='serverstatus')
     async def status(self, ctx):
@@ -105,7 +101,7 @@ class Server_Stats(commands.Cog):
         self.dates["mobile_status"]["online"] = len([member for member in server.members if member.mobile_status == discord.Status.online])
         self.dates["mobile_status"]["idle"] = len([member for member in server.members if member.mobile_status == discord.Status.idle])
         self.dates["mobile_status"]["dnd"] = len([member for member in server.members if member.mobile_status == discord.Status.dnd])
-        with open("./date/stats.json", "w") as f:
+        with open("./date/airlinia_stats.json", "w") as f:
             json.dump(self.dates, f, indent=4)
         embed=discord.Embed(title="サーバーステータス", description=f"サーバー名：{ctx.guild.neme}\nサーバー地域：{ctx.guild.region}\nサーバー所有者：{ctx.guild.owner.name}")
         embed.set_author(name=f"{ctx.guild.neme} - ステータス")
