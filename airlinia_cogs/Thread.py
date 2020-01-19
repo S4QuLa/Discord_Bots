@@ -16,8 +16,9 @@ class Thread(commands.Cog):
     @commands.Cog.listener()
     async def on_reaction_add(reaction, user):
         if reaction.message.channel.category.id == 668142017175617546 or reaction.message.channel.category.id == 668374572080562177:
-            member = [reaction.message.member, user]
-            _free_channel_create(reaction.message.channel.category, member, "Thread")
+            if reaction.emoji.id == 665462194116493313:
+                member = [reaction.message.member, user]
+                _free_channel_create(reaction.message.channel.category, member, "Thread")
 
     async def _free_channel_create(self, category, member, name, VC=False):
         overwrites = {
@@ -39,3 +40,6 @@ class Thread(commands.Cog):
         else:
             channel = await category.create_text_channel(name, overwrites=overwrites, position=3)
             return channel
+
+def setup(airlinia):
+    airlinia.add_cog(Thread(airlinia))
