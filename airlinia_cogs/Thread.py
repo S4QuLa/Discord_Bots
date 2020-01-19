@@ -9,9 +9,6 @@ import json
 class Thread(commands.Cog):
     def __init__(self, airlinia):
         self.bot = airlinia #botを受け取る。
-        # -----------
-        with open('./date/voicechannel.json', 'r') as f:
-            self.dates = json.load(f)
 
     @commands.Cog.listener()
     async def on_reaction_add(reaction, user):
