@@ -11,7 +11,7 @@ class Thread(commands.Cog):
         self.bot = airlinia #botを受け取る。
 
     @commands.Cog.listener()
-    async def on_reaction_add(reaction, user):
+    async def on_reaction_add(self, reaction, user):
         if reaction.message.channel.category.id == 668142017175617546 or reaction.message.channel.category.id == 668374572080562177:
             if reaction.emoji.id == 665462194116493313:
                 member = [reaction.message.member, user]
