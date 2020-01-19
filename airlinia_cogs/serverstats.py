@@ -22,7 +22,7 @@ class Server_Stats(commands.Cog):
 
  #######################################################################
 
-    @tasks.loop(seconds=3.0) # minutes
+    @tasks.loop(seconds=3.0, loop=loop) # minutes
     async def time(self):
         date_time = arrow.now('Asia/Tokyo').format(fmt='YYYY/MM/DD(ddd)HH:mm:ss', locale='ja')
         await self.bot.get_channel(665355834498351154).edit(name=f"time : {date_time}")
