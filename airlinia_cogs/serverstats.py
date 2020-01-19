@@ -8,9 +8,8 @@ import os # .env読み込みスターズ。
 import json
 
 class Server_Stats(commands.Cog):
-    def __init__(self, airlinia, loop):
+    def __init__(self, airlinia):
         self.bot = airlinia #botを受け取る。
-        self.loop = loop
         self.time.start()
         self.hour_reset.start()
         # -----------
@@ -23,7 +22,7 @@ class Server_Stats(commands.Cog):
 
  #######################################################################
 
-    @tasks.loop(seconds=3.0, loop=self.loop) # minutes
+    @tasks.loop(seconds=1.0) # minutes
     async def time(self):
         date_time = arrow.now('Asia/Tokyo').format(fmt='YYYY/MM/DD(ddd)HH:mm:ss', locale='ja')
         await self.bot.get_channel(665355834498351154).edit(name=f"time : {date_time}")
@@ -32,7 +31,7 @@ class Server_Stats(commands.Cog):
     async def before_time(self):
         await self.bot.wait_until_ready()
 
-    @tasks.loop(minutes=1.0, loop=self.loop) # hours
+    @tasks.loop(minutes=1.0) # hours
     async def hour_reset(self):
         self.dates["hour_message"] = 0
         with open("./date/airlinia_stats.json", "w") as f:
