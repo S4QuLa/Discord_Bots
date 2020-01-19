@@ -19,9 +19,6 @@ class Voice_Channel(commands.Cog):
 
     @commands.Cog.listener()
     async def on_voice_state_update(self, member, before, after):
-        if after.channel == None:
-            return
-   # -----------------------------
         if self.dates[after.chaneel.id] is not None:
             embed = discord.Embed(title='ボイスチャンネル入室通知',
             description=f'{member.mention}さんが入室しました。',
