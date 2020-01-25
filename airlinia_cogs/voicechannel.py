@@ -50,8 +50,8 @@ class Voice_Channel(commands.Cog):
                 color=0xff0000)
                 await text_channel.send(embed=embed, delete_after=180)
                 if len(before.channel.members) == 0:
-                    before.channel.delete()
-                    text_channel.delete()
+                    await before.channel.delete()
+                    await text_channel.delete()
                     del self.dates[before.channel.id]
                     with open("./date/voicechannel.json", "w") as f:
                         json.dump(self.dates, f, indent=4)
@@ -83,7 +83,7 @@ class Voice_Channel(commands.Cog):
         embed = discord.Embed(title='ボイスチャンネル作成通知',
         description=f'{member.mention}さん、ようこそ！',
         color=0x0080ff)
-        await text_channel.send(embed=embed, delete_after=180)
+        await text_channel.send(content=member.mention, embed=embed, delete_after=180)
         await member.move_to(voice_channel)
 
  # ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
