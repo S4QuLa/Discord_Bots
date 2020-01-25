@@ -95,7 +95,7 @@ class Voice_Channel(commands.Cog):
                     await after_text_channel.send(embed=after_embed, delete_after=180)
                     await before_text_channel.send(embed=before_embed, delete_after=180)
 
-　# ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+ # ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
 
     async def _channel_create(self, member):
         category = self.category
@@ -123,7 +123,7 @@ class Voice_Channel(commands.Cog):
         await text_channel.send(embed=embed, delete_after=180)
         member.move_to(voice_channel)
 
-　# ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+ # ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
 
 
 def setup(airlinia):

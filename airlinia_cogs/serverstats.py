@@ -62,7 +62,7 @@ class Server_Stats(commands.Cog):
         await self.bot.get_channel(665355451793276955).edit(name=f"bot : {len([member for member in server.members if member.bot])}")
 
   # -------------------------
-  
+
     @commands.Cog.listener()
     async def on_message(self, message):
         if message.author.bot:  # ボットのメッセージをハネる
@@ -80,7 +80,7 @@ class Server_Stats(commands.Cog):
         idle = len([member for member in server.members if member.status == discord.Status.idle])
         dnd = len([member for member in server.members if member.status == discord.Status.dnd])
         await self.bot.get_channel(665355545548554270).edit(name=f"online : {online + idle + dnd}")
-        await self.bot.get_channel(665355714084208679).edit(name=f"offline : {offline = len([member for member in server.members if member.status == discord.Status.offline])}")
+        await self.bot.get_channel(665355714084208679).edit(name=f"offline : {len([member for member in server.members if member.status == discord.Status.offline])}")
         # -------------------------------
         await self.bot.get_channel(665355793742430268).edit(name=f"mobile : {len([member for member in server.members if member.is_on_mobile()])}")
         await self.bot.get_channel(665355766131326996).edit(name=f"desktop : {len([member for member in server.members if not member.is_on_mobile()])}")
