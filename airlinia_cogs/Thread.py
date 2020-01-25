@@ -17,13 +17,12 @@ class Thread(commands.Cog):
             or reaction.message.channel.category_id == 668374572080562177)
             and reaction.emoji.id == 665462194116493313
         ):
-            if reaction.count == 1:
-                member = [reaction.message.member, user]
-                channel = _free_channel_create(reaction.message.channel.category, member, "Thread")
-                embed = discord.Embed(title='チャンネル作成しました。',
-                description=f'{channel.mention}\rスレッドを作成しました。',
-                color=0x0080ff)
-                channel.send(embed=embed, content=f"{user.mention}、{reaction.message.user.mention}")
+            member = [reaction.message.member, user]
+            channel = _free_channel_create(reaction.message.channel.category, member, "Thread")
+            embed = discord.Embed(title='チャンネル作成しました。',
+            description=f'{channel.mention}\rスレッドを作成しました。',
+            color=0x0080ff)
+            channel.send(embed=embed, content=f"{user.mention}、{reaction.message.user.mention}")
 
     async def _free_channel_create(self, category, member, name):
         overwrites = {
