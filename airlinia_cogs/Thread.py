@@ -13,11 +13,11 @@ class Thread(commands.Cog):
     @commands.Cog.listener()
     async def on_reaction_add(self, reaction, user):
         if (
-            (reaction.message.channel.category.id == 668142017175617546
-            or reaction.message.channel.category.id == 668374572080562177)
+            (reaction.message.channel.category_id == 668142017175617546
+            or reaction.message.channel.category_id == 668374572080562177)
             and reaction.emoji.id == 665462194116493313
         ):
-            if reaction.count == 0:
+            if reaction.count == 1:
                 member = [reaction.message.member, user]
                 channel = _free_channel_create(reaction.message.channel.category, member, "Thread")
                 embed = discord.Embed(title='チャンネル作成しました。',

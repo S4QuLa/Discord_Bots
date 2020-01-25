@@ -41,10 +41,8 @@ class Discord_Game_Bot(commands.Cog):
             if r.status_code == 200:
                 hash = str(imagehash.dhash(Image.open(BytesIO(r.content))))
                 date = json.load(open('./date/pokemon.json', 'r'))
-
                 pokemon = date.get(hash, '...ごめん、わからん')
                 await message.channel.send(f'このポケモン...もしかして「{pokemon}」かなぁ。\r ```command : p!catch {pokemon}```')
-        else:
 
 def setup(technetium):
     technetium.add_cog(Discord_Game_Bot(technetium))
