@@ -27,7 +27,7 @@ class Voice_Channel(commands.Cog):
                 await self._channel_create(member)
             else:
                 try:
-                    text_channel = self.bot.get_channel(self.dates[after.chaneel.id])
+                    text_channel = self.bot.get_channel(self.dates[after.channel.id])
                 except KeyError:
                     pass
                 else:
@@ -99,6 +99,8 @@ class Voice_Channel(commands.Cog):
 
     async def _channel_create(self, member):
         category = self.category
+        guild = member.guild
+        position = self.bot.get_channel(670473107269746718).position - 1
         overwrites = {
             self.bot.user:
                 discord.PermissionOverwrite.from_pair(discord.Permissions.all(), discord.Permissions.none()),
@@ -112,8 +114,8 @@ class Voice_Channel(commands.Cog):
                 discord.PermissionOverwrite.from_pair(
                     discord.Permissions(37080128), discord.Permissions(2 ** 53 - 37080129)),
         }
-        voice_channel = await category.create_voice_channel(member.display_name, overwrites=overwrites)
-        text_channel = await category.create_text_channel(member.display_name, overwrites=overwrites, position=3)
+        voice_channel = await guild.create_voice_channel(member.display_name, overwrites=overwrites, category=category)
+        text_channel = await guild.create_text_channel(member.display_name, overwrites=overwrites, category=category, position=position)
         self.dates[voice_channel.id] = text_channel.id
         with open("./date/voicechannel.json", "w") as f:
             json.dump(self.dates, f, indent=4)
@@ -121,7 +123,7 @@ class Voice_Channel(commands.Cog):
         description=f'{member.mention}さん、ようこそ！',
         color=0x0080ff)
         await text_channel.send(embed=embed, delete_after=180)
-        member.move_to(voice_channel)
+        await member.move_to(voice_channel)
 
  # ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
 
