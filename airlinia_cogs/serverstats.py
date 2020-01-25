@@ -17,8 +17,8 @@ class Server_Stats(commands.Cog):
             self.dates = json.load(f)
 
     def cog_unload(self):
-        self.time.stop()
-        self.hour_reset.stop()
+        self.time.cancel()
+        self.hour_reset.cancel()
 
  #######################################################################
 

@@ -23,9 +23,9 @@ class Thread(commands.Cog):
                 embed = discord.Embed(title='チャンネル作成しました。',
                 description=f'{channel.mention}\rスレッドを作成しました。',
                 color=0x0080ff)
-                channel.send(embed=embed)
+                channel.send(embed=embed, content=f"{user.mention}、{reaction.message.user.mention}")
 
-    async def _free_channel_create(self, category, member, name, VC=False):
+    async def _free_channel_create(self, category, member, name):
         overwrites = {
             self.bot.user:
                 discord.PermissionOverwrite.from_pair(discord.Permissions.all(), discord.Permissions.none()),
@@ -39,12 +39,8 @@ class Thread(commands.Cog):
                 discord.PermissionOverwrite.from_pair(
                     discord.Permissions(37080128), discord.Permissions(2 ** 53 - 37080129)),
         }
-        if VC:
-            channel = await category.create_voice_channel(name, overwrites=overwrites)
-            return channel
-        else:
-            channel = await category.create_text_channel(name, overwrites=overwrites)
-            return channel
+        channel = await category.create_text_channel(name, overwrites=overwrites)
+        return channel
 
 def setup(airlinia):
     airlinia.add_cog(Thread(airlinia))
