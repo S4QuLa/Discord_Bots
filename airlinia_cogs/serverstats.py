@@ -20,9 +20,10 @@ class Server_Stats(commands.Cog):
         self.time.cancel()
         self.hour_reset.cancel()
 
+    loop = self.bot.loop
  #######################################################################
 
-    @tasks.loop(seconds=1.0, reconnect=True, loop=airlinia.loop) # minutes
+    @tasks.loop(seconds=1.0, reconnect=True, loop=loop) # minutes
     async def time(self):
         date_time = arrow.now('Asia/Tokyo').format(fmt='YYYY/MM/DD(ddd)HH:mm:ss', locale='ja')
         await self.bot.get_channel(665355834498351154).edit(name=f"time : {date_time}")
@@ -31,7 +32,7 @@ class Server_Stats(commands.Cog):
     async def before_time(self):
         await self.bot.wait_until_ready()
 
-    @tasks.loop(minutes=1, reconnect=True, loop=airlinia.loop) # hours
+    @tasks.loop(minutes=1, reconnect=True, loop=loop) # hours
     async def hour_reset(self):
         self.dates["hour_message"] = 0
         ########################
