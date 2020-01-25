@@ -28,7 +28,7 @@ class DISCORDBOT(commands.Bot):
 
     async def on_ready(self): # 準備完了時に呼び出す。
         print(f'ログインしました。\n------\nBotのアカウントの概要\nユーザー名:{self.user.name}\nユーザーID:{self.user.id}\n------\nDiscord.pyのバージョン\n{discord.__version__}\n------\nPythonのバージョン\n{sys.version}\n――――――――――――――――――――――――――――――')
-        await technetium.change_presence(activity=discord.Game(name=f'{self.command_prefix}￤{self.user.name} - by.amazakura0804'))
+        await self.change_presence(activity=discord.Game(name=f'{self.command_prefix}￤{self.user.name} - by.amazakura0804'))
 
 if __name__ == '__main__':
     airlinia = DISCORDBOT(command_prefix='al!', cogs='airlinia_cogs', loop=loop)
