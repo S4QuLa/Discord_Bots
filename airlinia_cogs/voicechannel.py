@@ -19,32 +19,85 @@ class Voice_Channel(commands.Cog):
 
     @commands.Cog.listener()
     async def on_voice_state_update(self, member, before, after):
-        if self.dates[after.chaneel.id] is not None:
-            embed = discord.Embed(title='ボイスチャンネル入室通知',
-            description=f'{member.mention}さんが入室しました。',
-            color=0x2aa81e)
-            await self.bot.get_channel(self.dates[after.chaneel.id]).send(embed=embed)
-        if self.dates[before.chaneel.id] is not None:
-            embed = discord.Embed(title='ボイスチャンネル退出通知',
-            description=f'{member.mention}さんが退出しました。',
-            color=0x660a0a)
-            await self.bot.get_channel(self.dates[before.chaneel.id]).send(embed=embed)
-            if before.chaneel.members is None:
-                self.bot.get_channel(self.dates[before.chaneel.id]).delete()
-                self.bot.get_channel(before.chaneel.id).delete()
-                self.dates[channel_voice.id] = None
-                with open("./date/voicechannel.json", "w") as f:
-                    json.dump(self.dates, f, indent=4)
-   # -----------------------------
-        if after.channel.id == 655274902600941579:
-            channel_text = await self._free_channel_create(member, member.display_name, VC=False)
-            channel_voice = await self._free_channel_create(member, member.display_name, VC=True)
-            self.dates[channel_voice.id] = channel_text.id
-            with open("./date/voicechannel.json", "w") as f:
-                json.dump(self.dates, f, indent=4)
-            member.move_to(channel_voice)
+        if (
+            after.channel is not None
+            and (before.channel is None or before.channel != after.channel)
+        ):
+            if after.channel.id == 655274902600941579:
+                await self._free_channel_create(member)
+            else:
+                try:
+                    text_channel = self.bot.get_channel(self.dates[after.chaneel.id])
+                except KeyError:
+                    pass
+                else:
+                    embed = discord.Embed(title='ボイスチャンネル入室通知',
+                    description=f'{member.mention}さんが入室しました。',
+                    color=0x00ff00)
+                    await text_channel.send(embed=embed, delete_after=180)
 
-    async def _free_channel_create(self, member, name, VC=False):
+        if (
+            before.channel is not None
+            and (after.channel is None or before.channel != after.channel)
+        ):
+            try:
+                text_channel = self.bot.get_channel(self.dates[before.channel.id])
+            except KeyError:
+                pass
+            else:
+                embed = discord.Embed(title='ボイスチャンネル退出通知',
+                description=f'{member.mention}さんが退出しました。',
+                color=0xff0000)
+                await text_channel.send(embed=embed, delete_after=180)
+                if before.channel.members is None:
+                    before.channel.delete()
+                    text_channel.delete()
+                    del self.dates[before.channel.id]
+                    with open("./date/voicechannel.json", "w") as f:
+                        json.dump(self.dates, f, indent=4)
+
+        if (
+            after.channel is not None and before.channel is not None
+            and before.channel != after.channel
+        ):
+            if after.channel.id == 655274902600941579:
+                try:
+                    text_channel = self.bot.get_channel(self.dates[before.channel.id])
+                except KeyError:
+                    pass
+                else:
+                    embed = discord.Embed(title='ボイスチャンネル退出通知',
+                    description=f'{member.mention}さんが退出しました。',
+                    color=0xff0000)
+                    await text_channel.send(embed=embed, delete_after=180)
+                    await self._free_channel_create(member)
+                    if before.channel.members is None:
+                        before.channel.delete()
+                        text_channel.delete()
+                        del self.dates[before.channel.id]
+                        with open("./date/voicechannel.json", "w") as f:
+                            json.dump(self.dates, f, indent=4)
+            else:
+                try:
+                    after_text_channel = self.bot.get_channel(
+                        self.dates[after.channel.id])
+                    before_text_channel = self.bot.get_channel(
+                        self.dates[before.channel.id])
+                except KeyError:
+                    pass
+                else:
+                    after_embed = discord.Embed(title='ボイスチャンネル入室通知',
+                    description=f'{member.mention}さんが入室しました。',
+                    color=0x00ff00)
+                    before_embed = discord.Embed(title='ボイスチャンネル退出通知',
+                    description=f'{member.mention}さんが退出しました。',
+                    color=0xff0000)
+                    await after_text_channel.send(embed=after_embed, delete_after=180)
+                    await before_text_channel.send(embed=before_embed, delete_after=180)
+
+　# ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+
+    async def _channel_create(self, member):
         category = self.category
         overwrites = {
             self.bot.user:
@@ -59,13 +112,16 @@ class Voice_Channel(commands.Cog):
                 discord.PermissionOverwrite.from_pair(
                     discord.Permissions(37080128), discord.Permissions(2 ** 53 - 37080129)),
         }
-        if VC:
-            channel = await category.create_voice_channel(name, overwrites=overwrites)
-            return channel
-        else:
-            channel = await category.create_text_channel(name, overwrites=overwrites, position=3)
-            return channel
-
+        voice_channel = await category.create_voice_channel(member.display_name, overwrites=overwrites)
+        text_channel = await category.create_text_channel(member.display_name, overwrites=overwrites, position=3)
+        self.dates[voice_channel.id] = text_channel.id
+        with open("./date/voicechannel.json", "w") as f:
+            json.dump(self.dates, f, indent=4)
+        embed = discord.Embed(title='ボイスチャンネル作成通知',
+        description=f'{member.mention}さん、ようこそ！',
+        color=0x0080ff)
+        await text_channel.send(embed=embed, delete_after=180)
+        member.move_to(voice_channel)
 
 def setup(airlinia):
     airlinia.add_cog(Voice_Channel(airlinia))
