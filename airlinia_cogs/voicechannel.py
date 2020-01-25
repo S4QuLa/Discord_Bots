@@ -49,51 +49,12 @@ class Voice_Channel(commands.Cog):
                 description=f'{member.mention}さんが退出しました。',
                 color=0xff0000)
                 await text_channel.send(embed=embed, delete_after=180)
-                if before.channel.members is None:
+                if len(before.channel.members) == 0:
                     before.channel.delete()
                     text_channel.delete()
                     del self.dates[before.channel.id]
                     with open("./date/voicechannel.json", "w") as f:
                         json.dump(self.dates, f, indent=4)
-
-        if (
-            after.channel is not None and before.channel is not None
-            and before.channel != after.channel
-        ):
-            if after.channel.id == 655274902600941579:
-                try:
-                    text_channel = self.bot.get_channel(self.dates[before.channel.id])
-                except KeyError:
-                    pass
-                else:
-                    embed = discord.Embed(title='ボイスチャンネル退出通知',
-                    description=f'{member.mention}さんが退出しました。',
-                    color=0xff0000)
-                    await text_channel.send(embed=embed, delete_after=180)
-                    await self._channel_create(member)
-                    if before.channel.members is None:
-                        before.channel.delete()
-                        text_channel.delete()
-                        del self.dates[before.channel.id]
-                        with open("./date/voicechannel.json", "w") as f:
-                            json.dump(self.dates, f, indent=4)
-            else:
-                try:
-                    after_text_channel = self.bot.get_channel(
-                        self.dates[after.channel.id])
-                    before_text_channel = self.bot.get_channel(
-                        self.dates[before.channel.id])
-                except KeyError:
-                    pass
-                else:
-                    after_embed = discord.Embed(title='ボイスチャンネル入室通知',
-                    description=f'{member.mention}さんが入室しました。',
-                    color=0x00ff00)
-                    before_embed = discord.Embed(title='ボイスチャンネル退出通知',
-                    description=f'{member.mention}さんが退出しました。',
-                    color=0xff0000)
-                    await after_text_channel.send(embed=after_embed, delete_after=180)
-                    await before_text_channel.send(embed=before_embed, delete_after=180)
 
  # ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
 
