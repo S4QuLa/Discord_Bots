@@ -31,10 +31,10 @@ class DISCORDBOT(commands.Bot):
         await technetium.change_presence(activity=discord.Game(name=f'{self.command_prefix}￤{technetium.user.name} - by.amazakura0804'))
 
 if __name__ == '__main__':
-    airlinia = DISCORDBOT(command_prefix='al!', cogs=airlinia_cogs, loop=loop)
+    airlinia = DISCORDBOT(command_prefix='al!', cogs='airlinia_cogs', loop=loop)
     airlinia_task = loop.create_task(airlinia.start(airlinia_token))
 
-    technetium = DISCORDBOT(command_prefix='te!', cogs=technetium_cogs, loop=loop)
+    technetium = DISCORDBOT(command_prefix='te!', cogs='technetium_cogs', loop=loop)
     technetium_task = loop.create_task(technetium.start(technetium_token))
 
     loop.run_until_complete(technetium_task)

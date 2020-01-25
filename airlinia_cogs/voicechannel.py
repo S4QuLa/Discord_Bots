@@ -24,7 +24,7 @@ class Voice_Channel(commands.Cog):
             and (before.channel is None or before.channel != after.channel)
         ):
             if after.channel.id == 655274902600941579:
-                await self._free_channel_create(member)
+                await self._channel_create(member)
             else:
                 try:
                     text_channel = self.bot.get_channel(self.dates[after.chaneel.id])
@@ -70,7 +70,7 @@ class Voice_Channel(commands.Cog):
                     description=f'{member.mention}さんが退出しました。',
                     color=0xff0000)
                     await text_channel.send(embed=embed, delete_after=180)
-                    await self._free_channel_create(member)
+                    await self._channel_create(member)
                     if before.channel.members is None:
                         before.channel.delete()
                         text_channel.delete()
@@ -122,6 +122,9 @@ class Voice_Channel(commands.Cog):
         color=0x0080ff)
         await text_channel.send(embed=embed, delete_after=180)
         member.move_to(voice_channel)
+
+　# ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+
 
 def setup(airlinia):
     airlinia.add_cog(Voice_Channel(airlinia))
