@@ -7,6 +7,9 @@ import re
 class Role_Panel(commands.Cog):  # 役職パネルの機能
     def __init__(self, airlinia):
         self.bot = airlinia #botを受け取る。
+        # -----------
+        with open('./date/rolepanel.json', 'r') as f:
+            self.dates = json.load(f)
 
     @commands.group(aliases=["rp"])
     async def rolepanel(self, ctx):
@@ -44,16 +47,25 @@ class Role_Panel(commands.Cog):  # 役職パネルの機能
         else:
             embed = discord.Embed(
                 title='役職パネルα({1})({0}ページ目)'.format(len(history) + 1, tag),
-                description='{1}:{0}'.format(role.mention, emoji)
+                description='{1}:{0}'.format(role.mention, emoji),
+                color=0x000000
             )
             m = await self.bot.get_channel(616530487229546518).send(embed=embed)
             await m.add_reaction(emoji)
 
+    @rolepanel.command(aliases=["rpaa", "alphaadd", "aa"])
+    @commands.has_guild_permissions(administrator=True)
+    async def _rolepanel_alpha_add(self, ctx, _message_id, emoji, role: discord.Role):
+        self.dates[_message_id] = {}
+        self.dates[_message_id][emoji] = role.id
+        with open("./date/rolepanel.json", "w") as f:
+            json.dump(self.dates, f, indent=4)
+
     @commands.Cog.listener()
     async def on_reaction_add(self, reaction, user):
-        if user == self.client.user: #自分のをハネる
-            return
         message = reaction.message
+        if user == self.bot.user: #自分のをハネる
+            return
         if message.channel == self.channel and message.author == self.client.user: #役職申請チャンネル且つメッセージがBot
             if '役職パネルα' in message.embeds[0].title:
                 await message.remove_reaction(reaction, user) #取り消す
