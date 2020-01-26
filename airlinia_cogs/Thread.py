@@ -27,7 +27,7 @@ class Thread(commands.Cog):
                 embed_2.set_author(name=user.display_name, icon_url=user.avatar_url)
                 embed_2.set_thumbnail(url=reaction.message.author.avatar_url)
                 if len(reaction.message.attachments) > 0:
-                    embed.set_image(url=reaction.message.attachments[0]["url"])
+                    embed_2.set_image(url=reaction.message.attachments[0]["url"])
                 channel.send(embed=embed_2, content=f"{user.mention}、{reaction.message.author.mention}")
 
     async def _channel_create(self, category, members, name):
