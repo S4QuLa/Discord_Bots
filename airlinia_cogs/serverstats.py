@@ -22,10 +22,12 @@ class Server_Stats(commands.Cog):
 
  #######################################################################
 
-    @tasks.loop(seconds=1.0, reconnect=True) # minutes
+    @tasks.loop(seconds=4.0, reconnect=True) # minutes
     async def time(self):
         date_time = arrow.now('Asia/Tokyo').format(fmt='YYYY/MM/DD(ddd)HH:mm', locale='ja')
-        await self.bot.get_channel(665355834498351154).edit(name=date_time)
+        channel = self.bot.get_channel(665355834498351154).name
+        if channel != date_time:
+            await self.bot.get_channel(665355834498351154).edit(name=date_time)
 
     @time.before_loop
     async def before_time(self):
