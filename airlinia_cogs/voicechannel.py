@@ -88,6 +88,9 @@ class Voice_Channel(commands.Cog):
 
  # ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
 
+    @commands.group()
+    async def voice(self, ctx):
+        return
 
 def setup(airlinia):
     airlinia.add_cog(Voice_Channel(airlinia))
