@@ -15,7 +15,7 @@ class Thread(commands.Cog):
         if reaction.message.channel.category_id == 668142017175617546 or reaction.message.channel.category_id == 668374572080562177:
             if reaction.emoji.id == 665462194116493313:
                 members = [reaction.message.author, user]
-                channel = await self._channel_create(reaction.message.channel.category, member, "Thread")
+                channel = await self._channel_create(reaction.message.channel.category, members, "Thread")
                 embed_1 = discord.Embed(title='チャンネル作成しました。',
                 description=f'{channel.mention}\rスレッドを作成しました。',
                 color=0x0080ff)
