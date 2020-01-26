@@ -19,7 +19,7 @@ class Thread(commands.Cog):
                 embed_1 = discord.Embed(title='チャンネル作成しました。',
                 description=f'{channel.mention}\rスレッドを作成しました。',
                 color=0x0080ff)
-                reaction.message.channel.send(embed=embed_1, content=f"{user.mention}、{reaction.message.author.mention}")
+                await reaction.message.channel.send(embed=embed_1, content=f"{user.mention}、{reaction.message.author.mention}")
 
                 embed_2 = discord.Embed(description=f'{reaction.message.content}',
                 color=0x0080ff)
@@ -28,7 +28,7 @@ class Thread(commands.Cog):
                 embed_2.set_thumbnail(url=reaction.message.author.avatar_url)
                 if len(reaction.message.attachments) > 0:
                     embed_2.set_image(url=reaction.message.attachments[0]["url"])
-                channel.send(embed=embed_2, content=f"{user.mention}、{reaction.message.author.mention}")
+                await channel.send(embed=embed_2, content=f"{user.mention}、{reaction.message.author.mention}")
 
     async def _channel_create(self, category, members, name):
         overwrites = {
