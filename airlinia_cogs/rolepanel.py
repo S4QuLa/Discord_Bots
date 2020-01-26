@@ -66,7 +66,7 @@ class Role_Panel(commands.Cog):  # 役職パネルの機能
             embed = discord.Embed(
                 title='役職パネル{0}({1})({2}ページ目)'.format(version, tag, len(history) + 1),
                 description='{1}:{0}'.format(role.mention, emoji),
-                color=0x000000
+                color=0xffffff
             )
             m = await self.bot.get_channel(616530487229546518).send(embed=embed)
             await m.add_reaction(emoji)
@@ -100,7 +100,7 @@ class Role_Panel(commands.Cog):  # 役職パネルの機能
                         )
                     else:
                         await user.remove_roles(role)
-                        description = '{0}の役職を解除しました'.format(role.mention)
+                        description = '{0}の役職を解除しました。'.format(role.mention)
                         await message.channel.send(
                             user.mention,
                             embed=discord.Embed(description=description),
@@ -133,12 +133,35 @@ class Role_Panel(commands.Cog):  # 役職パネルの機能
                     role = message.guild.get_role(int(match2.group(1))) # Roleを取得
                     if role in user.roles:
                         await user.remove_roles(role)
-                        description = '{0}の役職を解除しました'.format(role.mention)
+                        description = '{0}の役職を解除しました。'.format(role.mention)
                         await message.channel.send(
                             user.mention,
                             embed=discord.Embed(description=description),
                             delete_after=10
                         )
+
+    @commands.command()
+    async def rolepanel_remove(self, ctx, role: discord.Role, tag=None):
+        break1 = False
+        async for m in self.bot.get_channel(616530487229546518).history(oldest_first=True, limit=None)\
+                .filter(lambda m: m.author == self.bot.user and m.embeds):
+            embed = m.embeds[0]
+            description = embed.description
+            if tag is not None and tag not in embed.title:
+                continue
+            lines = description.splitlines(keepends=True)
+            for line in lines[:]:
+                if role.mention in line:
+                    embed.description = description.replace(line, '')
+                    await m.edit(embed=embed)
+                    await m.remove_reaction(line[0], self.bot.user)
+                    break1 = True
+                    break
+            m = await self.bot.get_channel(616530487229546518).fetch_message(m.id)
+            if not m.reactions:
+                await m.delete()
+            if break1:
+                break
 
 def setup(airlinia):
     airlinia.add_cog(Role_Panel(airlinia))
