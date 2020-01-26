@@ -46,7 +46,7 @@ class Role_Panel(commands.Cog):  # 役職パネルの機能
                 title='役職パネルα({1})({0}ページ目)'.format(len(history) + 1, tag),
                 description='{1}:{0}'.format(role.mention, emoji)
             )
-            m = await self.channel.send(embed=embed)
+            m = await self.bot.get_channel(616530487229546518).send(embed=embed)
             await m.add_reaction(emoji)
 
     @commands.Cog.listener()
