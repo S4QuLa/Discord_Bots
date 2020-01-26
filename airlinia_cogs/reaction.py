@@ -65,6 +65,17 @@ class Reaction(commands.Cog):
                         await message.delete()
                         break
 
+    @commands.Cog.listener()
+    async def on_message_delete(self, message):
+        for reaction in message.reactions:
+            if reaction.emoji.id == 670860075736236032:
+                async for _message in message.channel.history(limit=None, after=reaction.message.created_at):
+                    if len(_message.embeds) > 0 and _message.embeds[0].description == reaction.message.content:
+                            await _message.delete()
+                async for _message in self.bot.get_channel(670589954765750294).history(limit=None, after=reaction.message.created_at):
+                    if len(_message.embeds) > 0 and _message.embeds[0].description == reaction.message.content:
+                            await _message.delete()
+
     async def _channel_create(self, category, members, name):
         overwrites = {
             self.bot.user:
