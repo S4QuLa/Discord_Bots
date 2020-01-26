@@ -28,14 +28,14 @@ class Role_Panel(commands.Cog):  # 役職パネルの機能
     @rolepanel.command(aliases=["rpaa", "alphaadd", "aa"])
     @commands.has_guild_permissions(administrator=True)
     async def _rolepanel_alpha_add(self, ctx, emoji, role: discord.Role, tag='通常'):
-        await self._rolepanel_add(self, ctx, emoji, role, version='α', tag=tag)
+        await self._rolepanel_add(emoji, role, version='α', tag=tag)
 
     @rolepanel.command(aliases=["rpba", "betaadd", "ba"])
     @commands.has_guild_permissions(administrator=True)
     async def _rolepanel_beta_add(self, ctx, emoji, role: discord.Role, tag='通常'):
-        await self._rolepanel_add(self, ctx, emoji, role, version='β', tag=tag)
+        await self._rolepanel_add(emoji, role, version='β', tag=tag)
 
-    async def _rolepanel_add(self, ctx, emoji, role, version='α', tag='通常'):
+    async def _rolepanel_add(self, emoji, role, version='α', tag='通常'):
         def check(m):
             return (
                 m.author == self.bot.user and m.embeds
