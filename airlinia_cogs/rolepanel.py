@@ -87,6 +87,7 @@ class Role_Panel(commands.Cog):  # 役職パネルの機能
         if message.channel.id == 616530487229546518 and message.author == self.bot.user: #役職申請チャンネル且つメッセージがBot
             if '役職パネルα' in message.embeds[0].title:
                 await message.remove_reaction(reaction, user) #取り消す
+
                 match2 = re.search(reaction.emoji + r':<@&(\d*)>', message.embeds[0].description) #取り出す
                 if match2:
                     role = message.guild.get_role(int(match2.group(1)))
