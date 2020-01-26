@@ -220,7 +220,7 @@ class Voice_Channel(commands.Cog):
                 if member.id == self.dates[channel.id]["owner"]:
                     await ctx.send(content=f"とっくにオーナーさんいるやないですか。")
                     x = True
-            if x = False
+            if x == False:
                 self.dates[channel.id]["owner"] = ctx.author.id]
                 with open("./date/voicechannel.json", "w") as f:
                     json.dump(self.dates, f, indent=4)
