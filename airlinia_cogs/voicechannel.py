@@ -94,51 +94,141 @@ class Voice_Channel(commands.Cog):
 
     @voice.command()
     async def lock(self, ctx):
-        if ctx.author.id == self.dates[ctx.author.voice.channel.id]["owner"]:
-            voice_channel = ctx.author.voice.channel
-            text_channel = self.bot.get_channel(self.dates[ctx.author.voice.channel.id]["id"])
+        channel = ctx.author.voice.channel
+        if ctx.author.id == self.dates[channel.id]["owner"]:
+            text_channel = self.bot.get_channel(self.dates[channel.id]["id"])
             role = ctx.guild.get_role(617017694306435073)
-            await voice_channel.set_permissions(role, connect=False, speak=False, send_messages=False, read_messages=False)
+            await channel.set_permissions(role, connect=False, speak=False, send_messages=False, read_messages=False)
             await text_channel.set_permissions(role, connect=False, speak=False, send_messages=False, read_messages=False)
             embed = discord.Embed(title='Channel Moderate!',
             description=f'{ctx.author.mention}さん、チャンネルをロックしました！🔐',
             color=0xffff00)
             await ctx.send(content=ctx.author.mention, embed=embed)
-        elif ctx.author.voice.channel.id is None:
+        elif channel.id is None:
             await ctx.send(content=f"{ctx.author.mention}さんボイチャ入ってないですやんか")
         else:
             await ctx.send(content=f"{ctx.author.mention}さん、多分そこあんたのチャンネルじゃないよ。")
 
     @voice.command()
     async def view_only(self, ctx):
-        if ctx.author.id == self.dates[ctx.author.voice.channel.id]["owner"]:
-            voice_channel = ctx.author.voice.channel
-            text_channel = self.bot.get_channel(self.dates[ctx.author.voice.channel.id]["id"])
+        channel = ctx.author.voice.channel
+        if ctx.author.id == self.dates[channel.id]["owner"]:
+            text_channel = self.bot.get_channel(self.dates[channel.id]["id"])
             role = ctx.guild.get_role(617017694306435073)
-            await voice_channel.set_permissions(role, connect=True, speak=False, read_messages=True, send_messages=False)
+            await channel.set_permissions(role, connect=True, speak=False, read_messages=True, send_messages=False)
             await text_channel.set_permissions(role, connect=True, speak=False, read_messages=True, send_messages=False)
             embed = discord.Embed(title='Channel Moderate!',
             description=f'{ctx.author.mention}さん、チャンネルを閲覧限定にしました！🔏',
             color=0xffff00)
             await ctx.send(content=ctx.author.mention, embed=embed)
-        elif ctx.author.voice.channel.id is None:
+        elif channel.id is None:
             await ctx.send(content=f"{ctx.author.mention}さんボイチャ入ってないですやんか")
         else:
             await ctx.send(content=f"{ctx.author.mention}さん、多分そこあんたのチャンネルじゃないよ。")
 
     @voice.command()
     async def unlock(self, ctx):
-        if ctx.author.id == self.dates[ctx.author.voice.channel.id]["owner"]:
-            voice_channel = ctx.author.voice.channel
-            text_channel = self.bot.get_channel(self.dates[ctx.author.voice.channel.id]["id"])
+        channel = ctx.author.voice.channel
+        if ctx.author.id == self.dates[channel.id]["owner"]:
+            text_channel = self.bot.get_channel(self.dates[channel.id]["id"])
             role = ctx.guild.get_role(617017694306435073)
-            await voice_channel.set_permissions(role, connect=True, speak=True, read_messages=True, send_messages=True)
+            await channel.set_permissions(role, connect=True, speak=True, read_messages=True, send_messages=True)
             await text_channel.set_permissions(role, connect=True, speak=True, read_messages=True, send_messages=True)
             embed = discord.Embed(title='Channel Moderate!',
-            description=f'{ctx.author.mention}さん、チャンネルをアンロックにしました！🔓',
+            description=f'{ctx.author.mention}さん、チャンネルをアンロックしました！🔓',
             color=0xffff00)
             await ctx.send(content=ctx.author.mention, embed=embed)
-        elif ctx.author.voice.channel.id is None:
+        elif channel.id is None:
+            await ctx.send(content=f"{ctx.author.mention}さんボイチャ入ってないですやんか")
+        else:
+            await ctx.send(content=f"{ctx.author.mention}さん、多分そこあんたのチャンネルじゃないよ。")
+
+    @voice.command(aliases=["allow"])
+    async def permit(self, ctx, member : discord.Member):
+        channel = ctx.author.voice.channel
+        if ctx.author.id == self.dates[channel.id]["owner"]:
+            text_channel = self.bot.get_channel(self.dates[channel.id]["id"])
+            await channel.set_permissions(member, connect=True, speak=True, read_messages=True, send_messages=True)
+            await text_channel.set_permissions(member, connect=True, speak=True, read_messages=True, send_messages=True)
+            embed = discord.Embed(title='Channel Moderate!',
+            description=f'{member.mention}さん、ようこそ。✅',
+            color=0x00ff00)
+            await ctx.send(content=f"{ctx.author.mention}、{member.mention}", embed=embed)
+        elif channel.id is None:
+            await ctx.send(content=f"{ctx.author.mention}さんボイチャ入ってないですやんか")
+        else:
+            await ctx.send(content=f"{ctx.author.mention}さん、多分そこあんたのチャンネルじゃないよ。")
+
+    @voice.command(aliases=["deny"])
+    async def reject(self, ctx, member : discord.Member):
+        channel = ctx.author.voice.channel
+        if ctx.author.id == self.dates[channel.id]["owner"]:
+            text_channel = self.bot.get_channel(self.dates[channel.id]["id"])
+            await channel.set_permissions(member, connect=False, speak=False, send_messages=False, read_messages=False)
+            await text_channel.set_permissions(member, connect=False, speak=False, send_messages=False, read_messages=False)
+            await member.move_to(self.bot.get_channel(655272738952314908))
+            embed_1 = discord.Embed(title='Channel Moderate!',
+            description=f'{member.name}さんをつまみ出しました。❌',
+            color=0xff0000)
+            embed_2 = discord.Embed(title='Your Reject.',
+            description=f'{member.mention}さん、あなたはつまみ出されました。❌',
+            color=0xff0000)
+            await ctx.send(content=f"{ctx.author.mention}", embed=embed_1)
+            await member.send(embed=embed_2)
+        elif channel.id is None:
+            await ctx.send(content=f"{ctx.author.mention}さんボイチャ入ってないですやんか")
+        else:
+            await ctx.send(content=f"{ctx.author.mention}さん、多分そこあんたのチャンネルじゃないよ。")
+
+    @voice.command()
+    async def limit(self, ctx, limit):
+        channel = ctx.author.voice.channel
+        if ctx.author.id == self.dates[channel.id]["owner"]:
+            await channel.edit(user_limit = limit)
+            embed = discord.Embed(title='Channel Moderate!',
+            description=f'参加人数を{limit}人に制限しました。🎟'
+            color=0x000000)
+            await ctx.send(content=f"{ctx.author.mention}", embed=embed)
+        elif channel.id is None:
+            await ctx.send(content=f"{ctx.author.mention}さんボイチャ入ってないですやんか")
+        else:
+            await ctx.send(content=f"{ctx.author.mention}さん、多分そこあんたのチャンネルじゃないよ。")
+
+    @voice.command()
+    async def name(self, ctx, *, name):
+        channel = ctx.author.voice.channel
+        if ctx.author.id == self.dates[channel.id]["owner"]:
+            text_channel = self.bot.get_channel(self.dates[channel.id]["id"])
+            await channel.edit(name = name)
+            await text_channel.edit(name = name)
+            embed = discord.Embed(title='Channel Moderate!',
+            description=f'チャンネル名を{name}に変更しました！✒'
+            color=0x000000)
+            await ctx.send(content=f"{ctx.author.mention}", embed=embed)
+        elif channel.id is None:
+            await ctx.send(content=f"{ctx.author.mention}さんボイチャ入ってないですやんか")
+        else:
+            await ctx.send(content=f"{ctx.author.mention}さん、多分そこあんたのチャンネルじゃないよ。")
+
+    @voice.command()
+    async def claim(self, ctx):
+        channel = ctx.author.voice.channel
+        if self.dates[channel.id] is not None:
+            owner = ctx.guild.get_member(self.dates[channel.id]["id"])
+            x = False
+            for member in channel.members:
+                if member.id == self.dates[channel.id]["owner"]:
+                    await ctx.send(content=f"とっくにオーナーさんいるやないですか。")
+                    x = True
+            if x = False
+                self.dates[channel.id]["owner"] = ctx.author.id]
+                with open("./date/voicechannel.json", "w") as f:
+                    json.dump(self.dates, f, indent=4)
+                embed = discord.Embed(title='Channel Moderate!',
+                description=f'{ctx.author.mention}さん、あなたが今ここのオーナーです。',
+                color=0x80ff00)
+                await ctx.send(content=ctx.author.mention, embed=embed)
+        elif channel.id is None:
             await ctx.send(content=f"{ctx.author.mention}さんボイチャ入ってないですやんか")
         else:
             await ctx.send(content=f"{ctx.author.mention}さん、多分そこあんたのチャンネルじゃないよ。")
