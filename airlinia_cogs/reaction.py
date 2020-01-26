@@ -51,7 +51,7 @@ class Reaction(commands.Cog):
                 if len(message.embeds) > 0:
                     if (
                         message.embeds[0].description == reaction.message.content
-                        and message.embeds[0].footer.text in user.id
+                        and str(user.id) in message.embeds[0].footer.text
                     ):
                         await message.delete()
                         break
@@ -59,7 +59,7 @@ class Reaction(commands.Cog):
                 if len(message.embeds) > 0:
                     if (
                         message.embeds[0].description == reaction.message.content
-                        and message.embeds[0].footer.text in user.id
+                        and str(user.id) in message.embeds[0].footer.text
                     ):
                         await message.delete()
                         break
