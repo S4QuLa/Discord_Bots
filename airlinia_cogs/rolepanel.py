@@ -67,7 +67,7 @@ class Role_Panel(commands.Cog):  # 役職パネルの機能
             embed = discord.Embed(
                 title='役職パネル{0}({1})({2}ページ目)'.format(version, tag, len(history) + 1),
                 description='{1}:{0}'.format(role.mention, emoji),
-                color=0xffffff
+                color=0xfefefe
             )
             m = await self.bot.get_channel(616530487229546518).send(embed=embed)
             await m.add_reaction(emoji)
@@ -98,17 +98,21 @@ class Role_Panel(commands.Cog):  # 役職パネルの機能
                     if role not in user.roles:
                         await user.add_roles(role)
                         description = '{0}の役職を付与しました。'.format(role.mention)
+                        embed = discord.Embed(description=description, color=0x0080ff)
+                        embed.set_footer(text='役職パネル', icon_url='https://cdn.discordapp.com/attachments/658699920039215114/670817582034714635/b16b12b993469c42.gif')
                         await message.channel.send(
                             user.mention,
-                            embed=discord.Embed(description=description),
+                            embed=embed,
                             delete_after=10
                         )
                     else:
                         await user.remove_roles(role)
                         description = '{0}の役職を解除しました。'.format(role.mention)
+                        embed = discord.Embed(description=description, color=0xffff00)
+                        embed.set_footer(text='役職パネル', icon_url='https://cdn.discordapp.com/attachments/658699920039215114/670817582034714635/b16b12b993469c42.gif')
                         await message.channel.send(
                             user.mention,
-                            embed=discord.Embed(description=description),
+                            embed=embed,
                             delete_after=10
                         )
 # --------------------------------------------------------------------------------------------------------
@@ -123,9 +127,11 @@ class Role_Panel(commands.Cog):  # 役職パネルの機能
                     if role not in user.roles:
                         await user.add_roles(role)
                         description = '{0}の役職を付与しました。'.format(role.mention)
+                        embed = discord.Embed(description=description, color=0x0080ff)
+                        embed.set_footer(text='役職パネル', icon_url='https://cdn.discordapp.com/attachments/658699920039215114/670817582034714635/b16b12b993469c42.gif')
                         await message.channel.send(
                             user.mention,
-                            embed=discord.Embed(description=description),
+                            embed=embed,
                             delete_after=10
                         )
 
@@ -147,9 +153,11 @@ class Role_Panel(commands.Cog):  # 役職パネルの機能
                     if role in user.roles:
                         await user.remove_roles(role)
                         description = '{0}の役職を解除しました。'.format(role.mention)
+                        embed = discord.Embed(description=description, color=0xffff00)
+                        embed.set_footer(text='役職パネル', icon_url='https://cdn.discordapp.com/attachments/658699920039215114/670817582034714635/b16b12b993469c42.gif')
                         await message.channel.send(
                             user.mention,
-                            embed=discord.Embed(description=description),
+                            embed=embed,
                             delete_after=10
                         )
 
