@@ -14,7 +14,7 @@ class Role_Panel(commands.Cog):  # 役職パネルの機能
         return
 
     @rolepanel.command(aliases=["ea", "embedadd", "embed"])
-    @commands.has_permissions(manage_server=True)
+    @commands.has_guild_permissions(administrator=True)
     async def embed_add(self, ctx, title, content):
         embed = discord.Embed(title=title,
         description=content,
