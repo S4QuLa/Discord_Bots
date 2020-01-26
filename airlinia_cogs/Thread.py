@@ -16,7 +16,7 @@ class Thread(commands.Cog):
         if reaction.message.channel.category_id == 668142017175617546 or reaction.message.channel.category_id == 668374572080562177:
             if reaction.emoji.id == 665462194116493313:
                 member = [reaction.message.author, user]
-                channel = _free_channel_create(reaction.message.channel.category, member, "Thread")
+                channel = await self._channel_create(reaction.message.channel.category, member, "Thread")
                 embed_1 = discord.Embed(title='チャンネル作成しました。',
                 description=f'{channel.mention}\rスレッドを作成しました。',
                 color=0x0080ff)
@@ -28,7 +28,7 @@ class Thread(commands.Cog):
                 embed_2.set_author(name=user.display_name, icon_url=user.avatar_url)
                 channel.send(embed=embed_2, content=f"{user.mention}、{reaction.message.user.mention}")
 
-    async def _free_channel_create(self, category, member, name):
+    async def _channel_create(self, category, member, name):
         overwrites = {
             self.bot.user:
                 discord.PermissionOverwrite.from_pair(discord.Permissions.all(), discord.Permissions.none()),

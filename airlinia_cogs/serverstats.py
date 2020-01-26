@@ -25,13 +25,13 @@ class Server_Stats(commands.Cog):
     @tasks.loop(seconds=1.0, reconnect=True) # minutes
     async def time(self):
         date_time = arrow.now('Asia/Tokyo').format(fmt='YYYY/MM/DD(ddd)HH:mm:ss', locale='ja')
-        await self.bot.get_channel(665355834498351154).edit(name=f"time : {date_time}")
+        await self.bot.get_channel(665355834498351154).edit(name=date_time)
 
     @time.before_loop
     async def before_time(self):
         await self.bot.wait_until_ready()
 
-    @tasks.loop(minutes=1.0, reconnect=True) # hours
+    @tasks.loop(hours=1.0, reconnect=True)
     async def hour_reset(self):
         self.dates["hour_message"] = 0
         ########################
