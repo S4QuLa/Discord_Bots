@@ -27,7 +27,7 @@ class Voice_Channel(commands.Cog):
                 await self._channel_create(member)
             else:
                 try:
-                    text_channel = self.bot.get_channel(self.dates[after.channel.id])
+                    text_channel = self.bot.get_channel(self.dates[after.channel.id]["id"])
                 except KeyError:
                     pass
                 else:
@@ -41,7 +41,7 @@ class Voice_Channel(commands.Cog):
             and (after.channel is None or before.channel != after.channel)
         ):
             try:
-                text_channel = self.bot.get_channel(self.dates[before.channel.id])
+                text_channel = self.bot.get_channel(self.dates[before.channel.id]["id"])
             except KeyError:
                 pass
             else:
@@ -67,8 +67,6 @@ class Voice_Channel(commands.Cog):
                 discord.PermissionOverwrite.from_pair(discord.Permissions.all(), discord.Permissions.none()),
             category.guild.default_role:
                 discord.PermissionOverwrite.from_pair(discord.Permissions.none(), discord.Permissions.all()),
-            member:
-                discord.PermissionOverwrite.from_pair(discord.Permissions(66448721), discord.Permissions.none()),
             category.guild.get_role(635149066795483137): #ミュート。
                 discord.PermissionOverwrite.from_pair(discord.Permissions.none(), discord.Permissions.all()),
             category.guild.get_role(617017694306435073): #閲覧できる役職
@@ -77,13 +75,14 @@ class Voice_Channel(commands.Cog):
         }
         voice_channel = await guild.create_voice_channel(member.display_name, overwrites=overwrites, category=category)
         text_channel = await guild.create_text_channel(member.display_name, overwrites=overwrites, category=category, position=position)
-        self.dates[voice_channel.id] = text_channel.id
+        self.dates[voice_channel.id]["id"] = text_channel.id
+        self.dates[voice_channel.id]["owner"] = member.id
         with open("./date/voicechannel.json", "w") as f:
             json.dump(self.dates, f, indent=4)
         embed = discord.Embed(title='ボイスチャンネル作成通知',
         description=f'{member.mention}さん、ようこそ！',
         color=0x0080ff)
-        await text_channel.send(content=member.mention, embed=embed, delete_after=180)
+        await text_channel.send(content=member.mention, embed=embed)
         await member.move_to(voice_channel)
 
  # ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
@@ -91,6 +90,54 @@ class Voice_Channel(commands.Cog):
     @commands.group()
     async def voice(self, ctx):
         return
+
+    @voice.command()
+    async def lock(self, ctx):
+        if ctx.author.id == self.dates[ctx.author.voice.channel.id]["owner"]:
+            voice_channel = ctx.author.voice.channel
+            text_channel = self.bot.get_channel(self.dates[ctx.author.voice.channel.id]["id"])
+            role = ctx.guild.get_role(617017694306435073)
+            await voice_channel.set_permissions(role, connect=False, speak=False, send_messages=False, read_messages=False)
+            await text_channel.set_permissions(role, connect=False, speak=False, send_messages=False, read_messages=False)
+            embed = discord.Embed(title='Channel Moderate!',
+            description=f'{member.mention}さん、チャンネルをロックしました！🔐',
+            color=0xffff00)
+        elif ctx.author.voice.channel.id is None:
+            await ctx.send(f"{ctx.author.mention}さんボイチャ入ってないですやんか")
+        else
+            await ctx.send(f"{ctx.author.mention}さん、多分そこあんたのチャンネルじゃないよ。")
+
+    @voice.command()
+    async def view_only(self, ctx):
+        if ctx.author.id == self.dates[ctx.author.voice.channel.id]["owner"]:
+            voice_channel = ctx.author.voice.channel
+            text_channel = self.bot.get_channel(self.dates[ctx.author.voice.channel.id]["id"])
+            role = ctx.guild.get_role(617017694306435073)
+            await voice_channel.set_permissions(role, connect=True, speak=False, read_messages=True, send_messages=False)
+            await text_channel.set_permissions(role, connect=True, speak=False, read_messages=True, send_messages=False)
+            embed = discord.Embed(title='Channel Moderate!',
+            description=f'{member.mention}さん、チャンネルを閲覧限定にしました！🔏',
+            color=0xffff00)
+        elif ctx.author.voice.channel.id is None:
+            await ctx.send(f"{ctx.author.mention}さんボイチャ入ってないですやんか")
+        else
+            await ctx.send(f"{ctx.author.mention}さん、多分そこあんたのチャンネルじゃないよ。")
+
+    @voice.command()
+    async def unlock(self, ctx):
+        if ctx.author.id == self.dates[ctx.author.voice.channel.id]["owner"]:
+            voice_channel = ctx.author.voice.channel
+            text_channel = self.bot.get_channel(self.dates[ctx.author.voice.channel.id]["id"])
+            role = ctx.guild.get_role(617017694306435073)
+            await voice_channel.set_permissions(role, connect=True, speak=True, read_messages=True, send_messages=True)
+            await text_channel.set_permissions(role, connect=True, speak=True, read_messages=True, send_messages=True)
+            embed = discord.Embed(title='Channel Moderate!',
+            description=f'{member.mention}さん、チャンネルをアンロックにしました！🔓',
+            color=0xffff00)
+        elif ctx.author.voice.channel.id is None:
+            await ctx.send(f"{ctx.author.mention}さんボイチャ入ってないですやんか")
+        else
+            await ctx.send(f"{ctx.author.mention}さん、多分そこあんたのチャンネルじゃないよ。")
 
 def setup(airlinia):
     airlinia.add_cog(Voice_Channel(airlinia))
