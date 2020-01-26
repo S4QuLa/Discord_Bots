@@ -46,7 +46,7 @@ class Reaction(commands.Cog):
     @commands.Cog.listener()
     async def on_reaction_remove(self, reaction, user):
         if reaction.emoji.id == 670860075736236032: # Retweet
-            for message in reaction.message.channel.history(limit=None):
+            for message in await reaction.message.channel.history(limit=None, after=reaction.message.created_at):
                 if len(reaction.message.embeds) > 0:
                     if (
                         message.embeds[0].description == reaction.message.content
@@ -54,7 +54,7 @@ class Reaction(commands.Cog):
                     ):
                         await message.delete()
                         break
-            for message in self.bot.get_channel(670589954765750294).history(limit=None):
+            for message in await self.bot.get_channel(670589954765750294).history(limit=None, after=reaction.message.created_at):
                 if len(reaction.message.embeds) > 0:
                     if (
                         message.embeds[0].description == reaction.message.content
