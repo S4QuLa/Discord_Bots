@@ -104,7 +104,7 @@ class Voice_Channel(commands.Cog):
             color=0xffff00)
         elif ctx.author.voice.channel.id is None:
             await ctx.send(f"{ctx.author.mention}さんボイチャ入ってないですやんか")
-        else
+        else:
             await ctx.send(f"{ctx.author.mention}さん、多分そこあんたのチャンネルじゃないよ。")
 
     @voice.command()
@@ -120,7 +120,7 @@ class Voice_Channel(commands.Cog):
             color=0xffff00)
         elif ctx.author.voice.channel.id is None:
             await ctx.send(f"{ctx.author.mention}さんボイチャ入ってないですやんか")
-        else
+        else:
             await ctx.send(f"{ctx.author.mention}さん、多分そこあんたのチャンネルじゃないよ。")
 
     @voice.command()
@@ -136,7 +136,7 @@ class Voice_Channel(commands.Cog):
             color=0xffff00)
         elif ctx.author.voice.channel.id is None:
             await ctx.send(f"{ctx.author.mention}さんボイチャ入ってないですやんか")
-        else
+        else:
             await ctx.send(f"{ctx.author.mention}さん、多分そこあんたのチャンネルじゃないよ。")
 
 def setup(airlinia):
