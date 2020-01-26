@@ -4,7 +4,7 @@ import asyncio
 import os
 import re
 
-class Role_panel(commands.Cog):  # 役職パネルの機能
+class Role_Panel(commands.Cog):  # 役職パネルの機能
     def __init__(self, airlinia):
         self.bot = airlinia #botを受け取る。
         self.channel = self.bot.get_channel(616530487229546518)
@@ -14,7 +14,7 @@ class Role_panel(commands.Cog):  # 役職パネルの機能
         return
 
     @rolepanel.command(aliases=["ea", "embedadd", "embed"])
-    @rolepanel.has_permissions(manage_server=True)
+    @commands.has_permissions(manage_server=True)
     async def embed_add(self, ctx, title, content):
         embed = discord.Embed(title=title,
         description=content,
@@ -92,3 +92,6 @@ class Role_panel(commands.Cog):  # 役職パネルの機能
                             embed=discord.Embed(description=description),
                             delete_after=10
                         )
+
+def setup(airlinia):
+    airlinia.add_cog(Role_Panel(airlinia))

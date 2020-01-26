@@ -221,7 +221,7 @@ class Voice_Channel(commands.Cog):
                     await ctx.send(content=f"とっくにオーナーさんいるやないですか。")
                     x = True
             if x == False:
-                self.dates[channel.id]["owner"] = ctx.author.id]
+                self.dates[channel.id]["owner"] = [ctx.author.id]
                 with open("./date/voicechannel.json", "w") as f:
                     json.dump(self.dates, f, indent=4)
                 embed = discord.Embed(title='Channel Moderate!',
