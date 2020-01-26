@@ -13,7 +13,7 @@ class Reaction(commands.Cog):
     @commands.Cog.listener()
     async def on_reaction_add(self, reaction, user):
         if reaction.emoji.id == 670860075736236032: # Retweet
-            embed_retweet = discord.Embed(title=f'Retweet!'
+            embed_retweet = discord.Embed(title=f'Retweet!',
             description=f'{reaction.message.content}',
             color=0x0080ff)
             embed_retweet.set_footer(text=f"{user.display_name} - {user.id}", icon_url=user.avatar_url)
@@ -23,11 +23,8 @@ class Reaction(commands.Cog):
                 embed_retweet.set_image(url=reaction.message.attachments[0].url)
             reaction.message.channel.send(embed=embed_retweet)
             self.bot.get_channel(670589954765750294).send(embed=embed_retweet)
-
-        if reaction.emoji.id == 670860096028409879: # いいね
-            a
-        if reaction.emoji.id == 670860076327632908: # ブックマーク
-            s
+        #if reaction.emoji.id == 670860096028409879: # いいね
+        #if reaction.emoji.id == 670860076327632908: # ブックマーク
         if reaction.message.channel.category_id == 668142017175617546 or reaction.message.channel.category_id == 668374572080562177:
             if reaction.emoji.id == 665462194116493313:
                 members = [reaction.message.author, user]
@@ -64,8 +61,6 @@ class Reaction(commands.Cog):
                                 ):
                                     message.delete()
                                     break
-
-
 
     async def _channel_create(self, category, members, name):
         overwrites = {
