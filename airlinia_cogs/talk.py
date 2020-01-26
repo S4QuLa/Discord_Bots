@@ -15,8 +15,8 @@ class Talk_Bot(commands.Cog):
         if message.author.bot:  # ボットのメッセージをハネる
             return
         if message.channel.id == 663043626418569256:
-            client = pya3rt.TalkClient(os.environ['TALK_API_KEY'])
-            content = client.talk(message.content)['results'][0]['reply']
+            talk_client = pya3rt.TalkClient(os.environ['TALK_API_KEY'])
+            content = talk_client.talk(message.content)['results'][0]['reply']
             await message.channel.send(content) # 返信メッセージを送信
 
 def setup(airlinia):
