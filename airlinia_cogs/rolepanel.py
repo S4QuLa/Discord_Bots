@@ -64,7 +64,7 @@ class Role_Panel(commands.Cog):  # 役職パネルの機能
                 break
         else:
             embed = discord.Embed(
-                title=f'役職パネル{version}({1})({0}ページ目)'.format(len(history) + 1, tag),
+                title='役職パネル{0}({1})({2}ページ目)'.format(version, tag, len(history) + 1),
                 description='{1}:{0}'.format(role.mention, emoji),
                 color=0x000000
             )
