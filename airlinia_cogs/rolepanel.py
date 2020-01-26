@@ -67,7 +67,7 @@ class Role_Panel(commands.Cog):  # 役職パネルの機能
         message = reaction.message
         if user == self.bot.user: #自分のをハネる
             return
-        if message.channel == self.channel and message.author == self.client.user: #役職申請チャンネル且つメッセージがBot
+        if message.channel.id == 616530487229546518 and message.author == self.bot.user: #役職申請チャンネル且つメッセージがBot
             if '役職パネルα' in message.embeds[0].title:
                 await message.remove_reaction(reaction, user) #取り消す
                 match2 = re.search(reaction.emoji + r':<@&(\d*)>', message.embeds[0].description) #取り出す
@@ -108,7 +108,7 @@ class Role_Panel(commands.Cog):  # 役職パネルの機能
         if user == self.client.user: #自分のをハネる
             return
         message = reaction.message
-        if message.channel == self.channel and message.author == self.client.user: #役職申請チャンネル且つメッセージがBot
+        if message.channel.id == 616530487229546518 and message.author == self.bot.user: #役職申請チャンネル且つメッセージがBot
             await message.remove_reaction(reaction, user) #取り消す
             if '役職パネルβ' in message.embeds[0].title:
                 match2 = re.search(reaction.emoji + r':<@&(\d*)>', message.embeds[0].description) #取り出す
