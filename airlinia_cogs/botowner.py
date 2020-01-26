@@ -21,5 +21,10 @@ class Bot_Owner_Command(commands.Cog):
     async def say(self, ctx, *, arg):
         await ctx.send(arg)
 
+    @commands.command()
+    @commands.is_owner()
+    async def say(self, ctx, *, arg):
+        await ctx.channel.edit(slowmode_delay=arg)
+
 def setup(airlinia):
     airlinia.add_cog(Bot_Owner_Command(airlinia))
