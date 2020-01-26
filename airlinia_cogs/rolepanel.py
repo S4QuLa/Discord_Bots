@@ -22,7 +22,7 @@ class Role_Panel(commands.Cog):  # 役職パネルの機能
                 and tag in m.embeds[0].title
             )
         break1 = False
-        history = await self.channel.history(oldest_first=True, limit=None)\
+        history = await self.bot.get_channel(616530487229546518).history(oldest_first=True, limit=None)\
             .filter(check).flatten()
         for m in history:
             embed = m.embeds[0]
