@@ -23,7 +23,7 @@ class Bot_Owner_Command(commands.Cog):
 
     @commands.command()
     @commands.is_owner()
-    async def say(self, ctx, *, arg):
+    async def cedit(self, ctx, *, arg):
         await ctx.channel.edit(slowmode_delay=arg)
 
 def setup(airlinia):
