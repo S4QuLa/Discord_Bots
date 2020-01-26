@@ -3,6 +3,7 @@ from discord.ext import commands
 import asyncio
 import os
 import re
+import json
 
 class Role_Panel(commands.Cog):  # 役職パネルの機能
     def __init__(self, airlinia):
