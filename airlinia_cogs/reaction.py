@@ -22,9 +22,9 @@ class Reaction(commands.Cog):
             embed_retweet.set_thumbnail(url=reaction.message.author.avatar_url)
             if len(reaction.message.attachments) > 0:
                 embed_retweet.set_image(url=reaction.message.attachments[0].url)
-            if user.permissions_in(reaction.channel).send_messages
-                await reaction.message.channel.send(embed=embed_retweet)
             await self.bot.get_channel(670589954765750294).send(embed=embed_retweet)
+            if user.permissions_in(reaction.channel).send_messages:
+                await reaction.message.channel.send(embed=embed_retweet)
         #if reaction.emoji.id == 670860096028409879: # いいね
         #if reaction.emoji.id == 670860076327632908: # ブックマーク
         if reaction.message.channel.category_id == 668142017175617546 or reaction.message.channel.category_id == 668374572080562177:
