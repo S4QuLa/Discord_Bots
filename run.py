@@ -7,7 +7,7 @@ import threading
 import sys
 import traceback
 
-loop = asyncio.new_event_loop()
+loop = asyncio.get_event_loop()
 
 airlinia_token = os.environ['AIRLINIA_DISCORD_TOKEN']
 technetium_token = os.environ['TECHNETIUM_DISCORD_TOKEN']
