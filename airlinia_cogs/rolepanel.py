@@ -12,6 +12,15 @@ class Role_Panel(commands.Cog):  # 役職パネルの機能
         with open('./date/rolepanel.json', 'r') as f:
             self.dates = json.load(f)
 
+    @commands.Cog.listener()
+    async def on_ready(self):
+        self.channel: discord.TextChannel = self.bot.get_channel(616530487229546518)
+        async for message in self.bot.get_channel(616530487229546518).history().filter(lambda m: m.author == self.bot.user):
+            for reaction in message.reactions:
+                async for user in reaction.users().filter(lambda u: u != self.bot.user):
+                    self.bot.loop.create_task(message.remove_reaction(reaction, user))
+            self.bot._connection._messages.append(message)
+
     @commands.group(aliases=["rp"])
     async def rolepanel(self, ctx):
         return
@@ -19,6 +28,14 @@ class Role_Panel(commands.Cog):  # 役職パネルの機能
     @rolepanel.command(aliases=["rpaa", "alphaadd", "aa"])
     @commands.has_guild_permissions(administrator=True)
     async def _rolepanel_alpha_add(self, ctx, emoji, role: discord.Role, tag='通常'):
+        await self._rolepanel_add(self, ctx, emoji, role, version='α', tag=tag)
+
+    @rolepanel.command(aliases=["rpba", "betaadd", "ba"])
+    @commands.has_guild_permissions(administrator=True)
+    async def _rolepanel_beta_add(self, ctx, emoji, role: discord.Role, tag='通常'):
+        await self._rolepanel_add(self, ctx, emoji, role, version='β', tag=tag)
+
+    async def _rolepanel_add(self, ctx, emoji, role, version='α', tag='通常'):
         def check(m):
             return (
                 m.author == self.bot.user and m.embeds
@@ -47,7 +64,7 @@ class Role_Panel(commands.Cog):  # 役職パネルの機能
                 break
         else:
             embed = discord.Embed(
-                title='役職パネルα({1})({0}ページ目)'.format(len(history) + 1, tag),
+                title=f'役職パネル{version}({1})({0}ページ目)'.format(len(history) + 1, tag),
                 description='{1}:{0}'.format(role.mention, emoji),
                 color=0x000000
             )
@@ -105,7 +122,7 @@ class Role_Panel(commands.Cog):  # 役職パネルの機能
 
     @commands.Cog.listener()
     async def on_reaction_remove(self, reaction, user):
-        if user == self.client.user: #自分のをハネる
+        if user == self.bot.user: #自分のをハネる
             return
         message = reaction.message
         if message.channel.id == 616530487229546518 and message.author == self.bot.user: #役職申請チャンネル且つメッセージがBot
