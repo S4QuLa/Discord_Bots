@@ -3,7 +3,6 @@ import discord
 from discord.ext import commands
 import asyncio
 import os
-import threading
 import sys
 import traceback
 
@@ -27,7 +26,11 @@ class DISCORDBOT(commands.Bot):
                     traceback.print_exc()
 
     async def on_ready(self): # 準備完了時に呼び出す。
-        print(f'ログインしました。\n------\nBotのアカウントの概要\nユーザー名:{self.user.name}\nユーザーID:{self.user.id}\n------\nDiscord.pyのバージョン\n{discord.__version__}\n------\nPythonのバージョン\n{sys.version}\n――――――――――――――――――――――――――――――')
+        print(f"""ログインしました。
+        ------\nBotのアカウントの概要\nユーザー名:{self.user.name}\nユーザーID:{self.user.id}
+        ------\nDiscord.pyのバージョン\n{discord.__version__}
+        ------\nPythonのバージョン\n{sys.version}
+        ――――――――――――――――――――――――――――――""")
         await self.change_presence(activity=discord.Game(name=f'{self.command_prefix}￤{self.user.name} - by.amazakura0804'))
 
 if __name__ == '__main__':
