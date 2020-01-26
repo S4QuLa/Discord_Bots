@@ -21,8 +21,8 @@ class Reaction(commands.Cog):
             embed_retweet.set_thumbnail(url=reaction.message.author.avatar_url)
             if len(reaction.message.attachments) > 0:
                 embed_retweet.set_image(url=reaction.message.attachments[0].url)
-            reaction.message.channel.send(embed=embed_retweet)
-            self.bot.get_channel(670589954765750294).send(embed=embed_retweet)
+            await reaction.message.channel.send(embed=embed_retweet)
+            await self.bot.get_channel(670589954765750294).send(embed=embed_retweet)
         #if reaction.emoji.id == 670860096028409879: # いいね
         #if reaction.emoji.id == 670860076327632908: # ブックマーク
         if reaction.message.channel.category_id == 668142017175617546 or reaction.message.channel.category_id == 668374572080562177:
@@ -52,7 +52,7 @@ class Reaction(commands.Cog):
                         message.embeds[0].description == reaction.message.content
                         and message.embeds[0].footer.text in f"{user.id}"
                     ):
-                        message.delete()
+                        await message.delete()
                         break
             for message in self.bot.get_channel(670589954765750294).Messageable.history(limit=None):
                 if len(reaction.message.embeds) > 0:
@@ -60,7 +60,7 @@ class Reaction(commands.Cog):
                         message.embeds[0].description == reaction.message.content
                         and message.embeds[0].footer.text in f"{user.id}"
                     ):
-                        message.delete()
+                        await message.delete()
                         break
 
     async def _channel_create(self, category, members, name):
