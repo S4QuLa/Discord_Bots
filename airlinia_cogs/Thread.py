@@ -15,7 +15,7 @@ class Thread(commands.Cog):
         print("category_id:", reaction.message.channel.category_id, "\nemoji_id:",  reaction.emoji.id)
         if reaction.message.channel.category_id == 668142017175617546 or reaction.message.channel.category_id == 668374572080562177:
             if reaction.emoji.id == 665462194116493313:
-                member = [reaction.message.author, user]
+                members = [reaction.message.author, user]
                 channel = await self._channel_create(reaction.message.channel.category, member, "Thread")
                 embed_1 = discord.Embed(title='チャンネル作成しました。',
                 description=f'{channel.mention}\rスレッドを作成しました。',
@@ -26,15 +26,20 @@ class Thread(commands.Cog):
                 color=0x0080ff)
                 embed_2.set_footer(text="国際空創国家連合", icon_url="https://cdn.discordapp.com/attachments/658699920039215114/670817582034714635/b16b12b993469c42.gif")
                 embed_2.set_author(name=user.display_name, icon_url=user.avatar_url)
+                embed_2.set_thumbnail(url=reaction.message.author.avatar_url)
+                if reaction.message.attachments[0] is not None
+                    embed_2.set_image(url=reaction.message.attachments[0].url)
                 channel.send(embed=embed_2, content=f"{user.mention}、{reaction.message.user.mention}")
 
-    async def _channel_create(self, category, member, name):
+    async def _channel_create(self, category, members, name):
         overwrites = {
             self.bot.user:
                 discord.PermissionOverwrite.from_pair(discord.Permissions.all(), discord.Permissions.none()),
             category.guild.default_role:
                 discord.PermissionOverwrite.from_pair(discord.Permissions.none(), discord.Permissions.all()),
-            member:
+            members[0]:
+                discord.PermissionOverwrite.from_pair(discord.Permissions(66448721), discord.Permissions.none()),
+            members[1]:
                 discord.PermissionOverwrite.from_pair(discord.Permissions(66448721), discord.Permissions.none()),
             category.guild.get_role(635149066795483137): #ミュート。
                 discord.PermissionOverwrite.from_pair(discord.Permissions.none(), discord.Permissions.all()),
