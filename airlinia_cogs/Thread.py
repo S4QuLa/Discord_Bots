@@ -26,8 +26,8 @@ class Thread(commands.Cog):
                 embed_2.set_footer(text="国際空創国家連合", icon_url="https://cdn.discordapp.com/attachments/658699920039215114/670817582034714635/b16b12b993469c42.gif")
                 embed_2.set_author(name=user.display_name, icon_url=user.avatar_url)
                 embed_2.set_thumbnail(url=reaction.message.author.avatar_url)
-                if reaction.message.attachments is not None:
-                    embed_2.set_image(url=reaction.message.attachments[0].url)
+                if len(reaction.message.attachments) > 0:
+                    embed.set_image(url=reaction.message.attachments[0]["url"])
                 channel.send(embed=embed_2, content=f"{user.mention}、{reaction.message.author.mention}")
 
     async def _channel_create(self, category, members, name):
