@@ -57,6 +57,7 @@ class Role_Panel(commands.Cog):  # 役職パネルの機能
                         + lines[i:len(lines) + 1]
                     )
                     embed.description = new_lines
+                    embed.color = 0xfefefe
                     await m.edit(embed=embed)
                     await m.add_reaction(emoji)
                     break1 = True
