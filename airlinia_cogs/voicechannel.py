@@ -73,8 +73,8 @@ class Voice_Channel(commands.Cog):
                 discord.PermissionOverwrite.from_pair(
                     discord.Permissions(37080128), discord.Permissions(2 ** 53 - 37080129)),
         }
-        voice_channel = await guild.create_voice_channel(member.display_name, overwrites=overwrites, category=category)
         text_channel = await guild.create_text_channel(member.display_name, overwrites=overwrites, category=category, position=position)
+        voice_channel = await guild.create_voice_channel(member.display_name, overwrites=overwrites, category=category)
         self.dates[voice_channel.id]["id"] = text_channel.id
         self.dates[voice_channel.id]["owner"] = member.id
         with open("./date/voicechannel.json", "w") as f:
