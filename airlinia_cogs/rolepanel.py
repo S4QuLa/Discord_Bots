@@ -92,7 +92,7 @@ class Role_Panel(commands.Cog):  # 役職パネルの機能
                     match2 = re.search(reaction.emoji + r':<@&(\d*)>', message.embeds[0].description) #取り出す
                 except TypeError:
                     emoji_text = f"<:{reaction.emoji.name}:{reaction.emoji.id}>"
-                    match2 = re.search(emoji_text + r':<@&(\d*)>', message.embeds[0].description) #取り出す
+                    match2 = re.search(emoji_text + r':<@&(\d*)>', message.embeds[0].description)
                 if match2:
                     role = message.guild.get_role(int(match2.group(1)))
                     if role not in user.roles:
@@ -113,7 +113,11 @@ class Role_Panel(commands.Cog):  # 役職パネルの機能
                         )
 # --------------------------------------------------------------------------------------------------------
             elif '役職パネルβ' in message.embeds[0].title:
-                match2 = re.search(reaction.emoji + r':<@&(\d*)>', message.embeds[0].description) #取り出す
+                try:
+                    match2 = re.search(reaction.emoji + r':<@&(\d*)>', message.embeds[0].description) #取り出す
+                except TypeError:
+                    emoji_text = f"<:{reaction.emoji.name}:{reaction.emoji.id}>"
+                    match2 = re.search(emoji_text + r':<@&(\d*)>', message.embeds[0].description)
                 if match2:
                     role = message.guild.get_role(int(match2.group(1))) # Roleを取得
                     if role not in user.roles:
@@ -133,7 +137,11 @@ class Role_Panel(commands.Cog):  # 役職パネルの機能
         if message.channel.id == 616530487229546518 and message.author == self.bot.user: #役職申請チャンネル且つメッセージがBot
             await message.remove_reaction(reaction, user) #取り消す
             if '役職パネルβ' in message.embeds[0].title:
-                match2 = re.search(reaction.emoji + r':<@&(\d*)>', message.embeds[0].description) #取り出す
+                try:
+                    match2 = re.search(reaction.emoji + r':<@&(\d*)>', message.embeds[0].description) #取り出す
+                except TypeError:
+                    emoji_text = f"<:{reaction.emoji.name}:{reaction.emoji.id}>"
+                    match2 = re.search(emoji_text + r':<@&(\d*)>', message.embeds[0].description)
                 if match2:
                     role = message.guild.get_role(int(match2.group(1))) # Roleを取得
                     if role in user.roles:
