@@ -101,12 +101,13 @@ class Voice_Channel(commands.Cog):
             await voice_channel.set_permissions(role, connect=False, speak=False, send_messages=False, read_messages=False)
             await text_channel.set_permissions(role, connect=False, speak=False, send_messages=False, read_messages=False)
             embed = discord.Embed(title='Channel Moderate!',
-            description=f'{member.mention}さん、チャンネルをロックしました！🔐',
+            description=f'{ctx.author.mention}さん、チャンネルをロックしました！🔐',
             color=0xffff00)
+            await ctx.send(content=ctx.author.mention, embed=embed)
         elif ctx.author.voice.channel.id is None:
-            await ctx.send(f"{ctx.author.mention}さんボイチャ入ってないですやんか")
+            await ctx.send(content=f"{ctx.author.mention}さんボイチャ入ってないですやんか")
         else:
-            await ctx.send(f"{ctx.author.mention}さん、多分そこあんたのチャンネルじゃないよ。")
+            await ctx.send(content=f"{ctx.author.mention}さん、多分そこあんたのチャンネルじゃないよ。")
 
     @voice.command()
     async def view_only(self, ctx):
@@ -117,12 +118,13 @@ class Voice_Channel(commands.Cog):
             await voice_channel.set_permissions(role, connect=True, speak=False, read_messages=True, send_messages=False)
             await text_channel.set_permissions(role, connect=True, speak=False, read_messages=True, send_messages=False)
             embed = discord.Embed(title='Channel Moderate!',
-            description=f'{member.mention}さん、チャンネルを閲覧限定にしました！🔏',
+            description=f'{ctx.author.mention}さん、チャンネルを閲覧限定にしました！🔏',
             color=0xffff00)
+            await ctx.send(content=ctx.author.mention, embed=embed)
         elif ctx.author.voice.channel.id is None:
-            await ctx.send(f"{ctx.author.mention}さんボイチャ入ってないですやんか")
+            await ctx.send(content=f"{ctx.author.mention}さんボイチャ入ってないですやんか")
         else:
-            await ctx.send(f"{ctx.author.mention}さん、多分そこあんたのチャンネルじゃないよ。")
+            await ctx.send(content=f"{ctx.author.mention}さん、多分そこあんたのチャンネルじゃないよ。")
 
     @voice.command()
     async def unlock(self, ctx):
@@ -133,12 +135,13 @@ class Voice_Channel(commands.Cog):
             await voice_channel.set_permissions(role, connect=True, speak=True, read_messages=True, send_messages=True)
             await text_channel.set_permissions(role, connect=True, speak=True, read_messages=True, send_messages=True)
             embed = discord.Embed(title='Channel Moderate!',
-            description=f'{member.mention}さん、チャンネルをアンロックにしました！🔓',
+            description=f'{ctx.author.mention}さん、チャンネルをアンロックにしました！🔓',
             color=0xffff00)
+            await ctx.send(content=ctx.author.mention, embed=embed)
         elif ctx.author.voice.channel.id is None:
-            await ctx.send(f"{ctx.author.mention}さんボイチャ入ってないですやんか")
+            await ctx.send(content=f"{ctx.author.mention}さんボイチャ入ってないですやんか")
         else:
-            await ctx.send(f"{ctx.author.mention}さん、多分そこあんたのチャンネルじゃないよ。")
+            await ctx.send(content=f"{ctx.author.mention}さん、多分そこあんたのチャンネルじゃないよ。")
 
 def setup(airlinia):
     airlinia.add_cog(Voice_Channel(airlinia))
