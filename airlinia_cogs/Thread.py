@@ -19,7 +19,7 @@ class Thread(commands.Cog):
                 embed_1 = discord.Embed(title='チャンネル作成しました。',
                 description=f'{channel.mention}\rスレッドを作成しました。',
                 color=0x0080ff)
-                reaction.message.channel.send(embed=embed_1, content=f"{user.mention}、{reaction.message.user.mention}")
+                reaction.message.channel.send(embed=embed_1, content=f"{user.mention}、{reaction.message.set_author.mention}")
 
                 embed_2 = discord.Embed(description=f'{reaction.message.content}',
                 color=0x0080ff)
