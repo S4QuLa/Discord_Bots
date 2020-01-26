@@ -7,7 +7,6 @@ import re
 class Role_Panel(commands.Cog):  # 役職パネルの機能
     def __init__(self, airlinia):
         self.bot = airlinia #botを受け取る。
-        self.channel: discord.TextChannel = self.bot.get_channel(616530487229546518)
 
     @commands.group(aliases=["rp"])
     async def rolepanel(self, ctx):
@@ -18,7 +17,7 @@ class Role_Panel(commands.Cog):  # 役職パネルの機能
     async def _rolepanel_alpha_add(self, ctx, emoji, role: discord.Role, tag='通常'):
         def check(m):
             return (
-                m.author == self.client.user and m.embeds
+                m.author == self.bot.user and m.embeds
                 and tag in m.embeds[0].title
             )
         break1 = False
