@@ -25,6 +25,7 @@ class DISCORDBOT(commands.Bot):
                     traceback.print_exc()
 
     async def on_ready(self): # 準備完了時に呼び出す。
+        self.remove_command("help")
         print(f"ログインしました。\n"
         f"------\nBotのアカウントの概要\nユーザー名:{self.user.name}\nユーザーID:{self.user.id}\n"
         f"------\nDiscord.pyのバージョン\n{discord.__version__}\n"
