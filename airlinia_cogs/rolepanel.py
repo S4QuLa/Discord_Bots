@@ -13,24 +13,41 @@ class Role_Panel(commands.Cog):  # 役職パネルの機能
     async def rolepanel(self, ctx):
         return
 
-    @rolepanel.command(aliases=["ea", "embedadd", "embed"])
+    @rolepanel.command(aliases=["rpaa", "alphaadd", "aa"])
     @commands.has_guild_permissions(administrator=True)
-    async def embed_add(self, ctx, title, content):
-        embed = discord.Embed(title=title,
-        description=content,
-        color=0x0080ff)
-        embed.set_footer(text='国際空創国家連合', icon_url='https://cdn.discordapp.com/attachments/658699920039215114/670817582034714635/b16b12b993469c42.gif')
-        embed.set_author(name='役職パネル')
-        panel = ctx.send(embed=embed)
-        matchs1 = re.findall(r'(.|<:.*:(\d*)>):<@&(\d*)>', content)
-        matchs2 = []
-        for match in matchs1:
-            if match.group(2) is None:
-                matchs2.apped(match.group(1))
-            else:
-                matchs2.apped(match.group(2))
-        for match in matchs2:
-            await panel.reaction_add(match)
+    async def _rolepanel_alpha_add(self, ctx, emoji, role: discord.Role, tag):
+        def check(m):
+            return (
+                m.author == self.client.user and m.embeds
+                and tag in m.embeds[0].title
+            )
+        break1 = False
+        history = await self.channel.history(oldest_first=True).filter(check).flatten()
+        for m in history:
+            embed = m.embeds[0]
+            description = embed.description
+            lines = description.splitlines()
+            for i in range(20):
+                if emoji not in description:
+                    new_lines = '\n'.join(
+                        lines[0:i]
+                        + ['{0}:{1}'.format(emoji, role.mention)]
+                        + lines[i:len(lines) + 1]
+                    )
+                    embed.description = new_lines
+                    await m.edit(embed=embed)
+                    await m.add_reaction(emoji)
+                    break1 = True
+                    break
+            if break1:
+                break
+        else:
+            embed = discord.Embed(
+                title='役職パネルα({1})({0}ページ目)'.format(len(history) + 1, tag),
+                description='{1}:{0}'.format(role.mention, emoji)
+            )
+            m = await self.channel.send(embed=embed)
+            await m.add_reaction(emoji)
 
     @commands.Cog.listener()
     async def on_reaction_add(self, reaction, user):
