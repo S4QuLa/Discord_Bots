@@ -15,14 +15,15 @@ class Role_Panel(commands.Cog):  # 役職パネルの機能
 
     @rolepanel.command(aliases=["rpaa", "alphaadd", "aa"])
     @commands.has_guild_permissions(administrator=True)
-    async def _rolepanel_alpha_add(self, ctx, emoji, role: discord.Role, tag):
+    async def _rolepanel_alpha_add(self, ctx, emoji, role: discord.Role, tag='通常'):
         def check(m):
             return (
                 m.author == self.client.user and m.embeds
                 and tag in m.embeds[0].title
             )
         break1 = False
-        history = await self.channel.history(oldest_first=True).filter(check).flatten()
+        history = await self.channel.history(oldest_first=True)\
+            .filter(check).flatten()
         for m in history:
             embed = m.embeds[0]
             description = embed.description
