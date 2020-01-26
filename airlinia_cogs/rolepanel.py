@@ -53,9 +53,9 @@ class Role_Panel(commands.Cog):  # 役職パネルの機能
             m = await self.bot.get_channel(616530487229546518).send(embed=embed)
             await m.add_reaction(emoji)
 
-    @rolepanel.command(aliases=["rpaa", "alphaadd", "aa"])
+    @rolepanel.command(aliases=["rpga", "gammaadd", "ga"])
     @commands.has_guild_permissions(administrator=True)
-    async def _rolepanel_alpha_add(self, ctx, _message_id, emoji, role: discord.Role):
+    async def _rolepanel_gamma_add(self, ctx, _message_id, emoji, role: discord.Role):
         self.dates[_message_id] = {}
         self.dates[_message_id][emoji] = role.id
         with open("./date/rolepanel.json", "w") as f:
