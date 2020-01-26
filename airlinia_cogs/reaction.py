@@ -53,14 +53,15 @@ class Reaction(commands.Cog):
                         and message.embeds[0].footer.text in f"{user.id}"
                     ):
                         message.delete()
-                        for message in self.bot.get_channel(670589954765750294).Messageable.history(limit=None):
-                            if len(reaction.message.embeds) > 0:
-                                if (
-                                    message.embeds[0].description == reaction.message.content
-                                    and message.embeds[0].footer.text in f"{user.id}"
-                                ):
-                                    message.delete()
-                                    break
+                        break
+            for message in self.bot.get_channel(670589954765750294).Messageable.history(limit=None):
+                if len(reaction.message.embeds) > 0:
+                    if (
+                        message.embeds[0].description == reaction.message.content
+                        and message.embeds[0].footer.text in f"{user.id}"
+                    ):
+                        message.delete()
+                        break
 
     async def _channel_create(self, category, members, name):
         overwrites = {
