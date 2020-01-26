@@ -12,7 +12,6 @@ class Thread(commands.Cog):
 
     @commands.Cog.listener()
     async def on_reaction_add(self, reaction, user):
-        print("category_id:", reaction.message.channel.category_id, "\nemoji_id:",  reaction.emoji.id)
         if reaction.message.channel.category_id == 668142017175617546 or reaction.message.channel.category_id == 668374572080562177:
             if reaction.emoji.id == 665462194116493313:
                 members = [reaction.message.author, user]
