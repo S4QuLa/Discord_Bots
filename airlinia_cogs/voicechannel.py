@@ -186,7 +186,7 @@ class Voice_Channel(commands.Cog):
         if ctx.author.id == self.dates[channel.id]["owner"]:
             await channel.edit(user_limit = limit)
             embed = discord.Embed(title='Channel Moderate!',
-            description=f'参加人数を{limit}人に制限しました。🎟'
+            description=f'参加人数を{limit}人に制限しました。🎟',
             color=0x000000)
             await ctx.send(content=f"{ctx.author.mention}", embed=embed)
         elif channel.id is None:
@@ -202,7 +202,7 @@ class Voice_Channel(commands.Cog):
             await channel.edit(name = name)
             await text_channel.edit(name = name)
             embed = discord.Embed(title='Channel Moderate!',
-            description=f'チャンネル名を{name}に変更しました！✒'
+            description=f'チャンネル名を{name}に変更しました！✒',
             color=0x000000)
             await ctx.send(content=f"{ctx.author.mention}", embed=embed)
         elif channel.id is None:
