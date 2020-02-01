@@ -127,5 +127,5 @@ class Category_Index(commands.Cog):
                     or before.topic != after.topic):
                 await self.on_guild_channel_create(after)
 
- def setup(airlinia):
-     airlinia.add_cog(Category_Index(airlinia))
+def setup(airlinia):
+    airlinia.add_cog(Category_Index(airlinia))

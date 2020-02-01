@@ -239,7 +239,7 @@ class Voice_Channel(commands.Cog):
             description=f'チャンネル名を{name}に変更しました！✒',
             color=0xffffff)
             await ctx.send(content=f"{ctx.author.mention}", embed=embed)
-        elif channel.id None:
+        elif channel is None:
             await ctx.send(content=f"{ctx.author.mention}さんボイチャ入ってないですやんか")
         else:
             await ctx.send(content=f"{ctx.author.mention}さん、多分そこあんたのチャンネルじゃないよ。")
