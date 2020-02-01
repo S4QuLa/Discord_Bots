@@ -70,6 +70,7 @@ class Role_Panel(commands.Cog):  # 役職パネルの機能
                 description='{1}:{0}'.format(role.mention, emoji),
                 color=0xfefefe
             )
+            embed.set_footer(text='役職パネル', icon_url='https://cdn.discordapp.com/attachments/658699920039215114/670817582034714635/b16b12b993469c42.gif')
             m = await self.bot.get_channel(616530487229546518).send(embed=embed)
             await m.add_reaction(emoji)
 
