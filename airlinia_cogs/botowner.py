@@ -27,7 +27,7 @@ class Bot_Owner_Command(commands.Cog):
     @commands.is_owner()
     async def _eval(self, ctx):
         env = {
-            'bot': self.client,
+            'bot': self.bot,
             'ctx': ctx,
             'channel': ctx.channel,
             'author': ctx.author,
