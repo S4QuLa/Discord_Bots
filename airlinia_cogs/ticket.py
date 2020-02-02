@@ -116,7 +116,7 @@ class Role_Panel(commands.Cog):  # 役職パネルの機能
                     ticket_role = message.guild.get_role(int(match2.group(1)))
                     ticket_category = str(match2.group(2))
                     for channel in self.category.text_channels:
-                        if user.id in channel.topic: #その人のチケットが開いてるか
+                        if str(user.id) in channel.topic: #その人のチケットが開いてるか
                             embed = discord.Embed(description='別のチケットが開かれています。チケットを閉じてから新しく開いてください。', color=0xffff00)
                             embed.set_footer(text='サーバーチケット', icon_url='https://cdn.discordapp.com/attachments/658699920039215114/670817582034714635/b16b12b993469c42.gif')
                             await message.channel.send(user.mention, embed=embed, delete_after=10)
