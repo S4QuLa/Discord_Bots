@@ -11,6 +11,7 @@ import io
 class Bot_Owner_Command(commands.Cog):
     def __init__(self, airlinia):
         self.bot = airlinia #botを受け取る。
+        self._last_result = None
 
     @commands.command()
     @commands.is_owner()
