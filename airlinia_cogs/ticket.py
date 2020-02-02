@@ -39,7 +39,7 @@ class Role_Panel(commands.Cog):  # 役職パネルの機能
         def check(m):
             return (
                 m.author == self.bot.user and m.embeds
-                and tag in m.embeds[0].title
+                and "サポートチケット" in m.embeds[0].title
             )
         break1 = False
         history = await self.bot.get_channel(655260036741988352).history(oldest_first=True, limit=None)\
