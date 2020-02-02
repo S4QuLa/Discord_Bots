@@ -81,17 +81,17 @@ class Role_Panel(commands.Cog):  # 役職パネルの機能
         overwrites = {
             self.bot.user:
                 discord.PermissionOverwrite.from_pair(discord.Permissions.all(), discord.Permissions.none()),
-            category.guild.default_role:
+            guild.default_role:
                 discord.PermissionOverwrite.from_pair(discord.Permissions.none(), discord.Permissions.all()),
-            category.guild.get_role(635149066795483137): #ミュート。
+            guild.get_role(635149066795483137): #ミュート。
                 discord.PermissionOverwrite.from_pair(discord.Permissions.none(), discord.Permissions.all()),
-            member:
+            guild.get_role(655254335030034442): #本部役員
                 discord.PermissionOverwrite.from_pair(
                     discord.Permissions(37080128), discord.Permissions(2 ** 53 - 37080129)),
             ticket_role: #閲覧できる役職
                 discord.PermissionOverwrite.from_pair(
-                    discord.Permissions(37080128), discord.Permissions(2 ** 53 - 37080129))
-            category.guild.get_role(655254335030034442): #本部役員
+                    discord.Permissions(37080128), discord.Permissions(2 ** 53 - 37080129)),
+            member:
                 discord.PermissionOverwrite.from_pair(
                     discord.Permissions(37080128), discord.Permissions(2 ** 53 - 37080129))
         }
