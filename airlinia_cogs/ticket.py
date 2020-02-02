@@ -32,7 +32,7 @@ class Role_Panel(commands.Cog):  # 役職パネルの機能
 
     @supportpanel.command(aliases=["spa", "spadd", "add"])
     @commands.has_guild_permissions(administrator=True)
-    async def _supportpanel_add(self, ctx, emoji, role: discord.Role, ticket):
+    async def supportpanel_add(self, ctx, emoji, role: discord.Role, ticket):
         await self._supportpanel_add(emoji, role, ticket)
 
     async def _supportpanel_add(self, emoji, role, ticket):
