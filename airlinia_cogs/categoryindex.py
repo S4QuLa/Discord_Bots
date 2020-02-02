@@ -4,9 +4,6 @@ from discord.ext import commands
 import re
 import asyncio
 
-from .general import is_zatudanfolum
-
-
 class Category_Index(commands.Cog):
     __slots__ = ('client', 'index_index', 'name', 'id_match')
 
