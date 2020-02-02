@@ -26,16 +26,16 @@ class Role_Panel(commands.Cog):  # 役職パネルの機能
                     self.bot.loop.create_task(message.remove_reaction(reaction, user))
             self.bot._connection._messages.append(message)
 
-    @commands.group(aliases=["rp"])
-    async def rolepanel(self, ctx):
+    @commands.group(aliases=["sp"])
+    async def supportpanel(self, ctx):
         return
 
-    @rolepanel.command(aliases=["rpaa", "alphaadd", "aa"])
+    @supportpanel.command(aliases=["spa", "spadd", "add"])
     @commands.has_guild_permissions(administrator=True)
-    async def _rolepanel_alpha_add(self, ctx, emoji, role: discord.Role, ticket):
-        await self._rolepanel_add(emoji, role, ticket)
+    async def _supportpanel_add(self, ctx, emoji, role: discord.Role, ticket):
+        await self._supportpanel_add(emoji, role, ticket)
 
-    async def _rolepanel_add(self, emoji, role, ticket):
+    async def _supportpanel_add(self, emoji, role, ticket):
         def check(m):
             return (
                 m.author == self.bot.user and m.embeds
