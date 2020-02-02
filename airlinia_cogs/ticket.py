@@ -103,7 +103,7 @@ class Role_Panel(commands.Cog):  # 役職パネルの機能
         message = reaction.message
         if user == self.bot.user: #自分のをハネる
             return
-        if message.channel.id == 655260036741988352 and message.author == self.bot.user: #役職申請チャンネル且つメッセージがBot
+        if message.channel.id == 655260036741988352 and message.author == self.bot.user:
             if 'サポートチケット' in message.embeds[0].title:
                 await message.remove_reaction(reaction, user) #取り消す
                 try:
@@ -114,7 +114,7 @@ class Role_Panel(commands.Cog):  # 役職パネルの機能
                 x = False
                 if match2:
                     ticket_role = message.guild.get_role(int(match2.group(1)))
-                    ticket_category = int(match2.group(2))
+                    ticket_category = str(match2.group(2))
                     for self.category.text_channels in channel:
                         if user.id in channel.topic: #もう開いてる？
                             embed = discord.Embed(description='別のチケットが開かれています。チケットを閉じてから新しく開いてください。', color=0xffff00)
