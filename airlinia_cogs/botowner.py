@@ -39,9 +39,9 @@ class Bot_Owner_Command(commands.Cog):
 
         env.update(globals())
         embed = discord.Embed(title='Eval Command!', description='コードをどうぞ。', color=0x0080ff)
-        embed.set_author(name=f'{ctx.author.name} - 作成許可待ちです。',icon_url='https://i.imgur.com/yRCJ26G.gif')
+        embed.set_author(name=f'{ctx.author.name}',icon_url='https://i.imgur.com/yRCJ26G.gif')
         await ctx.send(embed=embed)
-        message = await self.client.wait_for(
+        message = await self.bot.wait_for(
             'message', check=lambda m: m.author == ctx.author and m.channel == ctx.channel)
         body = self.cleanup_code(message.content)
         stdout = io.StringIO()
