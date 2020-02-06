@@ -67,7 +67,7 @@ class Category_Index(commands.Cog):
                 message = None
             channels = sorted((c for c in category.channels if isinstance(
                 c, discord.TextChannel) and c != index_channel), key=lambda c: c.position)
-            content = '\n'.join(('-' * 10, self.index_index.mention, '-' * 10, '')) \
+            content = '\n'.join(('━' * 5, self.index_index.mention, '━' * 5, '')) \
                 + '\n'.join(map(lambda c: c.mention,
                                 sorted(channels, key=lambda c: c.position)))
             if message is not None:
@@ -87,7 +87,7 @@ class Category_Index(commands.Cog):
                     break
             else:
                 message = None
-            description = channel.topic if channel.topic else 'トピックはないと思います'
+            description = channel.topic if channel.topic else 'トピックは粛清された模様。'
             embed = discord.Embed(title=channel.name,
                                   description='ID:{0}'.format(channel.id))
             embed.add_field(name='チャンネルトピック', value=description)
