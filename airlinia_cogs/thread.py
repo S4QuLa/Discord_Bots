@@ -40,9 +40,7 @@ class Thread(commands.Cog):
                 discord.PermissionOverwrite.from_pair(discord.Permissions(66448721), discord.Permissions.none()),
             members[1]:
                 discord.PermissionOverwrite.from_pair(discord.Permissions(66448721), discord.Permissions.none()),
-            category.guild.get_role(635149066795483137): #ミュート。
-                discord.PermissionOverwrite.from_pair(discord.Permissions.none(), discord.Permissions.all()),
-            category.guild.get_role(617017694306435073): #閲覧できる役職
+            category.guild.get_role(655254335030034442): #閲覧できる役職
                 discord.PermissionOverwrite.from_pair(
                     discord.Permissions(37080128), discord.Permissions(2 ** 53 - 37080129)),
         }

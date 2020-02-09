@@ -5,8 +5,6 @@ import re
 import asyncio
 
 class Category_Index(commands.Cog):
-    __slots__ = ('client', 'index_index', 'name', 'id_match')
-
     def __init__(self, client, name=None):
         self.client: commands.Bot = client
         self.id_match = re.compile(r'ID:(\d*)')
