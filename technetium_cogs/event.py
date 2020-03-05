@@ -34,10 +34,19 @@ class Event(commands.Cog):
     async def on_member_join(self, member):
         cl = discord.Color(random.randint(0, 0xFFFFFF))
         embed = discord.Embed(title=f"利用規約はここから",
-                              description=f"{member.guild.name}へようこそ！{member.name}さん！\n{len(member.guild.members)}人目の参加者です！\n> 何か困ったことがあればぜひとも運営にメンションをしてください。\n> 基本一人は常駐してます。",
+                              description=f"{member.guild.name}へようこそ！{member.mention}さん！\n{len(member.guild.members)}人目の参加者です！\n> 何か困ったことがあればぜひとも運営にメンションをしてください。\n> 基本一人は常駐してます。",
                               url="https://www.elegraph.cf/?page_id=24",
                               color=cl)
         embed.set_author(name=f"{member.display_name}さんが参加しました～！")
+        embed.set_footer(text=member.guild.name, icon_url=member.guild.icon_url)
+        embed.set_thumbnail(url=member.avatar_url)
+        await self.bot.get_channel(596668568909643817).send(embed=embed)
+
+    @commands.Cog.listener()
+    async def on_member_remove(self, member):
+        embed = discord.Embed(title=f"さようなら。",
+                              description=f"{member.display_name}さん、さようなら。\n現在、このサーバーには{len(member.guild.members)}人がいます。",)
+        embed.set_author(name=f"{member.display_name}さんが退出されました。")
         embed.set_footer(text=member.guild.name, icon_url=member.guild.icon_url)
         embed.set_thumbnail(url=member.avatar_url)
         await self.bot.get_channel(596668568909643817).send(embed=embed)
