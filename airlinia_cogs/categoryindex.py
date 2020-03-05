@@ -1,5 +1,6 @@
 import discord
 import typing
+import random
 from discord.ext import commands
 import re
 import asyncio
@@ -85,10 +86,13 @@ class Category_Index(commands.Cog):
                     break
             else:
                 message = None
+            rc = lambda: random.randint(0, 255)
             description = channel.topic if channel.topic else 'トピックは粛清された模様。'
             embed = discord.Embed(title=channel.name,
-                                  description='ID:{0}'.format(channel.id))
+                                  description='ID:{0}'.format(channel.id),
+                                  color='0x{:x}{:x}{:x}'.format(rc(), rc(), rc()))
             embed.add_field(name='チャンネルトピック', value=description)
+            embed.set_footer(text=channel.category.name)
             if message is not None:
                 await message.edit(embed=embed)
             else:
