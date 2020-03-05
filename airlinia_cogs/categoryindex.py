@@ -17,11 +17,7 @@ class Category_Index(commands.Cog):
 
     @commands.command(brief='カテゴリインデックスを作ります')
     async def create_category_index(self, ctx, *args):
-<<<<<<< HEAD
-        async def _create_category_index(category, ctx=None):
-=======
         async def _create_category_index(category, ctx=None:self.index_index.mention
->>>>>>> be027ccca621182a3b33025474d6e4f3f8a386fa
             index_channel: discord.TextChannel = self._find_index_channel(category)
             if index_channel is None:
                 if ctx is not None:
