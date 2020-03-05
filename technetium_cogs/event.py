@@ -4,6 +4,7 @@ from discord.ext import commands
 import os # .env読み込みスターズ。
 import json
 
+import random
 
 class Event(commands.Cog):
     def __init__(self, technetium):
