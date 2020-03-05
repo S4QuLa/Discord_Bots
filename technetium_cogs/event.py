@@ -18,7 +18,7 @@ class Event(commands.Cog):
             embed = discord.Embed(title='ボイスチャンネル入室通知',
             description=f'{member.mention}さんが入室しました。',
             color=0x00ff00)
-            await text_channel.send(embed=embed, delete_after=180)
+            await self.bot.get_channel(596668583728119809).send(embed=embed, delete_after=180)
 
         if (
             before.channel is not None
@@ -29,6 +29,7 @@ class Event(commands.Cog):
             color=0xff0000)
             await self.bot.get_channel(596668583728119809).send(embed=embed, delete_after=180)
 
+    @commands.Cog.listener()
     async def on_member_join(self, member):
         cl = discord.Color(random.randint(0, 0xFFFFFF))
         embed = discord.Embed(title=f"利用規約はここから",
