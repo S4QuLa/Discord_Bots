@@ -11,9 +11,13 @@ class Category_Index(commands.Cog):
         self.id_match = re.compile(r'ID:(\d*)')
         self.name = name if name is not None else type(self).__name__
 
+    @commands.Cog.listener()
+    async def on_ready(self):
+        self.index_index = self.client.get_channel(616530865861820417)
+
     @commands.command(brief='カテゴリインデックスを作ります')
     async def create_category_index(self, ctx, *args):
-        async def _create_category_index(category, ctx=None):
+        async def _create_category_index(category, ctx=None):self.index_index.mention
             index_channel: discord.TextChannel = self._find_index_channel(category)
             if index_channel is None:
                 if ctx is not None:
