@@ -5,3 +5,4 @@ ImageHash
 pya3rt
 pillow
 arrow
+pymongo

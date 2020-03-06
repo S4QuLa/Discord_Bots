@@ -122,7 +122,7 @@ class Category_Index(commands.Cog):
 
     @commands.Cog.listener()
     async def on_guild_channel_update(self, before, after):
-        if isinstance(after, discord.TextChannel) and after.topic in  'Category-index':
+        if isinstance(after, discord.TextChannel) and after.topic not in 'Category-index':
             if before.category is not None and (after.category is None or before.category != after.category):
                 await self.on_guild_channel_delete(before)
             if (before.name != after.name
