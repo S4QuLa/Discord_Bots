@@ -6,7 +6,6 @@ import asyncio
 import os
 
 import argparse
-from kutt import kutt
 
 class Short_Url(commands.Cog):
     def __init__(self, airlinia):
@@ -27,9 +26,18 @@ class Short_Url(commands.Cog):
             payload['customurl'] = args.customurl
         if password:
             payload['password'] = args.password
-        res = requests.post(BASE_URL+'/api/v2/links', data=payload, headers=headers)
+        res = requests.post('https://kutt.it/api/v2/links', data=payload, headers=headers)
         data = res.json()
         await ctx.send(f"短縮URLを作成しました！{data['address']}") # 返信メッセージを送信
+
+    @commands.command(name='domain')
+    async def _urldomain(self, ctx, domain):
+        payload = {}
+        payload['address'] = domain
+
+        res = requests.post('https://kutt.it/api/v2/domains', data=payload, headers=headers)
+        data = res.json()
+        await ctx.send(f"短縮URLのドメインに追加しました！{data['address']}") # 返信メッセージを送信
 
 def setup(airlinia):
     airlinia.add_cog(Short_Url(airlinia))
