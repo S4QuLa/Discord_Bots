@@ -30,7 +30,7 @@ class Short_Url(commands.Cog):
             payload['password'] = args.password
         res = requests.post('https://kutt.it/api/v2/links', data=payload, headers=headers)
         data = res.json()
-        await ctx.send(f'短縮URLを作成しました！{data["address"]}') # 返信メッセージを送信
+        await ctx.send(f'短縮URLを作成しました！{data["link"]}') # 返信メッセージを送信
 
     @commands.command(name='domain')
     async def _urldomain(self, ctx, domain):
