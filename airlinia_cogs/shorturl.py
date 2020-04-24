@@ -29,7 +29,7 @@ class Short_Url(commands.Cog):
             payload['password'] = args.password
         res = requests.post('https://kutt.it/api/v2/links', data=payload)
         data = res.json()
-        await ctx.send(f"短縮URLを作成しました！{data['address']}") # 返信メッセージを送信
+        await ctx.send(f'短縮URLを作成しました！{data["address"]}') # 返信メッセージを送信
 
     @commands.command(name='domain')
     async def _urldomain(self, ctx, domain):
@@ -37,7 +37,7 @@ class Short_Url(commands.Cog):
         payload['address'] = domain
         res = requests.post('https://kutt.it/api/v2/domains', data=payload)
         data = res.json()
-        await ctx.send(f"短縮URLのドメインに追加しました！{data['address']}") # 返信メッセージを送信
+        await ctx.send(f'短縮URLのドメインに追加しました！{data["address"]}') # 返信メッセージを送信
 
 def setup(airlinia):
     airlinia.add_cog(Short_Url(airlinia))
