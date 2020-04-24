@@ -6,4 +6,3 @@ pya3rt
 pillow
 arrow
 pymongo
-kutt
