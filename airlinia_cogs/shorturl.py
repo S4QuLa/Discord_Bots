@@ -13,8 +13,7 @@ class Short_Url(commands.Cog):
     @commands.command()
     async def url(self, url1, pass):
         obj = kutt.submit(os.environ['KUTT_API_KEY'], url1, password=pass, customurl="xn--gk8h.ml")
-        content = obj['address']
-        await message.channel.send(f"短縮URLを作成しました！{content}") # 返信メッセージを送信
+        await message.channel.send(f"短縮URLを作成しました！{obj['address']}") # 返信メッセージを送信
 
 def setup(airlinia):
     airlinia.add_cog(Short_Url(airlinia))
