@@ -4,7 +4,7 @@ from discord.ext import tasks, commands
 import asyncio
 
 import os
-
+import requests
 import argparse
 
 class Short_Url(commands.Cog):
