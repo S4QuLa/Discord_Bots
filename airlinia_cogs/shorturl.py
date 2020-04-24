@@ -19,6 +19,7 @@ class Short_Url(commands.Cog):
         parser.add_argument('-c', '--customurl')
         parser.add_argument('-d', '--domain', default='xn--gk8h.ml')
         args = parser.parse_args(args=args)
+        headers = {'X-API-Key': os.environ['KULL_API_KEY']}
         payload = {}
         payload['target'] = args.url
         if args.domain:
@@ -27,7 +28,7 @@ class Short_Url(commands.Cog):
             payload['customurl'] = args.customurl
         if args.password:
             payload['password'] = args.password
-        res = requests.post('https://kutt.it/api/v2/links', data=payload)
+        res = requests.post('https://kutt.it/api/v2/links', data=payload, headers=headers)
         data = res.json()
         await ctx.send(f'短縮URLを作成しました！{data["address"]}') # 返信メッセージを送信
 
@@ -35,7 +36,8 @@ class Short_Url(commands.Cog):
     async def _urldomain(self, ctx, domain):
         payload = {}
         payload['address'] = domain
-        res = requests.post('https://kutt.it/api/v2/domains', data=payload)
+        headers = {'X-API-Key': os.environ['KULL_API_KEY']}
+        res = requests.post('https://kutt.it/api/v2/domains', data=payload, headers=headers)
         data = res.json()
         await ctx.send(f'短縮URLのドメインに追加しました！{data["address"]}') # 返信メッセージを送信
 
