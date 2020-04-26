@@ -12,8 +12,8 @@ class Server_Stats(commands.Cog):
         self.bot = airlinia #botを受け取る。
 
         mongo_client = pymongo.MongoClient(os.environ['MONGODB_URI'])
-        mongo_db = client.get_default_database()
-        self.mongo_coll = db['stats_data']
+        mongo_db = mongo_client.get_default_database()
+        self.mongo_coll = mongo_db['stats_data']
 
         self.datas = {}
         self.datas["hour_message"] = self.mongo_coll.find(filter={"server": 615849898637656093})["hour_message"]
