@@ -5,7 +5,7 @@ import asyncio
 
 import arrow
 import os # .env読み込みスターズ。
-from pymongo import MongoClient
+import pymongo
 
 class Server_Stats(commands.Cog):
     def __init__(self, airlinia):
