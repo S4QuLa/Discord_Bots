@@ -16,8 +16,8 @@ class Server_Stats(commands.Cog):
         self.mongo_coll = mongo_db['stats_data']
 
         self.datas = {}
-        self.datas["hour_message"] = self.mongo_coll.find(filter={"server": 615849898637656093})["hour_message"]
-        self.datas["message"] = self.mongo_coll.find(filter={"server": 615849898637656093})["message"]
+        self.datas["hour_message"] = self.mongo_coll.find_one(filter={"server": 615849898637656093})["hour_message"]
+        self.datas["message"] = self.mongo_coll.find_one(filter={"server": 615849898637656093})["message"]
 
         self.time.start()
         self.hour_reset.start()
