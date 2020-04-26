@@ -9,6 +9,10 @@ import random
 class Event(commands.Cog):
     def __init__(self, airlinia):
         self.bot = airlinia #botを受け取る。
+        self.bump_notice.start()
+
+    def cog_unload(self):
+        self.bump_notice.cancel()
 
     @tasks.loop(minutes=30.0, reconnect=True)
     async def bump_notice(self):
@@ -32,6 +36,10 @@ class Event(commands.Cog):
                 description=f'Bumpができますよー。\r!d bumpをしてほしいんね。',
                 color=0x0080ff)
                 await channel.send(mention, embed=embed2)
+
+    @bump_notice.before_loop
+    async def before_bump_notice(self):
+        await self.bot.wait_until_ready()
 
     @commands.Cog.listener()
     async def on_member_join(self, member):
