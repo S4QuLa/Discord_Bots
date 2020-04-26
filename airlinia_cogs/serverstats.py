@@ -11,8 +11,8 @@ class Server_Stats(commands.Cog):
     def __init__(self, airlinia):
         self.bot = airlinia #botを受け取る。
 
-        mongo_client = pymongo.MongoClient(os.environ['MONGODB_URI'])
-        mongo_db = mongo_client.get_default_database()
+        mongo_db = pymongo.MongoClient("ds161505.mlab.com", 61505, retryWrites=False)
+        mongo_db.authenticate("heroku_stfrs35p", os.environ['MONGODB_PASSWORD'])
         self.mongo_coll = mongo_db['stats_data']
 
         self.datas = {}
