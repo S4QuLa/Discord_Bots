@@ -16,8 +16,8 @@ class Server_Stats(commands.Cog):
         self.mongo_coll = db['stats_data']
 
         self.datas = {}
-        self.datas["hour_message"] = mongo.find(filter={"server": 615849898637656093})["hour_message"]
-        self.datas["message"] = mongo.find(filter={"server": 615849898637656093})["message"]
+        self.datas["hour_message"] = self.mongo_coll.find(filter={"server": 615849898637656093})["hour_message"]
+        self.datas["message"] = self.mongo_coll.find(filter={"server": 615849898637656093})["message"]
 
         self.time.start()
         self.hour_reset.start()
@@ -72,8 +72,8 @@ class Server_Stats(commands.Cog):
         self.datas["hour_message"] += 1
         await self.bot.get_channel(665356186983333909).edit(name=f"message : {self.datas['message']}")
         await self.bot.get_channel(665356237038419990).edit(name=f"hour_message : {self.datas['hour_message']}")
-        self.mongo_coll.update_one({"server": 615849898637656093}, {'$set':{'hour_message':self.datas['hour_message']}, {'message':self.datas['message']}})
-
+        self.mongo_coll.update_one({"server": 615849898637656093}, {'$set':{'hour_message':self.datas['hour_message']}})
+        self.mongo_coll.update_one({"server": 615849898637656093}, {'$set':{'message':self.datas['message']}})
 
     @commands.Cog.listener()
     async def on_member_update(self, before, after):
