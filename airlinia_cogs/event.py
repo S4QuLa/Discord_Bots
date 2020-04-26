@@ -14,14 +14,14 @@ class Event(commands.Cog):
     def cog_unload(self):
         self.bump_notice.cancel()
 
-    @tasks.loop(minutes=30.0, reconnect=True)
+    @tasks.loop(minutes=10.0, reconnect=True)
     async def bump_notice(self):
         disboard_bot = self.bot.get_user(302050872383242240)
         channel = self.bot.get_channel(617960149067366410)
         mention = '<@&596668500916043796>'
         Interval = datetime.timedelta(hours=2)
         def filter1(m):
-            return m.author == disboard_bot and '表示順をアップしたよ :thumbsup:' in m.embeds[0].description
+            return m.author == disboard_bot and ':thumbsup:' in m.embeds[0].description
 
         mes = await channel.history().filter(filter1).next()
         if mes is not None:
