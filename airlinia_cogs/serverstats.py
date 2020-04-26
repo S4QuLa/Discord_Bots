@@ -87,8 +87,5 @@ class Server_Stats(commands.Cog):
         await self.bot.get_channel(665355793742430268).edit(name=f"mobile : {len([member for member in server.members if member.is_on_mobile()])}")
         await self.bot.get_channel(665355766131326996).edit(name=f"desktop : {len([member for member in server.members if not member.is_on_mobile()])}")
 
-        with open("./date/airlinia_stats.json", "w") as f:
-            json.dump(self.datas, f, indent=4)
-
 def setup(airlinia):
     airlinia.add_cog(Server_Stats(airlinia))
