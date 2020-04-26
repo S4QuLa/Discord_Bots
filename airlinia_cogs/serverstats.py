@@ -72,7 +72,7 @@ class Server_Stats(commands.Cog):
         self.datas["hour_message"] += 1
         await self.bot.get_channel(665356186983333909).edit(name=f"message : {self.datas['message']}")
         await self.bot.get_channel(665356237038419990).edit(name=f"hour_message : {self.datas['hour_message']}")
-        self.mongo_coll.update_one({"server": 615849898637656093}, {'$set':self.datas)
+        self.mongo_coll.update_one({"server": 615849898637656093}, {'$set':self.datas})
 
     @commands.Cog.listener()
     async def on_member_update(self, before, after):
