@@ -84,16 +84,25 @@ class Event(commands.Cog):
         embed.set_author(name=f"{member.display_name}さんが参加しました～！", icon_url=member.avatar_url)
         embed.set_footer(text=member.guild.name, icon_url=member.guild.icon_url)
         embed.set_thumbnail(url=member.avatar_url)
-        embed.set_image(url="attachment://base_image.png")
+        embed.set_image(url="attachment://welcome_image.png")
         await self.bot.get_channel(596668568909643817).send(file=file, embed=embed)
 
     @commands.Cog.listener()
     async def on_member_remove(self, member):
+        _text = []
+        _text.append(["さようなら。Goodbye.", font_path1, 130, accent_color, 190, 500])
+        _text.append([f"{member.name}さん", font_path2, 50, 'White', 370, 540])
+        _text.append([f"さようなら。\n現在、{member.guild.name}には{len(member.guild.members)}人のメンバーがいます。", font_path2, 55, 'White', 490, 530])
+        for t in _text:
+            base_image = add_text_to_image(base_image, t[0], t[1], t[2], t[3], t[4], t[5])
+
+        file = discord.File(img, filename="goodbye_image.png")
         embed = discord.Embed(title=f"さようなら。",
                               description=f"{member.display_name}さん、さようなら。\n現在、このサーバーには{len(member.guild.members)}人がいます。",)
-        embed.set_author(name=f"{member.display_name}さんが退出されました。")
+        embed.set_author(name=f"{member.display_name}さんが退出されました。", icon_url=member.avatar_url)
         embed.set_footer(text=member.guild.name, icon_url=member.guild.icon_url)
         embed.set_thumbnail(url=member.avatar_url)
+        embed.set_image(url="attachment://goodbye_image.png")
         await self.bot.get_channel(596668568909643817).send(embed=embed)
 
 def setup(technetium):
