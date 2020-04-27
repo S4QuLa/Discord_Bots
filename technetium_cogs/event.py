@@ -31,7 +31,7 @@ class Event(commands.Cog):
             color=0xff0000)
             await self.bot.get_channel(596668583728119809).send(embed=embed, delete_after=180)
 
-    def base_image(self, icon_path):
+    def add_base_image(self, icon_path):
         icon_size = 380
         mask = Image.new("L", (icon_size, icon_size), 0)
         draw = ImageDraw.Draw(mask)
@@ -66,13 +66,13 @@ class Event(commands.Cog):
 
     @commands.Cog.listener()
     async def on_member_join(self, member):
-        img = base_image(member.avatar_url)
+        img = self.add_base_image(member.avatar_url)
         _text = []
         _text.append(["ようこそ！Welcome!", self.font_path1, 130, self.accent_color, 190, 530])
         _text.append([f"{member.name} さん！", self.font_path2, 50, (255, 255, 255), 350, 530])
         _text.append([f"ようこそ、{member.guild.name}へ！\n最初にルールをお読みください。\nあなたは{len(member.guild.members)}人目のメンバーです！", self.font_path2, 55, (255, 255, 255), 440, 530])
         for t in _text:
-            img = add_text_to_image(base_image, t[0], t[1], t[2], t[3], t[4], t[5])
+            img = self.add_text_to_image(base_image, t[0], t[1], t[2], t[3], t[4], t[5])
 
         file = discord.File(img, filename="welcome_image.png")
         cl = discord.Color(random.randint(0, 0xFFFFFF))
