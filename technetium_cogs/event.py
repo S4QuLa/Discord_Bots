@@ -43,7 +43,7 @@ class Event(commands.Cog):
         draw.ellipse((0, 0, icon_size, icon_size), fill=255)
         mask = mask.filter(ImageFilter.GaussianBlur(1))
 
-        icon_path = BytesIO(icon_path)
+        icon_path = BytesIO(requests.get(icon_path).content)
         icon = Image.open(icon_path).copy().convert("RGBA")
         icon = icon.resize(size=(icon_size, icon_size), resample=Image.ANTIALIAS)
         circle = Image.new("RGBA", (icon_size + 10, icon_size + 10), 0)
@@ -94,6 +94,7 @@ class Event(commands.Cog):
 
     @commands.Cog.listener()
     async def on_member_remove(self, member):
+        img = self.add_base_image(member.avatar_url)
         _text = []
         _text.append(["さようなら。Goodbye.", self.font_path1, 130, self.accent_color, 190, 500])
         _text.append([f"{member.name}さん", self.font_path2, 50, 'White', 370, 540])
