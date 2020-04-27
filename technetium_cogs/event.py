@@ -33,7 +33,6 @@ class Event(commands.Cog):
 
     def base_image(self, icon_path):
         icon_size = 380
-
         mask = Image.new("L", (icon_size, icon_size), 0)
         draw = ImageDraw.Draw(mask)
         draw.ellipse((0, 0, icon_size, icon_size), fill=255)
