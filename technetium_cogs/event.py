@@ -4,8 +4,8 @@ from discord.ext import commands
 import os # .env読み込みスターズ。
 import json
 
-import io
-import urllib.request
+from io import BytesIO
+import requestsImage.open(BytesIO(r.content))
 from PIL import Image, ImageDraw, ImageFont, ImageFilter, ImageOps
 import random
 
@@ -43,7 +43,8 @@ class Event(commands.Cog):
         draw.ellipse((0, 0, icon_size, icon_size), fill=255)
         mask = mask.filter(ImageFilter.GaussianBlur(1))
 
-        icon = Image.open(io.BytesIO(urllib.request.urlopen(icon_path).read())).copy().convert("RGBA")
+        icon_path = BytesIO(icon_path)
+        icon = Image.open(icon_path).copy().convert("RGBA")
         icon = icon.resize(size=(icon_size, icon_size), resample=Image.ANTIALIAS)
         circle = Image.new("RGBA", (icon_size + 10, icon_size + 10), 0)
         draw = ImageDraw.Draw(circle)
@@ -98,7 +99,7 @@ class Event(commands.Cog):
         _text.append([f"{member.name}さん", self.font_path2, 50, 'White', 370, 540])
         _text.append([f"さようなら。\n現在、{member.guild.name}には{len(member.guild.members)}人のメンバーがいます。", self.font_path2, 55, 'White', 490, 530])
         for t in _text:
-            base_image = add_text_to_image(base_image, t[0], t[1], t[2], t[3], t[4], t[5])
+            img = self.add_text_to_image(base_image, t[0], t[1], t[2], t[3], t[4], t[5])
 
         file = discord.File(img, filename="goodbye_image.png")
         embed = discord.Embed(title=f"さようなら。",
