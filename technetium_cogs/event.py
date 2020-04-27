@@ -43,15 +43,15 @@ class Event(commands.Cog):
         draw.ellipse((0, 0, icon_size, icon_size), fill=255)
         mask = mask.filter(ImageFilter.GaussianBlur(1))
 
-        icon = Image.open(BytesIO(requests.get(icon_path).content)).copy().convert("RGBA")
+        icon = Image.open(BytesIO(requests.get(icon_path).content)).convert("RGBA")
         icon = icon.resize(size=(icon_size, icon_size), resample=Image.ANTIALIAS)
         circle = Image.new("RGBA", (icon_size + 10, icon_size + 10), 0)
+
         draw = ImageDraw.Draw(circle)
         draw.ellipse((0, 0, icon_size + 10, icon_size + 10), self.accent_color)
         circle.paste(icon, (5, 5), mask)
 
-        base_image_path = './image/elegraph_welcome.png'
-        base_image = Image.open(base_image_path).copy()
+        base_image = Image.open('./image/elegraph_welcome.png')
         base_image.paste(circle, (100, 220), circle)
         draw = ImageDraw.Draw(base_image)
         draw.line([(320,608), (1920,608)], self.accent_color, width=5)
@@ -80,9 +80,9 @@ class Event(commands.Cog):
             img = self.add_text_to_image(img, t[0], t[1], t[2], t[3], t[4], t[5])
 
         arr = BytesIO()
-        img.save(arr, format='PNG')
+        img.save(arr, format='png')
         arr.seek(0)
-        file = discord.File(fp=arr, filename="welcome_image.png")
+        file = discord.File(fp=arr, filename="Welcome_image.png")
         cl = discord.Color(random.randint(0, 0xFFFFFF))
         embed = discord.Embed(title=f"利用規約はここから",
                               description=f"{member.guild.name}へようこそ！{member.mention}さん！\n{len(member.guild.members)}人目の参加者です！\n> 何か困ったことがあればぜひとも運営にメンションをしてください。\n> 基本一人は常駐してます。",
@@ -91,8 +91,7 @@ class Event(commands.Cog):
         embed.set_author(name=f"{member.display_name}さんが参加しました～！", icon_url=member.avatar_url)
         embed.set_footer(text=member.guild.name, icon_url=member.guild.icon_url)
         embed.set_thumbnail(url=member.avatar_url)
-        embed.set_image(url="attachment://welcome_image.png")
-        await self.bot.get_channel(596668568909643817).send(file=discord.File(arr), embed=embed)
+        await self.bot.get_channel(596668568909643817).send(file=file, embed=embed)
 
     @commands.Cog.listener()
     async def on_member_remove(self, member):
@@ -105,7 +104,7 @@ class Event(commands.Cog):
             img = self.add_text_to_image(img, t[0], t[1], t[2], t[3], t[4], t[5])
 
         arr = BytesIO()
-        img.save(arr, format='PNG')
+        img.save(arr, format='png')
         arr.seek(0)
         file = discord.File(fp=arr, filename="Goodbye_image.png")
         embed = discord.Embed(title=f"さようなら。",
@@ -113,8 +112,7 @@ class Event(commands.Cog):
         embed.set_author(name=f"{member.display_name}さんが退出されました。", icon_url=member.avatar_url)
         embed.set_footer(text=member.guild.name, icon_url=member.guild.icon_url)
         embed.set_thumbnail(url=member.avatar_url)
-        embed.set_image(url="attachment://goodbye_image.png")
-        await self.bot.get_channel(596668568909643817).send(file=discord.File(arr), embed=embed)
+        await self.bot.get_channel(596668568909643817).send(file=file, embed=embed)
 
 def setup(technetium):
     technetium.add_cog(Event(technetium))
