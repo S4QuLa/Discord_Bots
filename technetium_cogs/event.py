@@ -90,7 +90,6 @@ class Event(commands.Cog):
         embed.set_author(name=f"{member.display_name}さんが参加しました～！", icon_url=member.avatar_url)
         embed.set_footer(text=member.guild.name, icon_url=member.guild.icon_url)
         embed.set_thumbnail(url=member.avatar_url)
-        embed.set_image(url="attachment://welcome_image.png")
         await self.bot.get_channel(596668568909643817).send(file=discord.File(arr), embed=embed)
 
     @commands.Cog.listener()
@@ -112,7 +111,7 @@ class Event(commands.Cog):
         embed.set_footer(text=member.guild.name, icon_url=member.guild.icon_url)
         embed.set_thumbnail(url=member.avatar_url)
         embed.set_image(url="attachment://goodbye_image.png")
-        await self.bot.get_channel(596668568909643817).send((file=discord.File(arr), embed=embed)
+        await self.bot.get_channel(596668568909643817).send(file=discord.File(arr), embed=embed)
 
 def setup(technetium):
     technetium.add_cog(Event(technetium))
