@@ -9,8 +9,7 @@ import random
 class Event(commands.Cog):
     def __init__(self, technetium):
         self.bot = technetium #botを受け取る。
-        self.font_path1 = "./fonts/NotoSansCJKjp-Medium.otf"
-        self.font_path2 = "./fonts/Harenosora.otf"
+        self.accent_color = (255, 210, 0)
 
     @commands.Cog.listener()
     async def on_voice_state_update(self, member, before, after):
@@ -34,6 +33,7 @@ class Event(commands.Cog):
 
     def base_image(self, icon_path):
         icon_size = 380
+
         mask = Image.new("L", (icon_size, icon_size), 0)
         draw = ImageDraw.Draw(mask)
         draw.ellipse((0, 0, icon_size, icon_size), fill=255)
@@ -43,14 +43,16 @@ class Event(commands.Cog):
         icon = icon.resize(size=(icon_size, icon_size), resample=Image.ANTIALIAS)
         circle = Image.new("RGBA", (icon_size + 10, icon_size + 10), 0)
         draw = ImageDraw.Draw(circle)
-        draw.ellipse((0, 0, icon_size + 10, icon_size + 10), 'White')
+        draw.ellipse((0, 0, icon_size + 10, icon_size + 10), self.accent_color)
         circle.paste(icon, (5, 5), mask)
 
         base_image_path = './image/elegraph_welcome.png'
         base_image = Image.open(base_image_path).copy()
         base_image.paste(circle, (100, 220), circle)
         draw = ImageDraw.Draw(base_image)
-        draw.line([(320,608), (1920,608)], 'White', width=5)
+        draw.line([(320,608), (1920,608)], self.accent_color, width=5)
+        draw.polygon(((0, 0), (250, 0), (0, 200)), fill=self.accent_color)
+        return base_image
 
     def add_text_to_image(self, img, text, font_path, font_size, font_color, height, width, max_length=1300):
         position = (width, height)
@@ -65,15 +67,15 @@ class Event(commands.Cog):
 
     @commands.Cog.listener()
     async def on_member_join(self, member):
-        base_image = base_image(member.avatar_url)
+        img = base_image(member.avatar_url)
         _text = []
-        _text.append(["ようこそ！Welcome!", self.font_path1, 130, (255, 255, 255), 190, 530])
+        _text.append(["ようこそ！Welcome!", self.font_path1, 130, self.accent_color, 190, 530])
         _text.append([f"{member.name} さん！", self.font_path2, 50, (255, 255, 255), 350, 530])
         _text.append([f"ようこそ、{member.guild.name}へ！\n最初にルールをお読みください。\nあなたは{len(member.guild.members)}人目のメンバーです！", self.font_path2, 55, (255, 255, 255), 440, 530])
         for t in _text:
-            base_image = add_text_to_image(base_image, t[0], t[1], t[2], t[3], t[4], t[5])
+            img = add_text_to_image(base_image, t[0], t[1], t[2], t[3], t[4], t[5])
 
-        file = discord.File(base_image, filename="base_image.png")
+        file = discord.File(img, filename="welcome_image.png")
         cl = discord.Color(random.randint(0, 0xFFFFFF))
         embed = discord.Embed(title=f"利用規約はここから",
                               description=f"{member.guild.name}へようこそ！{member.mention}さん！\n{len(member.guild.members)}人目の参加者です！\n> 何か困ったことがあればぜひとも運営にメンションをしてください。\n> 基本一人は常駐してます。",
