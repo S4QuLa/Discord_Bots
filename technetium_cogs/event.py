@@ -58,7 +58,7 @@ class Event(commands.Cog):
         draw.polygon(((0, 0), (250, 0), (0, 200)), fill=self.accent_color)
         return base_image
 
-    def add_text_to_image(self, img, text, font_path, font_size, font_color, height, width, max_length=1300):
+    def add_text_to_image(self, img, text, font_path, font_size, font_color, height, width, max_length=1400):
         position = (width, height)
         font = ImageFont.truetype(font_path, font_size)
         draw = ImageDraw.Draw(img)
@@ -98,7 +98,7 @@ class Event(commands.Cog):
     async def on_member_remove(self, member):
         img = self.add_base_image(member.avatar_url)
         _text = []
-        _text.append(["さようなら。Goodbye.", self.font_path1, 130, self.accent_color, 190, 500])
+        _text.append(["さようなら｡Goodbye.", self.font_path1, 130, self.accent_color, 190, 500])
         _text.append([f"{member.name}さん", self.font_path2, 50, 'White', 370, 540])
         _text.append([f"さようなら。\n現在、{member.guild.name}には{len(member.guild.members)}人のメンバーがいます。", self.font_path2, 55, 'White', 490, 530])
         for t in _text:
