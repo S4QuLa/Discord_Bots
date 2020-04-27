@@ -11,6 +11,8 @@ class Event(commands.Cog):
     def __init__(self, technetium):
         self.bot = technetium #botを受け取る。
         self.accent_color = (255, 210, 0)
+        self.font_path1 = "./fonts/NotoSansCJKjp-Medium.otf"
+        self.font_path2 = "./fonts/Harenosora.otf"
 
     @commands.Cog.listener()
     async def on_voice_state_update(self, member, before, after):
