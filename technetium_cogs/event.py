@@ -100,7 +100,7 @@ class Event(commands.Cog):
         _text = []
         _text.append(["さようなら｡Goodbye.", self.font_path1, 130, self.accent_color, 190, 500])
         _text.append([f"{member.name}さん", self.font_path2, 50, 'White', 370, 540])
-        _text.append([f"さようなら。\n現在、{member.guild.name}には\n{len(member.guild.members)}人のメンバーがいます。", self.font_path2, 55, 'White', 490, 530])
+        _text.append([f"さようなら。\n現在、{member.guild.name}には\n{len(member.guild.members)}人のメンバーがいます。", self.font_path2, 55, 'White', 445, 530])
         for t in _text:
             img = self.add_text_to_image(img, t[0], t[1], t[2], t[3], t[4], t[5])
 
