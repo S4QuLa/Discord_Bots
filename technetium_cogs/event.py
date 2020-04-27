@@ -4,6 +4,8 @@ from discord.ext import commands
 import os # .env読み込みスターズ。
 import json
 
+import io
+import urllib.request
 from PIL import Image, ImageDraw, ImageFont, ImageFilter, ImageOps
 import random
 
@@ -41,7 +43,7 @@ class Event(commands.Cog):
         draw.ellipse((0, 0, icon_size, icon_size), fill=255)
         mask = mask.filter(ImageFilter.GaussianBlur(1))
 
-        icon = Image.open(icon_path).copy().convert("RGBA")
+        icon = Image.open(io.BytesIO(urllib.request.urlopen(icon_path).read())).copy().convert("RGBA")
         icon = icon.resize(size=(icon_size, icon_size), resample=Image.ANTIALIAS)
         circle = Image.new("RGBA", (icon_size + 10, icon_size + 10), 0)
         draw = ImageDraw.Draw(circle)
