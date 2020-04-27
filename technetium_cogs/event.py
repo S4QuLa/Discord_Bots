@@ -43,8 +43,7 @@ class Event(commands.Cog):
         draw.ellipse((0, 0, icon_size, icon_size), fill=255)
         mask = mask.filter(ImageFilter.GaussianBlur(1))
 
-        icon_path = BytesIO(requests.get(icon_path).content)
-        icon = Image.open(icon_path).copy().convert("RGBA")
+        icon = Image.open(BytesIO(requests.get(icon_path).content)).copy().convert("RGBA")
         icon = icon.resize(size=(icon_size, icon_size), resample=Image.ANTIALIAS)
         circle = Image.new("RGBA", (icon_size + 10, icon_size + 10), 0)
         draw = ImageDraw.Draw(circle)
@@ -78,7 +77,7 @@ class Event(commands.Cog):
         _text.append([f"{member.name} さん！", self.font_path2, 50, (255, 255, 255), 350, 530])
         _text.append([f"ようこそ、{member.guild.name}へ！\n最初にルールをお読みください。\nあなたは{len(member.guild.members)}人目のメンバーです！", self.font_path2, 55, (255, 255, 255), 440, 530])
         for t in _text:
-            img = self.add_text_to_image(base_image, t[0], t[1], t[2], t[3], t[4], t[5])
+            img = self.add_text_to_image(img, t[0], t[1], t[2], t[3], t[4], t[5])
 
         file = discord.File(img, filename="welcome_image.png")
         cl = discord.Color(random.randint(0, 0xFFFFFF))
@@ -100,7 +99,7 @@ class Event(commands.Cog):
         _text.append([f"{member.name}さん", self.font_path2, 50, 'White', 370, 540])
         _text.append([f"さようなら。\n現在、{member.guild.name}には{len(member.guild.members)}人のメンバーがいます。", self.font_path2, 55, 'White', 490, 530])
         for t in _text:
-            img = self.add_text_to_image(base_image, t[0], t[1], t[2], t[3], t[4], t[5])
+            img = self.add_text_to_image(img, t[0], t[1], t[2], t[3], t[4], t[5])
 
         file = discord.File(img, filename="goodbye_image.png")
         embed = discord.Embed(title=f"さようなら。",
