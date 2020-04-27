@@ -80,7 +80,9 @@ class Event(commands.Cog):
         for t in _text:
             img = self.add_text_to_image(base_image, t[0], t[1], t[2], t[3], t[4], t[5])
 
-        file = discord.File(img, filename="welcome_image.png")
+        arr = BytesIO()
+        img.save(img, format='PNG')
+        arr.seek(0)
         cl = discord.Color(random.randint(0, 0xFFFFFF))
         embed = discord.Embed(title=f"利用規約はここから",
                               description=f"{member.guild.name}へようこそ！{member.mention}さん！\n{len(member.guild.members)}人目の参加者です！\n> 何か困ったことがあればぜひとも運営にメンションをしてください。\n> 基本一人は常駐してます。",
@@ -90,7 +92,7 @@ class Event(commands.Cog):
         embed.set_footer(text=member.guild.name, icon_url=member.guild.icon_url)
         embed.set_thumbnail(url=member.avatar_url)
         embed.set_image(url="attachment://welcome_image.png")
-        await self.bot.get_channel(596668568909643817).send(file=file, embed=embed)
+        await self.bot.get_channel(596668568909643817).send(file=discord.File(arr), embed=embed)
 
     @commands.Cog.listener()
     async def on_member_remove(self, member):
@@ -102,14 +104,16 @@ class Event(commands.Cog):
         for t in _text:
             img = self.add_text_to_image(base_image, t[0], t[1], t[2], t[3], t[4], t[5])
 
-        file = discord.File(img, filename="goodbye_image.png")
+        arr = BytesIO()
+        img.save(img, format='PNG')
+        arr.seek(0)
         embed = discord.Embed(title=f"さようなら。",
                               description=f"{member.display_name}さん、さようなら。\n現在、このサーバーには{len(member.guild.members)}人がいます。",)
         embed.set_author(name=f"{member.display_name}さんが退出されました。", icon_url=member.avatar_url)
         embed.set_footer(text=member.guild.name, icon_url=member.guild.icon_url)
         embed.set_thumbnail(url=member.avatar_url)
         embed.set_image(url="attachment://goodbye_image.png")
-        await self.bot.get_channel(596668568909643817).send(embed=embed)
+        await self.bot.get_channel(596668568909643817).send((file=discord.File(arr), embed=embed)
 
 def setup(technetium):
     technetium.add_cog(Event(technetium))
