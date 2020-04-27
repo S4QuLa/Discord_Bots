@@ -5,7 +5,7 @@ import os # .env読み込みスターズ。
 import json
 
 from io import BytesIO
-import requestsImage.open(BytesIO(r.content))
+import requests
 from PIL import Image, ImageDraw, ImageFont, ImageFilter, ImageOps
 import random
 
