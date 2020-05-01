@@ -292,7 +292,6 @@ class Voice_Channel(commands.Cog):
     async def _name(self, ctx, *, name):
         await self.name(ctx, name)
 
-    @voice.command()
     async def name(self, ctx, name):
         channel = ctx.author.voice.channel
         if ctx.author.id == self.datas[channel.id]["owner"]:
@@ -312,7 +311,6 @@ class Voice_Channel(commands.Cog):
     async def _claim(self, ctx):
         await self.claim(ctx, ctx)
 
-    @voice.command()
     async def claim(self, ctx):
         channel = ctx.author.voice.channel
         if self.datas[channel.id] is not None:
