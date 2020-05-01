@@ -5,6 +5,7 @@ import asyncio
 
 import os # .env読み込みスターズ。
 import json
+import pymongo
 
 def reaction(message, author, bot):
     def check(reaction, user):
@@ -17,9 +18,11 @@ def reaction(message, author, bot):
 class Voice_Channel(commands.Cog):
     def __init__(self, airlinia):
         self.bot = airlinia #botを受け取る。🔐🔏🔓✅❌🎟✒
-        # -----------
-        with open('./data/voicechannel.json', 'r') as f:
-            self.datas = json.load(f)
+        mongo_connection = pymongo.MongoClient("ds161505.mlab.com", 61505, retryWrites=False)
+        mongo_db = mongo_connection["heroku_stfrs35p"]
+        mongo_db.authenticate("heroku_stfrs35p", os.environ['MONGODB_PASSWORD'])
+        self.mongo_coll = mongo_db['voicechannel']
+        self.datas = self.mongo_coll.find_one(filter={"server": 615849898637656093})
 
     @property
     def category(self):
@@ -61,8 +64,7 @@ class Voice_Channel(commands.Cog):
                     await before.channel.delete()
                     await text_channel.delete()
                     del self.datas[before.channel.id]
-                    with open("./data/voicechannel.json", "w") as f:
-                        json.dump(self.datas, f, indent=4)
+                    self.mongo_coll.update_one({"server": 615849898637656093}, {'$set':self.datas})
 
  # ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
 
@@ -86,8 +88,7 @@ class Voice_Channel(commands.Cog):
         self.datas[voice_channel.id] = {}
         self.datas[voice_channel.id]["id"] = text_channel.id
         self.datas[voice_channel.id]["owner"] = member.id
-        with open("./data/voicechannel.json", "w") as f:
-            json.dump(self.datas, f, indent=4)
+        self.mongo_coll.update_one({"server": 615849898637656093}, {'$set':self.datas})
         embed = discord.Embed(title='ボイスチャンネル作成通知',
         description=f'{member.mention}さん、ようこそ！',
         color=0x0080ff)
