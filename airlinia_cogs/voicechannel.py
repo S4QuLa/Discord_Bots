@@ -7,17 +7,9 @@ import os # .env読み込みスターズ。
 import json
 import pymongo
 
-def reaction(message, author, bot):
-    def check(reaction, user):
-        if reaction.message.id != message.id or user == bot.user or author != user:
-            return False
-        if reaction.emoji == '✅' or reaction.emoji == '❎':
-            return True
-    return check
-
 class Voice_Channel(commands.Cog):
     def __init__(self, airlinia):
-        self.bot = airlinia #botを受け取る。🔐🔏🔓✅❌🎟✒
+        self.bot = airlinia #botを受け取る。
         mongo_connection = pymongo.MongoClient("ds161505.mlab.com", 61505, retryWrites=False)
         mongo_db = mongo_connection["heroku_stfrs35p"]
         mongo_db.authenticate("heroku_stfrs35p", os.environ['MONGODB_PASSWORD'])
@@ -66,8 +58,6 @@ class Voice_Channel(commands.Cog):
                     del self.datas[before.channel.id]
                     self.mongo_coll.update_one({"server": 615849898637656093}, {'$set':self.datas})
 
- # ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
-
     async def _channel_create(self, member):
         category = self.category
         guild = member.guild
@@ -95,39 +85,93 @@ class Voice_Channel(commands.Cog):
         await text_channel.send(content=member.mention, embed=embed)
         await member.move_to(voice_channel)
 
- # ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
-
     @commands.group()
     async def voice(self, ctx):
-        if message.author.bot:  # ボットのメッセージをハネる
+        if ctx.author.bot:  # ボットのメッセージをハネる
             return
-        embed = discord.Embed(title='🗃️チャンネルを作成しますか？',
-        description=f'チャンネル名:{name}\n\n✅：チャンネルを作成します。\n❎：チャンネルの作成をキャンセルします。\n（15秒反応がない場合、自動的にキャンセルします。）',
+        embed = discord.Embed(title='💻チャンネル編集',
+        description=f'🔐チャンネルロック\n🔏チャンネル閲覧限定／解除\n🔓チャンネルロック\n✅招待\n❎キック\n🎟人数制限\n✒名前変更\n💻オーナー継承\n🚫キャンセル',
         color=0x0080ff)
-        embed.set_author(name=f'{name} - 作成許可待ちです。',icon_url='https://i.imgur.com/yRCJ26G.gif')
+        embed.set_author(name=f'{name} - 編集しちゃお！',icon_url='https://i.imgur.com/yRCJ26G.gif')
+        embed_no = discord.Embed(title='💻🚫チャンネル編集をキャンセル',
+        description=f'チャンネルの編集をキャンセルしたよ。',
+        color=0xff0000)
+        embed_no.set_author(name=f'{name} - 編集せんのかーい。',icon_url='https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQLFHFV5AuInaxeSHFkAtvJV-HT3xa6Ua7M61pXgsADOC6Y0Czj',url="https://airlinia.ml")
+
         msg = await message.channel.send(embed=embed)
-        await msg.add_reaction('✅')
-        await msg.add_reaction('❎')
+        emojis = ['🔐', '🔓', '🔏', '✅', '❎', '🎟', '✒', '💻', '🚫']
+        for emoji1 in emojis:
+            await msg.add_reaction(emoji1)
+
         try:
-            react = await self.bot.wait_for('reaction_add', timeout=15, check=reaction(msg, message.author, self.bot))
-            if react[0].emoji == '✅':
-                channel = await self._free_channel_create(message, message.content, VC=False)
-                if channel is not None:
-                    nowtime = datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=9))).strftime('%Y/%m/%d %H:%M:%S')
-                    embed_ok = discord.Embed(title='🗃️チャンネルを作成しました！',
-                    description=f'チャンネル名:{name}\nチャンネル作成先：{channel.mention}\n現在時刻：{nowtime}\n残りチャンネル作成可能数：{50 - len(channel.category.channels)}',
-                    color=0x00ff00)
-                    embed_ok.set_author(name=f'{name} - 作成しました。',icon_url='https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSkiyk4R_ppUp-6qcfobj3OI9eEEdwxFTQocIy6aZ0jQ27zhMhq',url="https://airlinia.ml")
-                    await msg.edit(embed=embed_ok)
-                    await msg.clear_reactions()
+            def check1(r, u):
+                return (
+                    r.message.id == msg and u == ctx.author
+                    and emojis in reaction.emoji
+               )
+            def check2(m):
+                return m.author == ctx.author and m.channel == channel and m == msg
+
+            react = await self.bot.wait_for('reaction_add', timeout=60.0, check=check1)
+            if react[0].emoji == '🔐':
+                await self.lock(ctx)
+            elif react[0].emoji == '🔓':
+                await self.unlock(ctx)
+            elif react[0].emoji == '🔏':
+                await self.view_only(ctx)
+            elif react[0].emoji == '✅':
+                try:
+                    embed = discord.Embed(title='チャンネルへ招待✅',
+                    description=f'招待する人を言ってください。\n> （ID, メンション, 名前に対応しています。）',
+                    color=0x0080ff)
+                    msg = await ctx.send(embed=embed)
+                    react = await self.bot.wait_for('message', timeout=30.0, check=check2)
+                    await self.permit(self, ctx, react[0])
+                except asyncio.TimeoutError:
+                    await msg.delete()
             elif react[0].emoji == '❎':
+                try:
+                    embed = discord.Embed(title='チャンネルからつまみ出す❎',
+                    description=f'チャンネルからつまみ出す対象を言ってください。\n> （ID, メンション, 名前に対応しています。）',
+                    color=0x0080ff)
+                    msg = await ctx.send(embed=embed)
+                    react = await self.bot.wait_for('message', timeout=30.0, check=check2)
+                    await self.reject(self, ctx, react[0])
+                except asyncio.TimeoutError:
+                    await msg.delete()
+            elif react[0].emoji == '🎟':
+                try:
+                    embed = discord.Embed(title='チャンネル人数制限🎟',
+                    description=f'チャンネルの制限人数を言ってください。',
+                    color=0x0080ff)
+                    msg = await ctx.send(embed=embed)
+                    react = await self.bot.wait_for('message', timeout=30.0, check=check2)
+                    await self.limit(self, ctx, limit)
+                except asyncio.TimeoutError:
+                    await msg.delete()
+            elif react[0].emoji == '✒':
+                try:
+                    embed = discord.Embed(title='チャンネル名変更✒',
+                    description=f'チャンネルの名前を変更してください。',
+                    color=0x0080ff)
+                    msg = await ctx.send(embed=embed)
+                    react = await self.bot.wait_for('message', timeout=30.0, check=check2)
+                    await self.name(self, ctx, name)
+                except asyncio.TimeoutError:
+                    await msg.delete()
+            elif react[0].emoji == '💻':
+                await self.claim(ctx)
+            elif react[0].emoji == '🚫':
                 await msg.edit(embed=embed_no)
                 await msg.clear_reactions()
         except asyncio.TimeoutError:
             await msg.edit(embed=embed_no)
             await msg.clear_reactions()
 
-    @voice.command()
+    @voice.command(name="lock")
+    async def _lock(self, ctx):
+        await self.lock(ctx)
+
     async def lock(self, ctx):
         channel = ctx.author.voice.channel
         if ctx.author.id == self.datas[channel.id]["owner"]:
@@ -144,7 +188,10 @@ class Voice_Channel(commands.Cog):
         else:
             await ctx.send(content=f"{ctx.author.mention}さん、多分そこあんたのチャンネルじゃないよ。")
 
-    @voice.command()
+    @voice.command(name="view_only")
+    async def _view_only(self, ctx):
+        await self.view_only(ctx)
+
     async def view_only(self, ctx):
         channel = ctx.author.voice.channel
         if ctx.author.id == self.datas[channel.id]["owner"]:
@@ -161,7 +208,10 @@ class Voice_Channel(commands.Cog):
         else:
             await ctx.send(content=f"{ctx.author.mention}さん、多分そこあんたのチャンネルじゃないよ。")
 
-    @voice.command()
+    @voice.command(name="unlock")
+    async def _unlock(self, ctx):
+        await self.unlock(ctx)
+
     async def unlock(self, ctx):
         channel = ctx.author.voice.channel
         if ctx.author.id == self.datas[channel.id]["owner"]:
@@ -178,8 +228,11 @@ class Voice_Channel(commands.Cog):
         else:
             await ctx.send(content=f"{ctx.author.mention}さん、多分そこあんたのチャンネルじゃないよ。")
 
-    @voice.command(aliases=["allow"])
-    async def permit(self, ctx, member : discord.Member):
+    @voice.command(name="permit", aliases=["allow"])
+    async def _permit(self, ctx, member):
+        await self.permit(ctx, member)
+
+    async def permit(self, ctx, member: discord.Member):
         channel = ctx.author.voice.channel
         if ctx.author.id == self.datas[channel.id]["owner"]:
             text_channel = self.bot.get_channel(self.datas[channel.id]["id"])
@@ -194,8 +247,11 @@ class Voice_Channel(commands.Cog):
         else:
             await ctx.send(content=f"{ctx.author.mention}さん、多分そこあんたのチャンネルじゃないよ。")
 
-    @voice.command(aliases=["deny"])
-    async def reject(self, ctx, member : discord.Member):
+    @voice.command(name="reject", aliases=["deny"])
+    async def _reject(self, ctx, member):
+        await self.reject(ctx, member)
+
+    async def reject(self, ctx, member: discord.Member):
         channel = ctx.author.voice.channel
         if ctx.author.id == self.datas[channel.id]["owner"]:
             text_channel = self.bot.get_channel(self.datas[channel.id]["id"])
@@ -203,10 +259,10 @@ class Voice_Channel(commands.Cog):
             await text_channel.set_permissions(member, connect=False, speak=False, read_message_history=False, send_messages=False, read_messages=False)
             await member.move_to(self.bot.get_channel(655272738952314908))
             embed_1 = discord.Embed(title='Channel Moderate!',
-            description=f'{member.name}さんをつまみ出しました。❌',
+            description=f'{member.name}さんをつまみ出しました。❎',
             color=0xff0000)
             embed_2 = discord.Embed(title='Your Reject.',
-            description=f'{member.mention}さん、あなたはつまみ出されました。❌',
+            description=f'{member.mention}さん、あなたはつまみ出されました。❎',
             color=0xff0000)
             await ctx.send(content=f"{ctx.author.mention}", embed=embed_1)
             await member.send(embed=embed_2)
@@ -215,7 +271,10 @@ class Voice_Channel(commands.Cog):
         else:
             await ctx.send(content=f"{ctx.author.mention}さん、多分そこあんたのチャンネルじゃないよ。")
 
-    @voice.command()
+    @voice.command(name="limit")
+    async def _limit(self, ctx, limit):
+        await self.limit(ctx, limit)
+
     async def limit(self, ctx, limit):
         channel = ctx.author.voice.channel
         if ctx.author.id == self.datas[channel.id]["owner"]:
@@ -229,8 +288,12 @@ class Voice_Channel(commands.Cog):
         else:
             await ctx.send(content=f"{ctx.author.mention}さん、多分そこあんたのチャンネルじゃないよ。")
 
+    @voice.command(name="name")
+    async def _name(self, ctx, *, name):
+        await self.name(ctx, name)
+
     @voice.command()
-    async def name(self, ctx, *, name):
+    async def name(self, ctx, name):
         channel = ctx.author.voice.channel
         if ctx.author.id == self.datas[channel.id]["owner"]:
             text_channel = self.bot.get_channel(self.datas[channel.id]["id"])
@@ -245,6 +308,10 @@ class Voice_Channel(commands.Cog):
         else:
             await ctx.send(content=f"{ctx.author.mention}さん、多分そこあんたのチャンネルじゃないよ。")
 
+    @voice.command(name="claim")
+    async def _claim(self, ctx):
+        await self.claim(ctx, ctx)
+
     @voice.command()
     async def claim(self, ctx):
         channel = ctx.author.voice.channel
@@ -257,10 +324,9 @@ class Voice_Channel(commands.Cog):
                     x = True
             if x == False:
                 self.datas[channel.id]["owner"] = ctx.author.id
-                with open("./data/voicechannel.json", "w") as f:
-                    json.dump(self.datas, f, indent=4)
+                self.mongo_coll.update_one({"server": 615849898637656093}, {'$set':self.datas})
                 embed = discord.Embed(title='Channel Moderate!',
-                description=f'{ctx.author.mention}さん、あなたが今ここのオーナーです。',
+                description=f'{ctx.author.mention}さん、あなたが今ここのオーナーです。💻',
                 color=0x80ff00)
                 await ctx.send(content=ctx.author.mention, embed=embed)
         elif channel is None:

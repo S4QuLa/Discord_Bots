@@ -9,9 +9,6 @@ import json
 class Role_Panel(commands.Cog):  # 役職パネルの機能
     def __init__(self, airlinia):
         self.bot = airlinia #botを受け取る。
-        # -----------
-        with open('./date/rolepanel.json', 'r') as f:
-            self.dates = json.load(f)
 
     @commands.Cog.listener()
     async def on_ready(self):

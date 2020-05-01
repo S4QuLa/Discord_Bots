@@ -6,14 +6,6 @@ import os # .env読み込みスターズ。
 
 import datetime
 
-def reaction(message, author, bot):
-    def check(reaction, user):
-        if reaction.message.id != message.id or user == bot.user or author != user:
-            return False
-        if reaction.emoji == '✅' or reaction.emoji == '❎':
-            return True
-    return check
-
 class Free_Category(commands.Cog):
     def __init__(self, airlinia):
         self.bot = airlinia #botを受け取る。
@@ -43,7 +35,13 @@ class Free_Category(commands.Cog):
             await msg.add_reaction('❎')
 
             try:
-                react = await self.bot.wait_for('reaction_add', timeout=15, check=reaction(msg, message.author, self.bot))
+                def check(r, u):
+                    return (
+                            r.me and message.author == u
+                            and r.message.id == message.id
+                            and r.message.channel == message.channel
+                    )
+                react = await self.bot.wait_for('reaction_add', timeout=30.0, check=check)
                 if react[0].emoji == '✅':
                     channel = await self._free_channel_create(message, message.content, VC=False)
                     if channel is not None:
