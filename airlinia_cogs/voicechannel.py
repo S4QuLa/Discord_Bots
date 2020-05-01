@@ -18,8 +18,8 @@ class Voice_Channel(commands.Cog):
     def __init__(self, airlinia):
         self.bot = airlinia #botを受け取る。🔐🔏🔓✅❌🎟✒
         # -----------
-        with open('./date/voicechannel.json', 'r') as f:
-            self.dates = json.load(f)
+        with open('./data/voicechannel.json', 'r') as f:
+            self.datas = json.load(f)
 
     @property
     def category(self):
@@ -35,7 +35,7 @@ class Voice_Channel(commands.Cog):
                 await self._channel_create(member)
             else:
                 try:
-                    text_channel = self.bot.get_channel(self.dates[after.channel.id]["id"])
+                    text_channel = self.bot.get_channel(self.datas[after.channel.id]["id"])
                 except KeyError:
                     pass
                 else:
@@ -49,7 +49,7 @@ class Voice_Channel(commands.Cog):
             and (after.channel is None or before.channel != after.channel)
         ):
             try:
-                text_channel = self.bot.get_channel(self.dates[before.channel.id]["id"])
+                text_channel = self.bot.get_channel(self.datas[before.channel.id]["id"])
             except KeyError:
                 pass
             else:
@@ -60,9 +60,9 @@ class Voice_Channel(commands.Cog):
                 if len(before.channel.members) == 0:
                     await before.channel.delete()
                     await text_channel.delete()
-                    del self.dates[before.channel.id]
-                    with open("./date/voicechannel.json", "w") as f:
-                        json.dump(self.dates, f, indent=4)
+                    del self.datas[before.channel.id]
+                    with open("./data/voicechannel.json", "w") as f:
+                        json.dump(self.datas, f, indent=4)
 
  # ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
 
@@ -83,11 +83,11 @@ class Voice_Channel(commands.Cog):
         }
         text_channel = await guild.create_text_channel(member.display_name, overwrites=overwrites, category=category, position=position)
         voice_channel = await guild.create_voice_channel(member.display_name, overwrites=overwrites, category=category)
-        self.dates[voice_channel.id] = {}
-        self.dates[voice_channel.id]["id"] = text_channel.id
-        self.dates[voice_channel.id]["owner"] = member.id
-        with open("./date/voicechannel.json", "w") as f:
-            json.dump(self.dates, f, indent=4)
+        self.datas[voice_channel.id] = {}
+        self.datas[voice_channel.id]["id"] = text_channel.id
+        self.datas[voice_channel.id]["owner"] = member.id
+        with open("./data/voicechannel.json", "w") as f:
+            json.dump(self.datas, f, indent=4)
         embed = discord.Embed(title='ボイスチャンネル作成通知',
         description=f'{member.mention}さん、ようこそ！',
         color=0x0080ff)
@@ -129,8 +129,8 @@ class Voice_Channel(commands.Cog):
     @voice.command()
     async def lock(self, ctx):
         channel = ctx.author.voice.channel
-        if ctx.author.id == self.dates[channel.id]["owner"]:
-            text_channel = self.bot.get_channel(self.dates[channel.id]["id"])
+        if ctx.author.id == self.datas[channel.id]["owner"]:
+            text_channel = self.bot.get_channel(self.datas[channel.id]["id"])
             role = ctx.guild.get_role(617017694306435073)
             await channel.set_permissions(role, connect=False, speak=False, send_messages=False, read_message_history=False, read_messages=False)
             await text_channel.set_permissions(role, connect=False, speak=False, send_messages=False, read_message_history=False, read_messages=False)
@@ -146,8 +146,8 @@ class Voice_Channel(commands.Cog):
     @voice.command()
     async def view_only(self, ctx):
         channel = ctx.author.voice.channel
-        if ctx.author.id == self.dates[channel.id]["owner"]:
-            text_channel = self.bot.get_channel(self.dates[channel.id]["id"])
+        if ctx.author.id == self.datas[channel.id]["owner"]:
+            text_channel = self.bot.get_channel(self.datas[channel.id]["id"])
             role = ctx.guild.get_role(617017694306435073)
             await channel.set_permissions(role, connect=True, speak=False, read_message_history=True, read_messages=True, send_messages=False)
             await text_channel.set_permissions(role, connect=True, speak=False, read_message_history=True, read_messages=True, send_messages=False)
@@ -163,8 +163,8 @@ class Voice_Channel(commands.Cog):
     @voice.command()
     async def unlock(self, ctx):
         channel = ctx.author.voice.channel
-        if ctx.author.id == self.dates[channel.id]["owner"]:
-            text_channel = self.bot.get_channel(self.dates[channel.id]["id"])
+        if ctx.author.id == self.datas[channel.id]["owner"]:
+            text_channel = self.bot.get_channel(self.datas[channel.id]["id"])
             role = ctx.guild.get_role(617017694306435073)
             await channel.set_permissions(role, connect=True, speak=True, read_message_history=True, read_messages=True, send_messages=True)
             await text_channel.set_permissions(role, connect=True, speak=True, read_message_history=True, read_messages=True, send_messages=True)
@@ -180,8 +180,8 @@ class Voice_Channel(commands.Cog):
     @voice.command(aliases=["allow"])
     async def permit(self, ctx, member : discord.Member):
         channel = ctx.author.voice.channel
-        if ctx.author.id == self.dates[channel.id]["owner"]:
-            text_channel = self.bot.get_channel(self.dates[channel.id]["id"])
+        if ctx.author.id == self.datas[channel.id]["owner"]:
+            text_channel = self.bot.get_channel(self.datas[channel.id]["id"])
             await channel.set_permissions(member, connect=True, speak=True, read_message_history=True, read_messages=True, send_messages=True)
             await text_channel.set_permissions(member, connect=True, speak=True, read_message_history=True, read_messages=True, send_messages=True)
             embed = discord.Embed(title='Channel Moderate!',
@@ -196,8 +196,8 @@ class Voice_Channel(commands.Cog):
     @voice.command(aliases=["deny"])
     async def reject(self, ctx, member : discord.Member):
         channel = ctx.author.voice.channel
-        if ctx.author.id == self.dates[channel.id]["owner"]:
-            text_channel = self.bot.get_channel(self.dates[channel.id]["id"])
+        if ctx.author.id == self.datas[channel.id]["owner"]:
+            text_channel = self.bot.get_channel(self.datas[channel.id]["id"])
             await channel.set_permissions(member, connect=False, speak=False, read_message_history=False, send_messages=False, read_messages=False)
             await text_channel.set_permissions(member, connect=False, speak=False, read_message_history=False, send_messages=False, read_messages=False)
             await member.move_to(self.bot.get_channel(655272738952314908))
@@ -217,7 +217,7 @@ class Voice_Channel(commands.Cog):
     @voice.command()
     async def limit(self, ctx, limit):
         channel = ctx.author.voice.channel
-        if ctx.author.id == self.dates[channel.id]["owner"]:
+        if ctx.author.id == self.datas[channel.id]["owner"]:
             await channel.edit(user_limit = limit)
             embed = discord.Embed(title='Channel Moderate!',
             description=f'参加人数を{limit}人に制限しました。🎟',
@@ -231,8 +231,8 @@ class Voice_Channel(commands.Cog):
     @voice.command()
     async def name(self, ctx, *, name):
         channel = ctx.author.voice.channel
-        if ctx.author.id == self.dates[channel.id]["owner"]:
-            text_channel = self.bot.get_channel(self.dates[channel.id]["id"])
+        if ctx.author.id == self.datas[channel.id]["owner"]:
+            text_channel = self.bot.get_channel(self.datas[channel.id]["id"])
             await channel.edit(name = name)
             await text_channel.edit(name = name)
             embed = discord.Embed(title='Channel Moderate!',
@@ -247,17 +247,17 @@ class Voice_Channel(commands.Cog):
     @voice.command()
     async def claim(self, ctx):
         channel = ctx.author.voice.channel
-        if self.dates[channel.id] is not None:
-            owner = ctx.guild.get_member(self.dates[channel.id]["id"])
+        if self.datas[channel.id] is not None:
+            owner = ctx.guild.get_member(self.datas[channel.id]["id"])
             x = False
             for member in channel.members:
-                if member.id == self.dates[channel.id]["owner"]:
+                if member.id == self.datas[channel.id]["owner"]:
                     await ctx.send(content=f"とっくにオーナーさんいるやないですか。")
                     x = True
             if x == False:
-                self.dates[channel.id]["owner"] = ctx.author.id
-                with open("./date/voicechannel.json", "w") as f:
-                    json.dump(self.dates, f, indent=4)
+                self.datas[channel.id]["owner"] = ctx.author.id
+                with open("./data/voicechannel.json", "w") as f:
+                    json.dump(self.datas, f, indent=4)
                 embed = discord.Embed(title='Channel Moderate!',
                 description=f'{ctx.author.mention}さん、あなたが今ここのオーナーです。',
                 color=0x80ff00)

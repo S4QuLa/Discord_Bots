@@ -17,7 +17,7 @@ class Short_Url(commands.Cog):
         parser.add_argument('url')
         parser.add_argument('-p', '--password')
         parser.add_argument('-c', '--customurl')
-        parser.add_argument('-d', '--domain', default='xn--gk8h.ml')
+        parser.add_argument('-d', '--domain', default='s.iufs.jp')
         args = parser.parse_args(args=args)
         headers = {'X-API-Key': os.environ['KUTT_API_KEY']}
         payload = {}

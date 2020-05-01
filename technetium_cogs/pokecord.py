@@ -19,9 +19,9 @@ class Discord_Game_Bot(commands.Cog):
         r = requests.get(arg)
         if r.status_code == 200:
             hash = str(imagehash.dhash(Image.open(BytesIO(r.content))))
-            date = json.load(open('./date/pokemon.json', 'r'))
+            data = json.load(open('./data/pokemon.json', 'r'))
 
-            pokemon = date.get(hash, '...ごめん、わからん')
+            pokemon = data.get(hash, '...ごめん、わからん')
             await message.channel.send(f'このポケモン...もしかして「{pokemon}」かなぁ。\r ```command : p!catch {pokemon}```')
 
     @commands.command(name='hash')
@@ -40,8 +40,8 @@ class Discord_Game_Bot(commands.Cog):
             r = requests.get(e.image.url)
             if r.status_code == 200:
                 hash = str(imagehash.dhash(Image.open(BytesIO(r.content))))
-                date = json.load(open('./date/pokemon.json', 'r'))
-                pokemon = date.get(hash, '...ごめん、わからん')
+                data = json.load(open('./data/pokemon.json', 'r'))
+                pokemon = data.get(hash, '...ごめん、わからん')
                 await message.channel.send(f'このポケモン...もしかして「{pokemon}」かなぁ。\r ```command : p!catch {pokemon}```')
 
 def setup(technetium):
