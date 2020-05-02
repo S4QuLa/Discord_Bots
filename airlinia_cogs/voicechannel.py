@@ -55,7 +55,7 @@ class Voice_Channel(commands.Cog):
                 if len(before.channel.members) == 0:
                     await before.channel.delete()
                     await text_channel.delete()
-                    del self.datas[before.channel.id]
+                    del ["channel_data"][str(before.channel.id)]
                     self.mongo_coll.update_one({"server": 615849898637656093}, {'$set':self.datas})
 
     async def _channel_create(self, member):
