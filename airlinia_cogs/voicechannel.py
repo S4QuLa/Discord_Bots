@@ -92,11 +92,11 @@ class Voice_Channel(commands.Cog):
         embed = discord.Embed(title='💻チャンネル編集',
         description=f'🔐チャンネルロック\n🔏チャンネル閲覧限定／解除\n🔓チャンネルロック\n✅招待\n❎キック\n🎟人数制限\n✒名前変更\n💻オーナー継承\n🚫キャンセル',
         color=0x0080ff)
-        embed.set_author(name=f'{name} - 編集しちゃお！',icon_url='https://i.imgur.com/yRCJ26G.gif')
+        embed.set_author(name=f'{ctx.channel.name} - 編集しちゃお！',icon_url='https://i.imgur.com/yRCJ26G.gif')
         embed_no = discord.Embed(title='💻🚫チャンネル編集をキャンセル',
         description=f'チャンネルの編集をキャンセルしたよ。',
         color=0xff0000)
-        embed_no.set_author(name=f'{name} - 編集せんのかーい。',icon_url='https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQLFHFV5AuInaxeSHFkAtvJV-HT3xa6Ua7M61pXgsADOC6Y0Czj',url="https://airlinia.ml")
+        embed_no.set_author(name=f'{ctx.channel.name} - 編集せんのかーい。',icon_url='https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQLFHFV5AuInaxeSHFkAtvJV-HT3xa6Ua7M61pXgsADOC6Y0Czj',url="https://airlinia.ml")
 
         msg = await message.channel.send(embed=embed)
         emojis = ['🔐', '🔓', '🔏', '✅', '❎', '🎟', '✒', '💻', '🚫']
