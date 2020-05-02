@@ -98,7 +98,7 @@ class Voice_Channel(commands.Cog):
         color=0xff0000)
         embed_no.set_author(name=f'{ctx.channel.name} - 編集せんのかーい。',icon_url='https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQLFHFV5AuInaxeSHFkAtvJV-HT3xa6Ua7M61pXgsADOC6Y0Czj',url="https://airlinia.ml")
 
-        msg = await message.channel.send(embed=embed)
+        msg = await cctx.channel.send(embed=embed)
         emojis = ['🔐', '🔓', '🔏', '✅', '❎', '🎟', '✒', '💻', '🚫']
         for emoji1 in emojis:
             await msg.add_reaction(emoji1)
@@ -111,7 +111,6 @@ class Voice_Channel(commands.Cog):
                )
             def check2(m):
                 return m.author == ctx.author and m.channel == channel and m == msg
-
             react = await self.bot.wait_for('reaction_add', timeout=60.0, check=check1)
             if react[0].emoji == '🔐':
                 await self.lock(ctx)
