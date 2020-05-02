@@ -10,9 +10,6 @@ class Category_Index(commands.Cog):
         self.client: commands.Bot = client
         self.id_match = re.compile(r'ID:(\d*)')
         self.name = name if name is not None else type(self).__name__
-
-    @commands.Cog.listener()
-    async def on_ready(self):
         self.index_index = self.client.get_channel(685044449683701782)
 
     @commands.command(brief='カテゴリインデックスを作ります')

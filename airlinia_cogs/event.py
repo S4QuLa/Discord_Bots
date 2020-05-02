@@ -17,8 +17,8 @@ class Event(commands.Cog):
     @tasks.loop(minutes=10.0, reconnect=True)
     async def bump_notice(self):
         disboard_bot = self.bot.get_user(302050872383242240)
-        channel = self.bot.get_channel(617960149067366410)
-        mention = '<@&596668500916043796>'
+        channel = self.bot.get_channel(655399719971061802)
+        mention = '<@&617326967368187944>'
         Interval = datetime.timedelta(hours=2)
         def filter1(m):
             return m.author == disboard_bot and ':thumbsup:' in m.embeds[0].description
