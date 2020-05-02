@@ -75,9 +75,9 @@ class Voice_Channel(commands.Cog):
         }
         text_channel = await guild.create_text_channel(member.display_name, overwrites=overwrites, category=category, position=position)
         voice_channel = await guild.create_voice_channel(member.display_name, overwrites=overwrites, category=category)
-        self.datas[voice_channel.id] = {}
-        self.datas[voice_channel.id]["id"] = text_channel.id
-        self.datas[voice_channel.id]["owner"] = member.id
+        self.datas["channel_data"][str(voice_channel.id)] = {}
+        self.datas["channel_data"][str(voice_channel.id)]["id"] = text_channel.id
+        self.datas["channel_data"][str(voice_channel.id)]["owner"] = member.id
         self.mongo_coll.update_one({"server": 615849898637656093}, {'$set':self.datas})
         embed = discord.Embed(title='ボイスチャンネル作成通知',
         description=f'{member.mention}さん、ようこそ！',
@@ -174,8 +174,9 @@ class Voice_Channel(commands.Cog):
 
     async def lock(self, ctx):
         channel = ctx.author.voice.channel
-        if ctx.author.id == self.datas[channel.id]["owner"]:
-            text_channel = self.bot.get_channel(self.datas[channel.id]["id"])
+        self.datas = self.mongo_coll.find_one(filter={"server": 615849898637656093})
+        if ctx.author.id == self.datas["channel_data"][str(channel.id)]["owner"]:
+            text_channel = self.bot.get_channel(self.datas["channel_data"][str(channel.id)]["id"])
             role = ctx.guild.get_role(617017694306435073)
             await channel.set_permissions(role, connect=False, speak=False, send_messages=False, read_message_history=False, read_messages=False)
             await text_channel.set_permissions(role, connect=False, speak=False, send_messages=False, read_message_history=False, read_messages=False)
@@ -194,8 +195,9 @@ class Voice_Channel(commands.Cog):
 
     async def view_only(self, ctx):
         channel = ctx.author.voice.channel
-        if ctx.author.id == self.datas[channel.id]["owner"]:
-            text_channel = self.bot.get_channel(self.datas[channel.id]["id"])
+        self.datas = self.mongo_coll.find_one(filter={"server": 615849898637656093})
+        if ctx.author.id == self.datas["channel_data"][str(channel.id)]["owner"]:
+            text_channel = self.bot.get_channel(self.datas["channel_data"][str(channel.id)]["id"])
             role = ctx.guild.get_role(617017694306435073)
             await channel.set_permissions(role, connect=True, speak=False, read_message_history=True, read_messages=True, send_messages=False)
             await text_channel.set_permissions(role, connect=True, speak=False, read_message_history=True, read_messages=True, send_messages=False)
@@ -214,8 +216,9 @@ class Voice_Channel(commands.Cog):
 
     async def unlock(self, ctx):
         channel = ctx.author.voice.channel
-        if ctx.author.id == self.datas[channel.id]["owner"]:
-            text_channel = self.bot.get_channel(self.datas[channel.id]["id"])
+        self.datas = self.mongo_coll.find_one(filter={"server": 615849898637656093})
+        if ctx.author.id == self.datas["channel_data"][str(channel.id)]["owner"]:
+            text_channel = self.bot.get_channel(self.datas["channel_data"][str(channel.id)]["id"])
             role = ctx.guild.get_role(617017694306435073)
             await channel.set_permissions(role, connect=True, speak=True, read_message_history=True, read_messages=True, send_messages=True)
             await text_channel.set_permissions(role, connect=True, speak=True, read_message_history=True, read_messages=True, send_messages=True)
@@ -234,8 +237,9 @@ class Voice_Channel(commands.Cog):
 
     async def permit(self, ctx, member: discord.Member):
         channel = ctx.author.voice.channel
-        if ctx.author.id == self.datas[channel.id]["owner"]:
-            text_channel = self.bot.get_channel(self.datas[channel.id]["id"])
+        self.datas = self.mongo_coll.find_one(filter={"server": 615849898637656093})
+        if ctx.author.id == self.datas["channel_data"][str(channel.id)]["owner"]:
+            text_channel = self.bot.get_channel(self.datas["channel_data"][str(channel.id)]["id"])
             await channel.set_permissions(member, connect=True, speak=True, read_message_history=True, read_messages=True, send_messages=True)
             await text_channel.set_permissions(member, connect=True, speak=True, read_message_history=True, read_messages=True, send_messages=True)
             embed = discord.Embed(title='Channel Moderate!',
@@ -253,8 +257,9 @@ class Voice_Channel(commands.Cog):
 
     async def reject(self, ctx, member: discord.Member):
         channel = ctx.author.voice.channel
-        if ctx.author.id == self.datas[channel.id]["owner"]:
-            text_channel = self.bot.get_channel(self.datas[channel.id]["id"])
+        self.datas = self.mongo_coll.find_one(filter={"server": 615849898637656093})
+        if ctx.author.id == self.datas["channel_data"][str(channel.id)]["owner"]:
+            text_channel = self.bot.get_channel(self.datas["channel_data"][str(channel.id)]["id"])
             await channel.set_permissions(member, connect=False, speak=False, read_message_history=False, send_messages=False, read_messages=False)
             await text_channel.set_permissions(member, connect=False, speak=False, read_message_history=False, send_messages=False, read_messages=False)
             await member.move_to(self.bot.get_channel(655272738952314908))
@@ -277,7 +282,8 @@ class Voice_Channel(commands.Cog):
 
     async def limit(self, ctx, limit):
         channel = ctx.author.voice.channel
-        if ctx.author.id == self.datas[channel.id]["owner"]:
+        self.datas = self.mongo_coll.find_one(filter={"server": 615849898637656093})
+        if ctx.author.id == self.datas["channel_data"][str(channel.id)]["owner"]:
             await channel.edit(user_limit = limit)
             embed = discord.Embed(title='Channel Moderate!',
             description=f'参加人数を{limit}人に制限しました。🎟',
@@ -294,8 +300,9 @@ class Voice_Channel(commands.Cog):
 
     async def name(self, ctx, name):
         channel = ctx.author.voice.channel
-        if ctx.author.id == self.datas[channel.id]["owner"]:
-            text_channel = self.bot.get_channel(self.datas[channel.id]["id"])
+        self.datas = self.mongo_coll.find_one(filter={"server": 615849898637656093})
+        if ctx.author.id == self.datas["channel_data"][str(channel.id)]["owner"]:
+            text_channel = self.bot.get_channel(self.datas["channel_data"][str(channel.id)]["id"])
             await channel.edit(name = name)
             await text_channel.edit(name = name)
             embed = discord.Embed(title='Channel Moderate!',
@@ -313,8 +320,8 @@ class Voice_Channel(commands.Cog):
 
     async def claim(self, ctx):
         channel = ctx.author.voice.channel
-        if self.datas[channel.id] is not None:
-            owner = ctx.guild.get_member(self.datas[channel.id]["id"])
+        self.datas = self.mongo_coll.find_one(filter={"server": 615849898637656093})
+        if ctx.author.id == self.datas["channel_data"][str(channel.id)]["owner"]:
             x = False
             for member in channel.members:
                 if member.id == self.datas[channel.id]["owner"]:
