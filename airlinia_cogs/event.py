@@ -14,7 +14,7 @@ class Event(commands.Cog):
     def cog_unload(self):
         self.bump_notice1.cancel()
 
-    @tasks.loop(minutes=1.0, reconnect=True)
+    @tasks.loop(minutes=10.0, reconnect=True)
     async def bump_notice1(self):
         disboard_bot = self.bot.get_user(302050872383242240)
         channel = self.bot.get_channel(655399719971061802)
@@ -24,7 +24,7 @@ class Event(commands.Cog):
             return m.author == disboard_bot and ':thumbsup:' in m.embeds[0].description
 
         mes = await channel.history().filter(filter1).next()
-        if mes is not None:
+        if mes is not None and "Bump canceled" not in channel.topic:
             timedata1 = datetime.datetime.utcnow() - mes.created_at
             if timedata1 >= Interval:
                 embed1 = discord.Embed(title='⏫Bunp Reminder..!!!',
