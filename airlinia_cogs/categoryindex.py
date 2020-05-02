@@ -6,14 +6,11 @@ import re
 import asyncio
 
 class Category_Index(commands.Cog):
-    def __init__(self, client, name=None):
-        self.client: commands.Bot = client
+    def __init__(self, airlinia, name=None):
+        self.bot = airlinia
         self.id_match = re.compile(r'ID:(\d*)')
         self.name = name if name is not None else type(self).__name__
-
-    @commands.Cog.listener()
-    async def on_ready(self):
-        self.index_index = self.client.get_channel(616530865861820417)
+        self.index_index = self.bot.get_channel(616530865861820417)
 
     @commands.command(brief='カテゴリインデックスを作ります')
     async def create_category_index(self, ctx, *args):
@@ -23,20 +20,20 @@ class Category_Index(commands.Cog):
                 if ctx is not None:
                     await ctx.send('インデックスチャンネルが見つかりませんでした。')
             else:
-                await index_channel.purge(check=lambda m: m.author == self.client.user and m.embeds)
+                await index_channel.purge(check=lambda m: m.author == self.bot.user and m.embeds)
                 await self._create_category_index1(category)
                 channels = sorted(
                     (c for c in category.channels if isinstance(c, discord.TextChannel) and c != index_channel),
                     key=lambda c: c.position
                 )
-                tasks = [self.client.loop.create_task(self._create_category_index2(channel))
+                tasks = [self.bot.loop.create_task(self._create_category_index2(channel))
                          for channel in channels]
                 await asyncio.wait(tasks)
         if not args:
             category = ctx.channel.category
             await _create_category_index(category, ctx)
         elif args[0] == 'all':
-            tasks = [self.client.loop.create_task(_create_category_index(category,)) for category in
+            tasks = [self.bot.loop.create_task(_create_category_index(category,)) for category in
                      ctx.guild.categories]
             await asyncio.wait(tasks)
         else:
@@ -60,7 +57,7 @@ class Category_Index(commands.Cog):
         if index_channel is not None:
             try:
                 message = await index_channel.history(oldest_first=True) \
-                                      .filter(lambda m: m.author == self.client.user and not m.embeds) \
+                                      .filter(lambda m: m.author == self.bot.user and not m.embeds) \
                                       .next()
             except discord.NoMoreItems:
                 message = None
@@ -80,7 +77,7 @@ class Category_Index(commands.Cog):
             channel.category)
         if index_channel is not None:
             async for message in (index_channel.history(oldest_first=True)
-                                  .filter(lambda m: m.author == self.client.user and m.embeds)):
+                                  .filter(lambda m: m.author == self.bot.user and m.embeds)):
                 match = self.id_match.search(message.embeds[0].description)
                 if match and channel.id == int(match.group(1)):
                     break
@@ -114,7 +111,7 @@ class Category_Index(commands.Cog):
             index_channel = self._find_index_channel(channel.category)
             if index_channel:
                 async for message in (index_channel.history(oldest_first=True)
-                                      .filter(lambda m: m.author == self.client.user and m.embeds)):
+                                      .filter(lambda m: m.author == self.bot.user and m.embeds)):
                     match = self.id_match.search(message.embeds[0].description)
                     if match and channel.id == int(match.group(1)):
                         await message.delete()

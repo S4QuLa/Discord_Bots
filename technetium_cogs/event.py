@@ -1,8 +1,7 @@
 # Discord.py is smoooooooooooooosh!!!!!
 import discord
 from discord.ext import tasks, commands
-import os # .env読み込みスターズ。
-import json
+import asyncio
 
 from io import BytesIO
 import requests
@@ -20,16 +19,15 @@ class Event(commands.Cog):
     def cog_unload(self):
         self.bump_notice2.cancel()
 
-    @tasks.loop(minutes=10.0, reconnect=True)
+    @tasks.loop(reconnect=True)
     async def bump_notice2(self):
         disboard_bot = self.bot.get_user(302050872383242240)
         channel = self.bot.get_channel(617960149067366410)
         mention = '<@&596668500916043796>'
         Interval = datetime.timedelta(hours=2)
-        def filter1(m):
+        def check1(m):
             return m.author == disboard_bot and ':thumbsup:' in m.embeds[0].description
-
-        mes = await channel.history().filter(filter1).next()
+        mes = await channel.history().filter(check1).next()
         if mes is not None and "Bump canceled" not in channel.topic:
             timedata1 = datetime.datetime.utcnow() - mes.created_at
             if timedata1 >= Interval:
@@ -38,10 +36,21 @@ class Event(commands.Cog):
                 color=0x0080ff)
                 await channel.send(mention, embed=embed1)
             else:
-                embed2 = discord.Embed(title='⏫Bunp Reminder!!!!!',
-                description=f'Bumpができますよー。\r!d bumpをしてほしいんね。',
-                color=0x0080ff)
-                await channel.send(mention, embed=embed2)
+                try:
+                    # クライアントクローズか2時間経過するのを待つ
+                    await asyncio.wait_for(
+                        self.asyncio.Event(loop=self.bot.loop).wait(),
+                        (Interval - timedata1).total_seconds()
+                    )
+                except asyncio.TimeoutError:
+                    # 2時間経過
+                    embed2 = discord.Embed(title='⏫Bunp Reminder!!!!!',
+                    description=f'Bumpができますよー。\r!d bumpをしてほしいんね。',
+                    color=0x0080ff)
+                    await channel.send(mention, embed=embed2)
+                else:
+                    # クライアントクローズ
+                    pass
 
     @bump_notice2.before_loop
     async def before_bump_notice2(self):
