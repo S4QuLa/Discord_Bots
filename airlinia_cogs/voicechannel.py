@@ -102,7 +102,7 @@ class Voice_Channel(commands.Cog):
             await msg.add_reaction(emoji1)
         try:
             def check1(r, u):
-                return r.message == msg and u == ctx.author
+                return r.me and r.message.id == msg.id and u == ctx.author
             def check2(m):
                 return m.author == ctx.author and m.channel == msg.channel
             react = await self.bot.wait_for('reaction_add', timeout=60.0, check=check1)
