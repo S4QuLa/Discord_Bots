@@ -12,7 +12,7 @@ class Twicord(commands.Cog):
 
     @commands.Cog.listener()
     async def on_reaction_add(self, reaction, user):
-        if reaction.emoji.id == 670860075736236032: # Retweet
+        if int(reaction.emoji.id) == 670860075736236032: # Retweet
             embed_retweet = discord.Embed(title=f'Retweet!',
             url=reaction.message.jump_url,
             description=reaction.message.content,
