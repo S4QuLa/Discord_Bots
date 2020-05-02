@@ -96,15 +96,15 @@ class Voice_Channel(commands.Cog):
         color=0xff0000)
         embed_no.set_author(name=f'{ctx.channel.name} - 編集せんのかーい。',icon_url='https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQLFHFV5AuInaxeSHFkAtvJV-HT3xa6Ua7M61pXgsADOC6Y0Czj',url="https://airlinia.ml")
 
-        msg = await ctx.channel.send(embed=embed)
+        msg1 = await ctx.channel.send(embed=embed)
         emojis = ['🔐', '🔓', '🔏', '✅', '❎', '🎟', '✒', '💻', '🚫']
         for emoji1 in emojis:
             await msg.add_reaction(emoji1)
         try:
             def check1(r, u):
-                return r.me and r.message.id == msg.id and u == ctx.author
+                return r.me and r.message.id == msg1.id and u == ctx.author
             def check2(m):
-                return m.author == ctx.author and m.channel == msg.channel
+                return m.author == ctx.author and m.channel == msg2.channel
             react = await self.bot.wait_for('reaction_add', timeout=60.0, check=check1)
             if react[0].emoji == '🔐':
                 await self.lock(ctx)
@@ -117,49 +117,60 @@ class Voice_Channel(commands.Cog):
                     embed = discord.Embed(title='チャンネルへ招待✅',
                     description=f'招待する人を言ってください。\n> （ID, メンション, 名前に対応しています。）',
                     color=0x0080ff)
-                    msg = await ctx.send(embed=embed)
+                    msg2 = await ctx.send(embed=embed)
                     react = await self.bot.wait_for('message', timeout=30.0, check=check2)
                     await self.permit(self, ctx, react[0])
+                    await msg1.clear_reactions()
                 except asyncio.TimeoutError:
-                    await msg.delete()
+                    await msg1.edit(embed=embed_no)
+                    await msg1.clear_reactions()
+                    await msg2.delete()
             elif react[0].emoji == '❎':
                 try:
                     embed = discord.Embed(title='チャンネルからつまみ出す❎',
                     description=f'チャンネルからつまみ出す対象を言ってください。\n> （ID, メンション, 名前に対応しています。）',
                     color=0x0080ff)
-                    msg = await ctx.send(embed=embed)
+                    msg2 = await ctx.send(embed=embed)
                     react = await self.bot.wait_for('message', timeout=30.0, check=check2)
                     await self.reject(self, ctx, react[0])
                 except asyncio.TimeoutError:
-                    await msg.delete()
+                    await msg1.edit(embed=embed_no)
+                    await msg1.clear_reactions()
+                    await msg2.delete()
             elif react[0].emoji == '🎟':
                 try:
                     embed = discord.Embed(title='チャンネル人数制限🎟',
                     description=f'チャンネルの制限人数を言ってください。',
                     color=0x0080ff)
-                    msg = await ctx.send(embed=embed)
+                    msg2 = await ctx.send(embed=embed)
                     react = await self.bot.wait_for('message', timeout=30.0, check=check2)
                     await self.limit(self, ctx, limit)
+                    await msg1.clear_reactions()
                 except asyncio.TimeoutError:
-                    await msg.delete()
+                    await msg1.edit(embed=embed_no)
+                    await msg1.clear_reactions()
+                    await msg2.delete()
             elif react[0].emoji == '✒':
                 try:
                     embed = discord.Embed(title='チャンネル名変更✒',
                     description=f'チャンネルの名前を変更してください。',
                     color=0x0080ff)
-                    msg = await ctx.send(embed=embed)
+                    msg2 = await ctx.send(embed=embed)
                     react = await self.bot.wait_for('message', timeout=30.0, check=check2)
                     await self.name(self, ctx, name)
+                    await msg1.clear_reactions()
                 except asyncio.TimeoutError:
-                    await msg.delete()
+                    await msg1.edit(embed=embed_no)
+                    await msg1.clear_reactions()
+                    await msg2.delete()
             elif react[0].emoji == '💻':
                 await self.claim(ctx)
             elif react[0].emoji == '🚫':
-                await msg.edit(embed=embed_no)
-                await msg.clear_reactions()
+                await msg1.edit(embed=embed_no)
+                await msg1.clear_reactions()
         except asyncio.TimeoutError:
-            await msg.edit(embed=embed_no)
-            await msg.clear_reactions()
+            await msg1.edit(embed=embed_no)
+            await msg1.clear_reactions()
 
     @voice.command(name="lock")
     async def _lock(self, ctx):
