@@ -107,7 +107,7 @@ class Voice_Channel(commands.Cog):
                     and r.emoji in emojis
                )
             def check2(m):
-                return m.author == ctx.author and m.channel == channel and m == msg
+                return m.author == ctx.author and m.channel == msg.channel
             react = await self.bot.wait_for('reaction_add', timeout=60.0, check=check1)
             if react[0].emoji == '🔐':
                 await self.lock(ctx)
