@@ -1,6 +1,6 @@
 # Discord.py is smoooooooooooooosh!!!!!
 import discord
-from discord.ext import tsks, commands
+from discord.ext import tasks, commands
 import os # .env読み込みスターズ。
 import json
 
@@ -15,9 +15,13 @@ class Event(commands.Cog):
         self.accent_color = (255, 210, 0)
         self.font_path1 = "./fonts/NotoSansCJKjp-Medium.otf"
         self.font_path2 = "./fonts/Harenosora.otf"
+        self.bump_notice2.start()
+
+    def cog_unload(self):
+        self.bump_notice2.cancel()
 
     @tasks.loop(minutes=10.0, reconnect=True)
-    async def bump_notice(self):
+    async def bump_notice2(self):
         disboard_bot = self.bot.get_user(302050872383242240)
         channel = self.bot.get_channel(617960149067366410)
         mention = '<@&596668500916043796>'
@@ -38,6 +42,10 @@ class Event(commands.Cog):
                 description=f'Bumpができますよー。\r!d bumpをしてほしいんね。',
                 color=0x0080ff)
                 await channel.send(mention, embed=embed2)
+
+    @bump_notice2.before_loop
+    async def before_bump_notice2(self):
+        await self.bot.wait_until_ready()
 
     @commands.Cog.listener()
     async def on_voice_state_update(self, member, before, after):
