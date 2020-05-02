@@ -1,6 +1,6 @@
 # Discord.py is smoooooooooooooosh!!!!!
 import discord
-from discord.ext import commands
+from discord.ext import tsks, commands
 import os # .env読み込みスターズ。
 import json
 
@@ -15,6 +15,29 @@ class Event(commands.Cog):
         self.accent_color = (255, 210, 0)
         self.font_path1 = "./fonts/NotoSansCJKjp-Medium.otf"
         self.font_path2 = "./fonts/Harenosora.otf"
+
+    @tasks.loop(minutes=10.0, reconnect=True)
+    async def bump_notice(self):
+        disboard_bot = self.bot.get_user(302050872383242240)
+        channel = self.bot.get_channel(617960149067366410)
+        mention = '<@&596668500916043796>'
+        Interval = datetime.timedelta(hours=2)
+        def filter1(m):
+            return m.author == disboard_bot and ':thumbsup:' in m.embeds[0].description
+
+        mes = await channel.history().filter(filter1).next()
+        if mes is not None and "Bump canceled" in channel.topic:
+            timedata1 = datetime.datetime.utcnow() - mes.created_at
+            if timedata1 >= Interval:
+                embed1 = discord.Embed(title='⏫Bunp Reminder..!!!',
+                description=f'Bumpされてから結構経ちましたよー。\r!d bumpをしてほしいんね。',
+                color=0x0080ff)
+                await channel.send(mention, embed=embed1)
+            else:
+                embed2 = discord.Embed(title='⏫Bunp Reminder!!!!!',
+                description=f'Bumpができますよー。\r!d bumpをしてほしいんね。',
+                color=0x0080ff)
+                await channel.send(mention, embed=embed2)
 
     @commands.Cog.listener()
     async def on_voice_state_update(self, member, before, after):
