@@ -9,13 +9,13 @@ import random
 class Event(commands.Cog):
     def __init__(self, airlinia):
         self.bot = airlinia #botを受け取る。
-        self.bump_notice.start()
+        self.bump_notice1.start()
 
     def cog_unload(self):
-        self.bump_notice.cancel()
+        self.bump_notice1.cancel()
 
-    @tasks.loop(minutes=10.0, reconnect=True)
-    async def bump_notice(self):
+    @tasks.loop(minutes=1.0, reconnect=True)
+    async def bump_notice1(self):
         disboard_bot = self.bot.get_user(302050872383242240)
         channel = self.bot.get_channel(655399719971061802)
         mention = '<@&617326967368187944>'
@@ -37,8 +37,8 @@ class Event(commands.Cog):
                 color=0x0080ff)
                 await channel.send(mention, embed=embed2)
 
-    @bump_notice.before_loop
-    async def before_bump_notice(self):
+    @bump_notice1.before_loop
+    async def before_bump_notice1(self):
         await self.bot.wait_until_ready()
 
     @commands.Cog.listener()

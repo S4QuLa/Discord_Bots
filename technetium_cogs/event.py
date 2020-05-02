@@ -20,7 +20,7 @@ class Event(commands.Cog):
     def cog_unload(self):
         self.bump_notice2.cancel()
 
-    @tasks.loop(minutes=10.0, reconnect=True)
+    @tasks.loop(minutes=1.0, reconnect=True)
     async def bump_notice2(self):
         disboard_bot = self.bot.get_user(302050872383242240)
         channel = self.bot.get_channel(617960149067366410)
