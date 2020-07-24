@@ -119,7 +119,7 @@ class Voice_Channel(commands.Cog):
                     color=0x0080ff)
                     msg2 = await ctx.send(embed=embed)
                     react = await self.bot.wait_for('message', timeout=30.0, check=check2)
-                    await self.permit(self, ctx, react[0])
+                    await self.permit(ctx, react[0])
                     await msg1.clear_reactions()
                 except asyncio.TimeoutError:
                     await msg1.edit(embed=embed_no)
@@ -132,7 +132,7 @@ class Voice_Channel(commands.Cog):
                     color=0x0080ff)
                     msg2 = await ctx.send(embed=embed)
                     react = await self.bot.wait_for('message', timeout=30.0, check=check2)
-                    await self.reject(self, ctx, react[0])
+                    await self.reject(ctx, react[0])
                 except asyncio.TimeoutError:
                     await msg1.edit(embed=embed_no)
                     await msg1.clear_reactions()
@@ -144,7 +144,7 @@ class Voice_Channel(commands.Cog):
                     color=0x0080ff)
                     msg2 = await ctx.send(embed=embed)
                     react = await self.bot.wait_for('message', timeout=30.0, check=check2)
-                    await self.limit(self, ctx, limit)
+                    await self.limit(ctx, limit)
                     await msg1.clear_reactions()
                 except asyncio.TimeoutError:
                     await msg1.edit(embed=embed_no)
@@ -157,7 +157,7 @@ class Voice_Channel(commands.Cog):
                     color=0x0080ff)
                     msg2 = await ctx.send(embed=embed)
                     react = await self.bot.wait_for('message', timeout=30.0, check=check2)
-                    await self.name(self, ctx, name)
+                    await self.name(ctx, name)
                     await msg1.clear_reactions()
                 except asyncio.TimeoutError:
                     await msg1.edit(embed=embed_no)
