@@ -12,8 +12,7 @@ class Event(commands.Cog):
     def __init__(self, technetium):
         self.bot = technetium #botを受け取る。
         self.accent_color = (255, 210, 0)
-        self.font_path1 = "./fonts/NotoSansCJKjp-Medium.otf"
-        self.font_path2 = "./fonts/Harenosora.otf"
+        self.font_path = "./fonts/Harenosora.otf"
         self.bump_notice2.start()
 
     def cog_unload(self):
@@ -96,8 +95,8 @@ class Event(commands.Cog):
         image.paste(icon, ((image.size[0]-icon.size[0])//2, 200), icon) #背景と合成
 
         max_length = 550
-        font1 = ImageFont.truetype(font_path2, 30)
-        font2 = ImageFont.truetype(font_path2, 23)
+        font1 = ImageFont.truetype(self.font_path, 30)
+        font2 = ImageFont.truetype(self.font_path, 23)
         text1 = f"{member_name}さん"
         height = 430
         textsize2 = draw3.textsize(text2, font=font2)[0]
