@@ -99,7 +99,7 @@ class Voice_Channel(commands.Cog):
         msg1 = await ctx.channel.send(embed=embed)
         emojis = ['🔐', '🔓', '🔏', '✅', '❎', '🎟', '✒', '💻', '🚫']
         for emoji1 in emojis:
-            await msg.add_reaction(emoji1)
+            await msg1.add_reaction(emoji1)
         try:
             def check1(r, u):
                 return r.me and r.message.id == msg1.id and u == ctx.author

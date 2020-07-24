@@ -76,51 +76,48 @@ class Event(commands.Cog):
             color=0xff0000)
             await self.bot.get_channel(596668583728119809).send(embed=embed, delete_after=180)
 
-    def add_base_image(self, icon_path):
-        icon_size = 380
-        mask = Image.new("L", (icon_size, icon_size), 0)
-        draw = ImageDraw.Draw(mask)
-        draw.ellipse((0, 0, icon_size, icon_size), fill=255)
-        mask = mask.filter(ImageFilter.GaussianBlur(1))
+    def add_base_image(self, icon_path, member_name, text2):
+        icon_size = 160
+        icon = Image.new("RGBA", ((icon_size + 30)*3, (icon_size + 30)*3), 0) #icon
+        draw1 = ImageDraw.Draw(icon)
+        draw1.ellipse((9*3, 9*3, (icon_size + 21)*3, (icon_size + 21)*3), fill="White") #縁取り
+        draw1.ellipse((0, 0, (icon_size + 30)*3, (icon_size + 30)*3), width=3*3, outline="White") #周りの白抜きされた丸
+        icon = icon.resize((icon_size + 30, icon_size + 30), Image.ANTIALIAS) #エイリアス
 
-        icon = Image.open(BytesIO(requests.get(icon_path).content)).convert("RGBA")
-        icon = icon.resize(size=(icon_size, icon_size), resample=Image.ANTIALIAS)
-        circle = Image.new("RGBA", (icon_size + 10, icon_size + 10), 0)
+        mask = Image.new("L", (icon_size*3, icon_size*3), 0)
+        draw2 = ImageDraw.Draw(mask)
+        draw2.ellipse((0, 0, icon_size*3, icon_size*3), fill=255) #マスク用
+        mask = mask.resize((icon_size, icon_size), Image.ANTIALIAS) #エイリアス
 
-        draw = ImageDraw.Draw(circle)
-        draw.ellipse((0, 0, icon_size + 10, icon_size + 10), self.accent_color)
-        circle.paste(icon, (5, 5), mask)
+        icon_img = Image.open(BytesIO(requests.get(icon_path).content)).convert("RGBA").resize(size=(icon_size, icon_size), resample=Image.ANTIALIAS) #サイズ変更
+        icon.paste(icon_img, ((icon.size[0]-icon_size)//2, (icon.size[0]-icon_size)//2), mask) #下地へ合成
 
-        base_image = Image.open('./image/elegraph_welcome.png')
-        base_image.paste(circle, (100, 220), circle)
-        draw = ImageDraw.Draw(base_image)
-        draw.line([(320,608), (1920,608)], self.accent_color, width=5)
-        draw.polygon(((0, 0), (250, 0), (0, 200)), fill=self.accent_color)
-        return base_image
+        image = Image.open('./imagses/discord_cafe_welcome.png')
+        image.paste(icon, ((image.size[0]-icon.size[0])//2, 200), icon) #背景と合成
 
-    def add_text_to_image(self, img, text, font_path, font_size, font_color, height, width, max_length=1400):
-        position = (width, height)
-        font = ImageFont.truetype(font_path, font_size)
-        draw = ImageDraw.Draw(img)
-        if draw.textsize(text, font=font)[0] > max_length:
-            while draw.textsize(text + '…', font=font)[0] > max_length:
-                text = text[:-1]
-            text = text[:-3] + '… さん！'
-        draw.text(position, text, font_color, font=font)
-        return img
+        max_length = 550
+        font1 = ImageFont.truetype(font_path2, 30)
+        font2 = ImageFont.truetype(font_path2, 23)
+        text1 = f"{member_name}さん"
+        height = 430
+        textsize2 = draw3.textsize(text2, font=font2)[0]
+
+        draw3 = ImageDraw.Draw(image)
+        if draw3.textsize(text1, font=font1)[0] > max_length:
+            while draw3.textsize(text1 + '…', font=font1)[0] > max_length:
+                text1 = text1[:-1]
+            text1 = text1[:-3] + '…さん'
+        draw3.text(((image.size[0]-draw3.textsize(text1, font=font1)[0])//2, 400), text1, "White", font=font1)
+        for text in text2:
+            draw3.text(((image.size[0]-draw3.textsize(text2, font=font2)[0])//2, height), text, "White", font=font2)
+            height += 24
+        return image
 
     @commands.Cog.listener()
     async def on_member_join(self, member):
-        img = self.add_base_image(member.avatar_url)
-        _text = []
-        _text.append(["ようこそ！Welcome!", self.font_path1, 130, self.accent_color, 190, 530])
-        _text.append([f"{member.name} さん！", self.font_path2, 50, (255, 255, 255), 350, 530])
-        _text.append([f"ようこそ、{member.guild.name}へ！\n最初にルールをお読みください。\nあなたは{len(member.guild.members)}人目のメンバーです！", self.font_path2, 55, (255, 255, 255), 440, 530])
-        for t in _text:
-            img = self.add_text_to_image(img, t[0], t[1], t[2], t[3], t[4], t[5])
-
+        image = self.add_base_image(member.avatar_url, member.name, f"Welcome! #{len(member.guild.members)}")
         arr = BytesIO()
-        img.save(arr, format='png')
+        image.save(arr, format='png')
         arr.seek(0)
         file = discord.File(fp=arr, filename="Welcome_image.png")
         cl = discord.Color(random.randint(0, 0xFFFFFF))
@@ -136,14 +133,7 @@ class Event(commands.Cog):
 
     @commands.Cog.listener()
     async def on_member_remove(self, member):
-        img = self.add_base_image(member.avatar_url)
-        _text = []
-        _text.append(["さようなら｡Goodbye.", self.font_path1, 130, self.accent_color, 190, 500])
-        _text.append([f"{member.name}さん", self.font_path2, 50, 'White', 370, 540])
-        _text.append([f"さようなら。\n現在、{member.guild.name}には\n{len(member.guild.members)}人のメンバーがいます。", self.font_path2, 55, 'White', 445, 530])
-        for t in _text:
-            img = self.add_text_to_image(img, t[0], t[1], t[2], t[3], t[4], t[5])
-
+        image = self.add_base_image(member.avatar_url, member.name, f"Goodbye. #{len(member.guild.members)}")
         arr = BytesIO()
         img.save(arr, format='png')
         arr.seek(0)
