@@ -92,7 +92,7 @@ class Event(commands.Cog):
         icon_img = Image.open(BytesIO(requests.get(icon_path).content)).convert("RGBA").resize(size=(icon_size, icon_size), resample=Image.ANTIALIAS) #サイズ変更
         icon.paste(icon_img, ((icon.size[0]-icon_size)//2, (icon.size[0]-icon_size)//2), mask) #下地へ合成
 
-        image = Image.open('./imagses/discord_cafe_welcome.png')
+        image = Image.open('./images/discord_cafe_welcome.png')
         image.paste(icon, ((image.size[0]-icon.size[0])//2, 200), icon) #背景と合成
 
         max_length = 550

@@ -10,7 +10,7 @@ class Category_Index(commands.Cog):
         self.bot = technetium
         self.id_match = re.compile(r'ID:(\d*)')
         self.name = name if name is not None else type(self).__name__
-        self.index_index = self.bot.get_channel(685044449683701782)
+        self.index_index = self.bot.get_channel(702026398897799209)
 
     @commands.command(brief='カテゴリインデックスを作ります')
     async def create_category_index(self, ctx, *args):
