@@ -4,6 +4,7 @@ from discord.ext import commands
 import asyncio
 
 import pymongo
+import os
 
 class Level(commands.Cog):
     def __init__(self, airlinia):
