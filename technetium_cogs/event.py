@@ -114,7 +114,7 @@ class Event(commands.Cog):
 
     @commands.Cog.listener()
     async def on_member_join(self, member):
-        image = self.add_base_image(member.avatar_url, member.name, f"Welcome! #{len(member.guild.members)}")
+        image = self.add_base_image(member.avatar_url, member.name, [f"Welcome! #{len(member.guild.members)}"])
         arr = BytesIO()
         image.save(arr, format='png')
         arr.seek(0)
@@ -132,9 +132,9 @@ class Event(commands.Cog):
 
     @commands.Cog.listener()
     async def on_member_remove(self, member):
-        image = self.add_base_image(member.avatar_url, member.name, f"Goodbye. #{len(member.guild.members)}")
+        image = self.add_base_image(member.avatar_url, member.name, [f"Goodbye. #{len(member.guild.members)}"])
         arr = BytesIO()
-        img.save(arr, format='png')
+        image.save(arr, format='png')
         arr.seek(0)
         file = discord.File(fp=arr, filename="Goodbye_image.png")
         embed = discord.Embed(title=f"さようなら。",
