@@ -5,7 +5,7 @@ from discord.ext import commands
 import re
 import asyncio
 
-class Category_Index(commands.Cog):
+class CategoryIndex(commands.Cog):
     def __init__(self, airlinia, name=None):
         self.bot = airlinia
         self.id_match = re.compile(r'ID:(\d*)')
@@ -128,4 +128,4 @@ class Category_Index(commands.Cog):
                 await self.on_guild_channel_create(after)
 
 def setup(airlinia):
-    airlinia.add_cog(Category_Index(airlinia))
+    airlinia.add_cog(CategoryIndex(airlinia))

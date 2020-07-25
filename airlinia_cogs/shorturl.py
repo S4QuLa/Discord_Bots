@@ -7,7 +7,7 @@ import os
 import requests
 import argparse
 
-class Short_Url(commands.Cog):
+class ShortUrl(commands.Cog):
     def __init__(self, airlinia):
         self.bot = airlinia
 
@@ -42,4 +42,4 @@ class Short_Url(commands.Cog):
         await ctx.send(f'短縮URLのドメインに追加しました！{data["address"]}') # 返信メッセージを送信
 
 def setup(airlinia):
-    airlinia.add_cog(Short_Url(airlinia))
+    airlinia.add_cog(ShortUrl(airlinia))

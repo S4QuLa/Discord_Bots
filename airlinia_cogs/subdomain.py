@@ -7,7 +7,7 @@ import os
 from cloudflare_ddns import CloudFlare
 import pymongo
 
-class Sub_Domain(commands.Cog):
+class SubDomain(commands.Cog):
     def __init__(self, airlinia):
         self.bot = airlinia
 
@@ -20,4 +20,4 @@ class Sub_Domain(commands.Cog):
         self.cf.sync_dns_from_my_ip()
 
 def setup(airlinia):
-    airlinia.add_cog(Sub_Domain(airlinia))
+    airlinia.add_cog(SubDomain(airlinia))

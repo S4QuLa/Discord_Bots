@@ -14,7 +14,7 @@ def reaction(message, author, bot):
             return True
     return check
 
-class Free_Category(commands.Cog):
+class FreeCategory(commands.Cog):
     def __init__(self, technetium):
         self.bot = technetium #botを受け取る。
 
@@ -92,4 +92,4 @@ class Free_Category(commands.Cog):
             return channel
 
 def setup(technetium):
-    technetium.add_cog(Free_Category(technetium))
+    technetium.add_cog(FreeCategory(technetium))

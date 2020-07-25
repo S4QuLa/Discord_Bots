@@ -6,7 +6,7 @@ import os # .env読み込みスターズ。
 
 import datetime
 
-class Free_Category(commands.Cog):
+class FreeCategory(commands.Cog):
     def __init__(self, airlinia):
         self.bot = airlinia #botを受け取る。
 
@@ -90,4 +90,4 @@ class Free_Category(commands.Cog):
             return channel
 
 def setup(airlinia):
-    airlinia.add_cog(Free_Category(airlinia))
+    airlinia.add_cog(FreeCategory(airlinia))

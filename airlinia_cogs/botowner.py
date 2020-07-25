@@ -8,7 +8,7 @@ import contextlib
 import traceback
 import io
 
-class Bot_Owner_Command(commands.Cog):
+class BotOwnerCommand(commands.Cog):
     def __init__(self, airlinia):
         self.bot = airlinia #botを受け取る。
         self._last_result = None
@@ -37,7 +37,7 @@ class Bot_Owner_Command(commands.Cog):
         if e.text is None:
             return f'```py\n{e.__class__.__name__}: {e}\n```'
         return f'```py\n{e.text}{"^":>{e.offset}}\n{e.__class__.__name__}: {e}```'
-    
+
     @commands.command(pass_context=True, hidden=True, name='eval')
     @commands.is_owner()
     async def _eval(self, ctx):
@@ -89,4 +89,4 @@ class Bot_Owner_Command(commands.Cog):
                 await ctx.send(f'```py\n{value}{ret}\n```')
 
 def setup(airlinia):
-    airlinia.add_cog(Bot_Owner_Command(airlinia))
+    airlinia.add_cog(BotOwnerCommand(airlinia))

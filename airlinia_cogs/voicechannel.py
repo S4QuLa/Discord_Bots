@@ -7,7 +7,7 @@ import os # .env読み込みスターズ。
 import json
 import pymongo
 
-class Voice_Channel(commands.Cog):
+class VoiceChannel(commands.Cog):
     def __init__(self, airlinia):
         self.bot = airlinia #botを受け取る。
         mongo_connection = pymongo.MongoClient("ds161505.mlab.com", 61505, retryWrites=False)
@@ -336,4 +336,4 @@ class Voice_Channel(commands.Cog):
             await ctx.send(content=f"{ctx.author.mention}さん、多分そこあんたのチャンネルじゃないよ。")
 
 def setup(airlinia):
-    airlinia.add_cog(Voice_Channel(airlinia))
+    airlinia.add_cog(VoiceChannel(airlinia))

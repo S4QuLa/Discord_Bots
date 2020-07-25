@@ -6,7 +6,7 @@ import re
 import traceback
 import json
 
-class Role_Panel(commands.Cog):  # 役職パネルの機能
+class RolePanel(commands.Cog):  # 役職パネルの機能
     def __init__(self, airlinia):
         self.bot = airlinia #botを受け取る。
 
@@ -176,4 +176,4 @@ class Role_Panel(commands.Cog):  # 役職パネルの機能
                 break
 
 def setup(airlinia):
-    airlinia.add_cog(Role_Panel(airlinia))
+    airlinia.add_cog(RolePanel(airlinia))

@@ -7,7 +7,7 @@ import arrow
 import os # .env読み込みスターズ。
 import pymongo
 
-class Server_Stats(commands.Cog):
+class ServerStats(commands.Cog):
     def __init__(self, airlinia):
         self.bot = airlinia #botを受け取る。
 
@@ -84,4 +84,4 @@ class Server_Stats(commands.Cog):
         # await self.bot.get_channel(665355766131326996).edit(name=f"desktop : {len([member for member in server.members if not member.is_on_mobile()])}")
 
 def setup(airlinia):
-    airlinia.add_cog(Server_Stats(airlinia))
+    airlinia.add_cog(ServerStats(airlinia))
