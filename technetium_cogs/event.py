@@ -94,6 +94,7 @@ class Event(commands.Cog):
         image = Image.open('./images/discord_cafe_welcome.png')
         image.paste(icon, ((image.size[0]-icon.size[0])//2, 200), icon) #背景と合成
 
+        draw3 = ImageDraw.Draw(image)
         max_length = 550
         font1 = ImageFont.truetype(self.font_path, 30)
         font2 = ImageFont.truetype(self.font_path, 23)
@@ -101,7 +102,6 @@ class Event(commands.Cog):
         height = 430
         textsize2 = draw3.textsize(text2, font=font2)[0]
 
-        draw3 = ImageDraw.Draw(image)
         if draw3.textsize(text1, font=font1)[0] > max_length:
             while draw3.textsize(text1 + '…', font=font1)[0] > max_length:
                 text1 = text1[:-1]
