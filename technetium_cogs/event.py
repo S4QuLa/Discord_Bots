@@ -105,9 +105,9 @@ class Event(commands.Cog):
             while draw3.textsize(text1 + '…', font=font1)[0] > max_length:
                 text1 = text1[:-1]
             text1 = text1[:-3] + '…さん'
-        draw3.text(((image.size[0]-draw3.textsize(text1, font=font1[0]))//2, 400), text1, "White", font=font1)
+        draw3.text(((image.size[0]-draw3.textsize(text1, font=font1))//2, 400), text1, "White", font=font1)
         for text in text2:
-            draw3.text(((image.size[0]-draw3.textsize(text2, font=font2[0]))//2, height), text, "White", font=font2)
+            draw3.text(((image.size[0]-draw3.textsize(text2, font=font2))//2, height), text, "White", font=font2)
             height += 24
         return image
 
