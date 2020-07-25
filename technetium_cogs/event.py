@@ -100,7 +100,6 @@ class Event(commands.Cog):
         font2 = ImageFont.truetype(self.font_path, 23)
         text1 = f"{member_name}さん"
         height = 430
-        textsize2 = draw3.textsize(text2, font=font2)[0]
 
         if draw3.textsize(text1, font=font1)[0] > max_length:
             while draw3.textsize(text1 + '…', font=font1)[0] > max_length:
