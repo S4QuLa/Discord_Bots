@@ -1,4 +1,4 @@
-import discord
+🌸☕import discord
 import typing
 import random
 from discord.ext import commands
