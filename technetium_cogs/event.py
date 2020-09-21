@@ -129,20 +129,6 @@ class Event(commands.Cog):
         embed.set_image(url="attachment://Welcome_image.png")
         await self.bot.get_channel(596668568909643817).send(file=file, embed=embed)
 
-    @commands.Cog.listener()
-    async def on_member_remove(self, member):
-        image = self.add_base_image(member.avatar_url, member.name, [f"Goodbye. #{len(member.guild.members)}"])
-        arr = BytesIO()
-        image.save(arr, format='png')
-        arr.seek(0)
-        file = discord.File(fp=arr, filename="Goodbye_image.png")
-        embed = discord.Embed(title=f"さようなら。",
-                              description=f"{member.display_name}さん、さようなら。\n現在、このサーバーには{len(member.guild.members)}人がいます。",)
-        embed.set_author(name=f"{member.display_name}さんが退出されました。", icon_url=member.avatar_url)
-        embed.set_footer(text=member.guild.name, icon_url=member.guild.icon_url)
-        embed.set_thumbnail(url=member.avatar_url)
-        embed.set_image(url="attachment://Goodbye_image.png")
-        await self.bot.get_channel(596668568909643817).send(file=file, embed=embed)
 
 def setup(technetium):
     technetium.add_cog(Event(technetium))
